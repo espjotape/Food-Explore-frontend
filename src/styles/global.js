@@ -9,12 +9,12 @@ export default createGlobalStyle`
 
   body {
     --webkit-font-smothing: antialised;
-    background-color: ${({ theme }) => theme.COLORS.BACKGROUND_800};
-    color: ${({ theme }) => theme.COLORS.WHITE};
+    background-color: ${({ theme }) => theme.COLORS.DARK_400};
+    color: ${({ theme }) => theme.COLORS.WHITE_100};
   };
 
   body, input, button, textarea {
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   outline: none;
   }
