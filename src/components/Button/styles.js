@@ -7,7 +7,9 @@ export const Container = styled.button`
 
  width: 100%;
  height: 48px; 
-
+ &:disabled{
+    opacity: 0.5;
+  }
  > h2 {
     display: flex;
     align-items: center;
