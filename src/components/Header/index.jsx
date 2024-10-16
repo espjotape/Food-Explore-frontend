@@ -9,7 +9,9 @@ export function Header(){
  return(
   <Container>
    <Box>
-    <List color="#fff" size={22}/>
+    <button type="button">
+     <List color="#fff" size={22}/>
+    </button>
 
     <Identidade>
      <Logo/>

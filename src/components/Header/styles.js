@@ -15,6 +15,11 @@ export const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+
+  > button { 
+    border: none;
+    background: transparent;
+  }
 `;
 
 export const Identidade = styled.div`
