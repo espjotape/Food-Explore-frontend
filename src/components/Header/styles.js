@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../../../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 
 export const Container = styled.header`
   background-color: ${({ theme }) => theme.COLORS.DARK_700};

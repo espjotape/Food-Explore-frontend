@@ -1,4 +1,5 @@
-import { HeartStraigh, PencilSimple } from "@phosphor-icons/react"
+import { useState } from "react";
+import { HeartStraight, PencilSimple } from "@phosphor-icons/react"
 
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles"
 
@@ -19,7 +20,7 @@ export function Food ({ data, isAdmin, ...rest}) {
   <Container {...rest}>
    {
     isAdmin? 
-    <PencilSimple /> : <HeartStraigh />
+    <PencilSimple /> : <HeartStraight />
    }
 
    <img src={data.src} alt="Img dish"/>
