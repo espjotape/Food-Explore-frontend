@@ -20,6 +20,16 @@ export function Home() {
           <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
          </div>
         </Banner>
+        <Section title="Refeições">
+        <Food  
+          data={{
+            src: spaguettiGambe,
+            title: "Spaguetti Gambe",
+            description: "Massa fresca com camarões e pesto.",
+            price: "79,97",
+          }}
+        />
+        </Section>
       </Content>
       <Footer />
     </Container>

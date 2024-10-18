@@ -15,12 +15,12 @@ export const Content = styled.main`
   grid-area: content;
   justify-self: center;
   width: 100vw;
-
+  padding-left: 10px;
 `;
 
 export const Banner = styled.div`
   display: flex;
-  margin: 0 auto;
+  margin: 0 auto 30px;
   height: 120px;
   justify-content: space-between;
   
@@ -34,7 +34,7 @@ export const Banner = styled.div`
   img {
     width: 191px;
     position: absolute;
-    left: -19px;
+    left: -30px;
     bottom: 0px;
   }
 
@@ -45,8 +45,8 @@ export const Banner = styled.div`
     padding-left: 90px;
     
     position: absolute;
-    top: 36px;
-    right: 21px;
+    top: 30px;
+    right: 15px;
 
     h2 {
       font-size: 16px;
