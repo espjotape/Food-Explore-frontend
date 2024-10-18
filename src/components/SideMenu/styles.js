@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   position: fixed;
   display: grid;
-  grid-template-rows: 114px auto 77px;
+  grid-template-rows: 114px  1fr 77px;
   grid-template-areas: 
     "header"
     "content"
@@ -27,13 +27,12 @@ export const Container = styled.div`
     background-color: ${({ theme }) => theme.COLORS.DARK_700};
   }
 
-  .content {
+  > section {
     grid-area: content;
+    width: 90%;
+    margin: 30px auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    overflow-y: auto;
   }
 `;
 
@@ -45,25 +44,21 @@ export const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-export const SearchInput = styled.input`
-  width: 90%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: none;
-  background-color: #333;
-  color: white;
-  font-size: 16px;
-  &::placeholder {
-    color: #aaa;
-  }
+export const Menu = styled.section`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
 `;
 
 export const MenuItem = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
   background: none;
   border: none;
-  color: white;
+  border-bottom: 0.5px solid ${({theme}) => theme.COLORS.DARK_1000}; /* Linha inferior */
+  padding: 15px 5px;
+  color: ${({theme}) => theme.COLORS.WHITE_100};
   font-size: 18px;
   cursor: pointer;
-  margin-bottom: 20px;
 `;

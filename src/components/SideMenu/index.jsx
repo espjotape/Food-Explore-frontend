@@ -1,5 +1,6 @@
 import { Footer } from "../Footer";
-import { Container, CloseButton, SearchInput, MenuItem } from "./styles";
+import { Search } from "../Search";
+import { Container, CloseButton, MenuItem, Menu } from "./styles";
 
 import { X } from "@phosphor-icons/react";
 
@@ -9,7 +10,13 @@ export function SideMenu({ menuIsOpen, onCloseMenu }) {
       <header>
         <CloseButton onClick={onCloseMenu}><X size={18} /> Menu</CloseButton>
       </header>
-        <MenuItem>Sair</MenuItem>
+      <section>
+        <Search />
+        <Menu>
+          <MenuItem>Sair</MenuItem>
+          <MenuItem>Novo Prato</MenuItem>
+        </Menu>
+      </section>
       <Footer />
     </Container>
   );
