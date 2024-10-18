@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
-import { ButtonText } from "../components/ButtonText";
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
+import { ButtonText } from "../../components/ButtonText";
 
 import { CaretLeft } from "@phosphor-icons/react"
 
