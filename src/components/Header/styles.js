@@ -31,13 +31,13 @@ export const Identidade = styled.div`
     font-size: 20px;
     font-weight: bold;
   }
+
+  > img {
+    width: 197px;
+  }
+
 `;
 
-export const Logo = styled.div`
-  background: url(${logo}) no-repeat center;
-  height: 80px;
-  width: 20px;
-`;
 
 export const Orders = styled.div`
   position: relative;

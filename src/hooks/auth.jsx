@@ -4,8 +4,10 @@ export const AuthContext = createContext()
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState({
-    isAdmin: false, // Defina se o usuário é admin ou não
+    isAdmin: true, // Defina se o usuário é admin ou não
   });
+
+
 
  return(
   <AuthContext.Provider 
