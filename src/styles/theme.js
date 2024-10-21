@@ -8,6 +8,9 @@ export default {
   WHITE_600: "#76797B",
   WHITE_700: "#4D585E",
 
+  GRADIENT_1: "#091E26",
+  GRADIENT_2: "#00131C",
+
   DARK_200: "#00070A",
   DARK_300: "#000204",
   DARK_400: "#000A0F",

@@ -3,7 +3,7 @@ import { HeartStraight, PencilSimple } from "@phosphor-icons/react"
 
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles"
 
-export function Food ({ data, isAdmin, ...rest}) {
+export function Food ({ data, isCustomer ,isAdmin , ...rest}) {
  const [quantity, setQuantity] = useState(1);
 
   const increaseQuantity = () => {
@@ -19,7 +19,7 @@ export function Food ({ data, isAdmin, ...rest}) {
  return(
   <Container {...rest}>
    {
-    isAdmin? 
+    isAdmin ?
     <PencilSimple /> : <HeartStraight />
    }
 
@@ -29,11 +29,10 @@ export function Food ({ data, isAdmin, ...rest}) {
     <h2>{data.title}</h2>
    </Title>
 
-   <p>{data.description}</p>
    <span>R$ {data.price}</span>
 
    {
-    isAdmin &&
+    !isAdmin &&
     <OrderSection>
         <QuantityControl>
           <button type="button" onClick={decreaseQuantity}>-</button>

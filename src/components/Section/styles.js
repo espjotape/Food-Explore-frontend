@@ -1,11 +1,11 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Container = styled.section`
-
- > h2{
-  font-weight: 600;
-  font-size: 18px;
-  color: ${({theme}) => theme.COLORS.WHITE_300};
-  margin-bottom: 16px;
- }
-`
+  
+  h2 {
+    margin-bottom: 16px;
+    color: ${({ theme }) => theme.COLORS.GRAY_100};
+    font-weight: 400;
+    font-size: 16px;
+  }
+`;
