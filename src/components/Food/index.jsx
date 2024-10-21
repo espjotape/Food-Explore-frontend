@@ -26,7 +26,7 @@ export function Food ({ data, isCustomer ,isAdmin , ...rest}) {
    <img src={data.src} alt="Img dish"/>
 
    <Title>
-    <h2>{data.title}</h2>
+    <h3>{data.title}</h3>
    </Title>
 
    <span>R$ {data.price}</span>

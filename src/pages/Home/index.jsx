@@ -56,8 +56,8 @@ export function Home() {
         </div>
 
        <Content>
-       <section>
-          <h2>Refeições</h2>
+        <Section title="Refeições">
+
           <div className="swiper-background">
           <swiper-container 
           ref={swipper1} 
@@ -70,7 +70,7 @@ export function Home() {
           >
 
           <swiper-slide>
-            <Food isAdmin data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
+            <Food isCustomer data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
           </swiper-slide>
           <swiper-slide>
             <Food isCustomer data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
@@ -80,7 +80,7 @@ export function Home() {
           </swiper-slide>
         </swiper-container>
           </div>
-       </section>
+        </Section>
 
         </Content>
       </main>

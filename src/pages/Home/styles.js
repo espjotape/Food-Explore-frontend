@@ -85,8 +85,8 @@ swiper-container {
 }
 
 swiper-slide {
-  width: 250px;
-  margin: 10px;
+  width: 200px;
+  margin: 0 5px;
   flex-shrink: 0; /* Evita que os slides sejam esticados */
 
 }

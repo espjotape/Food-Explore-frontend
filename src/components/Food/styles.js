@@ -16,15 +16,15 @@ export const Container = styled.div`
   cursor: pointer;
 
   > img {
-    max-width: 100px;
-    height: 100px;
+    max-width: 70px;
+    height: 70px;
     margin-top: 20px;
     object-fit: cover;
-    border-radius: 8px;
+   
   }
 
   > span {
-    font-size: 16px;
+    font-size: 14px;
     color: ${({ theme }) => theme.COLORS.CYAN};
   }
 
@@ -41,8 +41,8 @@ export const Container = styled.div`
 export const Title = styled.div`
   margin-top: 10px;
   
-  h2 {
-    font-size: 14px;
+  h3 {
+    font-size: 15px;
     font-weight: 400;
   }
 `;
