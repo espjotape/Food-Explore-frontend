@@ -5,15 +5,15 @@ import { useState } from "react";
 
 export function Header() {
   const [numeroPedidos, setNumeroPedidos] = useState(1);
-  const [menuIsOpen, setMenuIsOpen] = useState(false); // Controla o estado do menu
+  const [menuIsOpen, setMenuIsOpen] = useState(false); 
 
   return (
     <Container>
       <Box>
-        {/* Adicionando onClick ao ícone List para abrir o SideMenu */}
+
         <List size={32} color="#fff" onClick={() => setMenuIsOpen(true)} style={{ cursor: 'pointer' }} />
         
-        {/* Componente SideMenu */}
+
         <SideMenu 
           menuIsOpen={menuIsOpen} 
           onCloseMenu={() => setMenuIsOpen(false)} 
@@ -26,7 +26,6 @@ export function Header() {
 
         <Orders>
           <Receipt color="#fff" size={24} />
-          {/* Exibir a bolinha de notificações */}
           {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
         </Orders>
       </Box>
