@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   border: 1px solid ${({ theme }) => theme.COLORS.DARK_300};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.COLORS.DARK_200};
@@ -38,23 +38,26 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  margin-top: 12px;
-  font-size: 18px;
-  font-weight: 500;
+  margin-top: 10px;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 400;
+  }
 `;
 
 export const OrderSection = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
+  gap: 15px;
 `;
 
 export const QuantityControl = styled.div`
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 20px;
 
   button {
     background-color: transparent;
@@ -71,6 +74,7 @@ export const QuantityControl = styled.div`
 `;
 
 export const OrderButton = styled.button`
+  width: 100%;
   background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
   color: ${({ theme }) => theme.COLORS.WHITE_100};
   border: none;
