@@ -8,8 +8,13 @@ import { Container,Content ,Banner } from "./styles";
 import bannerMb from "../../assets/banner-mobile.png";
 import spaguettiGambe from "../../assets/image 3.png";
 import { useRef, useEffect } from "react";
+import { useAuth } from "../../hooks/auth";
 
 export function Home() {
+  const { user } = useAuth()
+  const isAdmin = user.isAdmin 
+  const isCustomer = user.isCustomer
+
   const swipper1 = useRef(null);
   const swipper2 = useRef(null);
   const swipper3 = useRef(null);
@@ -43,7 +48,7 @@ export function Home() {
 
   return (
     <Container>
-      <Header />
+      <Header isAdmin={isAdmin}/>
       <main>
         <div>
         <Banner>
@@ -56,7 +61,7 @@ export function Home() {
         </div>
 
        <Content>
-        <Section title="Refeições">
+        <Section title="Refeições" isAdmin={isAdmin}>
 
           <div className="swiper-background">
           <swiper-container 
@@ -70,13 +75,13 @@ export function Home() {
           >
 
           <swiper-slide>
-            <Food isCustomer data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
+            <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
           </swiper-slide>
           <swiper-slide>
-            <Food isCustomer data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
+            <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
           </swiper-slide>
           <swiper-slide>
-           <Food isCustomer data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
+           <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
           </swiper-slide>
         </swiper-container>
           </div>
