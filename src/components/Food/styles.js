@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  max-width: 300px;
+  max-width: 210px;
+  height: 292px;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -15,7 +16,7 @@ export const Container = styled.div`
   cursor: pointer;
 
   > img {
-    width: 100px;
+    max-width: 100px;
     height: 100px;
     margin-top: 20px;
     object-fit: cover;
@@ -33,7 +34,7 @@ export const Container = styled.div`
     color: ${({ theme }) => theme.COLORS.GRAY_200};
     position: absolute;
     top: 16px;
-    right: 18px;
+    right: 16px;
   }
 `;
 
@@ -41,7 +42,7 @@ export const Title = styled.div`
   margin-top: 10px;
   
   h2 {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
   }
 `;
@@ -51,13 +52,13 @@ export const OrderSection = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 15px;
+  gap: 10px;
 `;
 
 export const QuantityControl = styled.div`
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 18px;
 
   button {
     background-color: transparent;
@@ -65,7 +66,7 @@ export const QuantityControl = styled.div`
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   span {
@@ -74,14 +75,18 @@ export const QuantityControl = styled.div`
 `;
 
 export const OrderButton = styled.button`
+  border: none;
   width: 100%;
+  height: 32px;
+  
+  border-radius: 5px;
   background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
   color: ${({ theme }) => theme.COLORS.WHITE_100};
-  border: none;
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 5px;
+
+  font-size: 12px;
+  justify-content: center;
   cursor: pointer;
+  margin-bottom: 15px;
   &:hover {
     background-color: ${({ theme }) => theme.COLORS.TOMATO_200};
   }
