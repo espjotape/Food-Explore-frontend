@@ -4,7 +4,9 @@ import { Container, CloseButton, MenuItem, Menu } from "./styles";
 
 import { X } from "@phosphor-icons/react";
 
-export function SideMenu({ menuIsOpen, onCloseMenu }) {
+import { useAuth } from "../../hooks/auth"
+
+export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
   return (
     <Container isOpen={menuIsOpen}>
       <header>
@@ -13,8 +15,8 @@ export function SideMenu({ menuIsOpen, onCloseMenu }) {
       <section>
         <Search />
         <Menu>
+          {isAdmin && <MenuItem>Novo Prato</MenuItem>}
           <MenuItem>Sair</MenuItem>
-          <MenuItem>Novo Prato</MenuItem>
         </Menu>
       </section>
       <Footer />

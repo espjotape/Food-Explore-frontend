@@ -8,10 +8,12 @@ import logo from "../../assets/logo.svg"
 
 import { useAuth } from "../../hooks/auth";
 
-export function Header({ isAdmin }) {
+export function Header() {
   const [numeroPedidos, setNumeroPedidos] = useState(1);
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
   const { user } = useAuth()
+  const isAdmin = user.isAdmin;
+
 
   return (
     <Container>
@@ -20,6 +22,7 @@ export function Header({ isAdmin }) {
         
 
         <SideMenu 
+          isAdmin={isAdmin}
           menuIsOpen={menuIsOpen} 
           onCloseMenu={() => setMenuIsOpen(false)} 
         />
