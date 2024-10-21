@@ -67,7 +67,7 @@ export function Home() {
           grab-cursor="true" 
           autoplay="true" 
           loop="true" 
-          style={{ padding: "0 16px" }}>
+          >
 
           <swiper-slide>
             <Food isAdmin data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />

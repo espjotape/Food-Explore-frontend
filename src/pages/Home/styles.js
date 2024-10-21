@@ -82,8 +82,6 @@ swiper-container {
   display: flex;
   flex-wrap: nowrap; /* Mantém os slides na mesma linha */
   overflow-x: auto;
-  padding: 0 16px;
-
 }
 
 swiper-slide {
