@@ -23,7 +23,7 @@ export function Food ({ data, isCustomer ,isAdmin , ...rest}) {
     <PencilSimple /> : <HeartStraight />
    }
 
-   <img src={data.src} alt="Img dish"/>
+<img src={`/images/${data.image}`} alt="Img dish"/>
 
    <Title>
     <h3>{data.title}</h3>

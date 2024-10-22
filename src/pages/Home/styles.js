@@ -85,11 +85,9 @@ swiper-container {
 }
 
 swiper-slide {
-  width: 200px;
+  width: 100%;
   margin: 0 5px;
   flex-shrink: 0; /* Evita que os slides sejam esticados */
 
 }
-
-
 `
