@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { HeartStraight, PencilSimple } from "@phosphor-icons/react"
 
+import { api } from "../../services/api"
+
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles"
 
 export function Food ({ data, isCustomer ,isAdmin , ...rest}) {
@@ -23,7 +25,7 @@ export function Food ({ data, isCustomer ,isAdmin , ...rest}) {
     <PencilSimple /> : <HeartStraight />
    }
 
-<img src={`/images/${data.image}`} alt="Img dish"/>
+<img src={`${api.defaults.baseURL}/files/${data.image}`}  alt="Img dish"/>
 
    <Title>
     <h3>{data.title}</h3>
