@@ -3,27 +3,31 @@ import { Footer } from "../../components/Footer";
 import { Food } from "../../components/Food";
 import { Section } from "../../components/Section";
 
-import { Container,Content ,Banner } from "./styles";
+import { api } from "../../services/api";
+
+import { Container, Content, Banner } from "./styles";
 
 import bannerMb from "../../assets/banner-mobile.png";
-import spaguettiGambe from "../../assets/image 3.png";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useAuth } from "../../hooks/auth";
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 export function Home() {
-  const { user } = useAuth()
-  const isAdmin = user.isAdmin 
-  const isCustomer = user.isCustomer
+  const { user } = useAuth();
+  const isAdmin = user.isAdmin;
+  const isCustomer = user.isCustomer;
+  const [dishes, setDishes] = useState({ meals: [], mainDishes: [], drinks: [] });
+
 
   const swipper1 = useRef(null);
-  const swipper2 = useRef(null);
-  const swipper3 = useRef(null);
 
   useEffect(() => {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5, // o valor em porcentagem indica com quanta visibilidade o callback deve ser chamado
+      threshold: 0.5,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -36,57 +40,129 @@ export function Home() {
       }
     }, options);
 
-    // Verifica se os elementos não são null antes de observá-los
     if (swipper1.current) observer.observe(swipper1.current);
-    if (swipper2.current) observer.observe(swipper2.current);
-    if (swipper3.current) observer.observe(swipper3.current);
 
     return () => {
       observer.disconnect();
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchDishes() {
+      try {
+        const response = await api.get("/dishes");
+
+        const meals = response.data.filter((dish) => dish.category === "meal");
+        const mainDishes = response.data.filter((dish) => dish.category === "mainDishes");
+        const drinks = response.data.filter((dish) => dish.category === "drinks");
+        setDishes({ meals, mainDishes, drinks });
+
+        console.log(response.data);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.error("Nenhum prato encontrado.");
+          setDishes({ meals: [] });
+        } else {
+          console.error("Erro ao buscar os pratos:", error);
+        }
+      } 
+    }
+    fetchDishes();
+  }, []);
+  
+  
   return (
     <Container>
-      <Header isAdmin={isAdmin}/>
+      <Header isAdmin={isAdmin} />
       <main>
         <div>
-        <Banner>
-          <img src={bannerMb} alt="Imagem banner" />
-          <div>
-            <h2>Sabores inigualáveis</h2>
-            <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
-          </div>
-        </Banner>
+          <Banner>
+            <img src={bannerMb} alt="Imagem banner" />
+            <div>
+              <h2>Sabores inigualáveis</h2>
+              <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
+            </div>
+          </Banner>
         </div>
 
-       <Content>
-        <Section title="Refeições" isAdmin={isAdmin}>
+        <Content>
+          <Section title="Refeições" isAdmin={isAdmin}>
+            <div className="swiper-background">
+              {(
+                <Swiper
+                  ref={swipper1}
+                  slidesPerView="auto"
+                  spaceBetween={10}
+                  centeredSlides={true}
+                  grabCursor={true}
+                  autoplay={{ delay: 3000 }}
+                  loop={true}
+                >
+                  {dishes.meals.map((dish) => (
+                    <SwiperSlide key={String(dish.id)}>
+                      <Food
+                        isAdmin={isAdmin}
+                        isCustomer={isCustomer}
+                        data={dish}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+            </div>
+          </Section>
 
-          <div className="swiper-background">
-          <swiper-container 
-          ref={swipper1} 
-          slides-per-view="auto" 
-          space-between={10} 
-          centered-slides="true" 
-          grab-cursor="true" 
-          autoplay="true" 
-          loop="true" 
-          >
+          <Section title="Sobremesas" isAdmin={isAdmin}>
+            <div className="swiper-background">
+              {(
+                <Swiper
+                  ref={swipper1}
+                  slidesPerView="auto"
+                  spaceBetween={10}
+                  centeredSlides={true}
+                  grabCursor={true}
+                  autoplay={{ delay: 3000 }}
+                  loop={true}
+                >
+                  {dishes.mainDishes.map((dish) => (
+                    <SwiperSlide key={String(dish.id)}>
+                      <Food
+                        isAdmin={isAdmin}
+                        isCustomer={isCustomer}
+                        data={dish}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+            </div>
+          </Section>
 
-          <swiper-slide>
-            <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
-          </swiper-slide>
-          <swiper-slide>
-            <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
-          </swiper-slide>
-          <swiper-slide>
-           <Food isAdmin={isAdmin} isCustomer={isCustomer} data={{ src: spaguettiGambe, title: "Spaguetti Gambe", description: "Massa fresca com camarões e pesto.", price: "79,97", }} />
-          </swiper-slide>
-        </swiper-container>
-          </div>
-        </Section>
-
+          <Section title="Drinks" isAdmin={isAdmin}>
+            <div className="swiper-background">
+              {(
+                <Swiper
+                  ref={swipper1}
+                  slidesPerView="auto"
+                  spaceBetween={10}
+                  centeredSlides={true}
+                  grabCursor={true}
+                  autoplay={{ delay: 3000 }}
+                  loop={true}
+                >
+                  {dishes.drinks.map((dish) => (
+                    <SwiperSlide key={String(dish.id)}>
+                      <Food
+                        isAdmin={isAdmin}
+                        isCustomer={isCustomer}
+                        data={dish}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+            </div>
+          </Section>
         </Content>
       </main>
       <Footer />
