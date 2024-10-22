@@ -115,7 +115,9 @@ export function Home() {
                   <Food 
                   isAdmin={isAdmin} 
                   isCustomer={isCustomer} 
-                  data={dish} />
+                  data={dish} 
+                  handleDetails={handleDetails}
+                  />
                </SwiperSlide>
                ))}
              </Swiper>  
