@@ -9,7 +9,9 @@ import { Container, Content, Banner } from "./styles";
 import bannerMb from "../../assets/banner-mobile.png";
 
 import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -23,6 +25,12 @@ export function Home() {
   const swipperMeals = useRef(null);
   const swipperMainDishes = useRef(null);
   const swipperDrinks = useRef(null);
+
+  const navigate = useNavigate();
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
 
   useEffect(() => {
     const options = {
@@ -155,7 +163,9 @@ export function Home() {
                   <Food 
                   isAdmin={isAdmin} 
                   isCustomer={isCustomer} 
-                  data={dish} />
+                  data={dish} 
+                  handleDetails={handleDetails}
+                  />
                </SwiperSlide>
                ))}
              </Swiper>  
