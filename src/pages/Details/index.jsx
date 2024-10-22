@@ -15,14 +15,14 @@ export function Details() {
   const [quantity, setQuantity] = useState(1);
   const pricePerItem = 25.0;
 
-  const { id } = useParams(); // Pega o ID do prato da URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDish() {
       try {
-        const response = await api.get(`/dishes/${id}`); // Faz a chamada à API para buscar os detalhes do prato
-        setData(response.data); // Salva os dados na variável data
+        const response = await api.get(`/dishes/${id}`); 
+        setData(response.data); 
       } catch (error) {
         console.error("Erro ao buscar os detalhes do prato:", error);
       }
@@ -43,6 +43,10 @@ export function Details() {
       setQuantity(quantity - 1);
     }
   };
+
+  if (!data) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <Container>
