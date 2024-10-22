@@ -38,27 +38,28 @@ export function Home() {
       rootMargin: "0px",
       threshold: 0.5,
     };
-
+  
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          // Se o elemento está visível, inicia a autoplay do Swiper se o ref não for nulo
-          entry.target.swiper?.autoplay.start();
+          // Usando optional chaining para acessar 'swiper' e 'autoplay'
+          entry.target?.swiper?.autoplay?.start();
         } else {
-          // Se o elemento não está visível, para a autoplay do Swiper se o ref não for nulo
-          entry.target.swiper?.autoplay.stop();
+          entry.target?.swiper?.autoplay?.stop();
         }
       }
     }, options);
     
-    observer.observe(swipperMeals.current);
-    observer.observe(swipperMainDishes.current);
-    observer.observe(swipperDrinks.current);
-
+    // Observa os elementos apenas se eles existirem
+    swipperMeals.current && observer.observe(swipperMeals.current);
+    swipperMainDishes.current && observer.observe(swipperMainDishes.current);
+    swipperDrinks.current && observer.observe(swipperDrinks.current);
+  
     return () => {
       observer.disconnect();
     };
   }, []);
+  
 
   useEffect(() => {
     async function fetchDishes() {
