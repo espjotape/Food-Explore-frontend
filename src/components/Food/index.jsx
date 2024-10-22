@@ -25,7 +25,11 @@ export function Food ({ data, isCustomer, handleDetails ,isAdmin , ...rest}) {
     <PencilSimple /> : <HeartStraight />
    }
 
-   <img src={`${api.defaults.baseURL}/files/${data.image}`}  alt="Img dish"/>
+  <img 
+    src={data.image ? `${api.defaults.baseURL}/files/${data.image}` : '/default-image.jpg'} 
+    alt="Img dish"
+  />
+
 
    <Title
     onClick={() => handleDetails(data.id)} 
