@@ -1,6 +1,7 @@
 import { Container, Box, Identidade, Notification, Orders } from "./styles";
-import { List, Receipt } from "@phosphor-icons/react"; // Ícone de hambúrguer e recibo
-import { SideMenu } from "../SideMenu"; // Importando o SideMenu
+import { List, Receipt } from "@phosphor-icons/react";
+import { SideMenu } from "../SideMenu"; 
+import { Cart } from "../Cart";
 import { useState } from "react";
 
 import logoAdmin from "../../assets/logo-admin.svg"
@@ -9,8 +10,9 @@ import logo from "../../assets/logo.svg"
 import { useAuth } from "../../hooks/auth";
 
 export function Header() {
-  const [numeroPedidos, setNumeroPedidos] = useState(1);
+  const [numeroPedidos, setNumeroPedidos] = useState(0);
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
+  const [cartIsOpen, setCartIsOpen] = useState(false)
   const { user } = useAuth()
   const isAdmin = user.isAdmin;
 
@@ -38,12 +40,16 @@ export function Header() {
 
         {
           !user.isAdmin && (
-          <Orders>
+          <Orders
+          cartIsOpen={cartIsOpen} 
+          onClick={() => setCartIsOpen(true)}
+          >
             <Receipt color="#fff" size={24} />
             {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
           </Orders>
-          )
-        }
+          )}
+          {cartIsOpen && <Cart cartIsOpen={cartIsOpen} onCloseCart={() => setCartIsOpen(false)} />}
+
       </Box>
     </Container>
   );
