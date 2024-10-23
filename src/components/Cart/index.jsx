@@ -1,7 +1,7 @@
 import { Container, CloseButton } from "./styles";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { CaretLeft } from "@phosphor-icons/react";
 
 import spaghettiImage from '../../assets/spaghettiCarbonara.png'
 import saladaMollaImage from '../../assets/Salada Molla.png'
@@ -36,11 +36,10 @@ export function Cart({ cartIsOpen, onCloseCart, cartItems }) {
     <Container cartIsOpen={cartIsOpen}>
       <Header />
       <section>
-        <CloseButton onClick={onCloseCart}><ArrowLeft size={14} /> Meus Pedidos</CloseButton>
+        <CloseButton onClick={onCloseCart}><CaretLeft size={16} /> Meus Pedidos</CloseButton>
         <div>
         {
           cartItems.map(cart => {
-            console.log(cart); // Loga cada item do carrinho
             return (
               <section className="cart" key={cart.id}>
                 <img 
