@@ -28,9 +28,19 @@ export function Home() {
 
   const navigate = useNavigate();
 
+  const [cartItems, setCartItems] = useState([]);
+  const [numeroPedidos, setNumeroPedidos] = useState(0);
+  const [cartIsOpen, setCartIsOpen] = useState(false);
+
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
+
+  function handleAddToCart(item, quantity) {
+    const newCartItems = [...cartItems, { ...item, quantity }];
+    setCartItems(newCartItems);
+    setNumeroPedidos(newCartItems.length); // Atualiza o número de pedidos
+    }
 
   useEffect(() => {
     const options = {
@@ -87,7 +97,13 @@ export function Home() {
 
   return (
     <Container>
-      <Header isAdmin={isAdmin} />
+      <Header 
+      isAdmin={isAdmin} 
+      numeroPedidos={numeroPedidos}
+      cartIsOpen={cartIsOpen}
+      cartItems={cartItems}
+      setCartIsOpen={setCartIsOpen}
+      />
       <main>
         <div>
           <Banner>
@@ -118,6 +134,7 @@ export function Home() {
                   isCustomer={isCustomer} 
                   data={dish} 
                   handleDetails={handleDetails}
+                  handleAddToCart={handleAddToCart}
                   />
                </SwiperSlide>
                ))}
@@ -142,7 +159,10 @@ export function Home() {
                   <Food 
                   isAdmin={isAdmin} 
                   isCustomer={isCustomer} 
-                  data={dish} />
+                  data={dish} 
+                  handleDetails={handleDetails}
+                  handleAddToCart={handleAddToCart}
+                  />
                </SwiperSlide>
                ))}
              </Swiper>  

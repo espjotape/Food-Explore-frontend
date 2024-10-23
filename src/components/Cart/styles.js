@@ -19,7 +19,33 @@ export const Container = styled.div`
  transition: left 0.3s ease-in-out;
 
  section {
-  padding: 40px 25px 80px; 
+  grid-area: content;
+  margin: 36px 0px 0 20px;
+
+  .cart {
+    display: flex;
+    width: 100%;
+    margin: 20px 0;
+    align-items: center;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+    h3{
+      font-size: 18px;
+      font-weight: 500;
+    }
+    p {
+      color: ${({theme}) => theme.COLORS.TOMATO_400};
+      font-size: 12px;
+    }
+
+    .info {
+      margin-left: 10px;
+      align-items: flex-start;
+    }
+  }
  }
 
 `

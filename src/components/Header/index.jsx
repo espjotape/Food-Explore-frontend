@@ -4,24 +4,27 @@ import { SideMenu } from "../SideMenu";
 import { Cart } from "../Cart";
 import { useState } from "react";
 
-import logoAdmin from "../../assets/logo-admin.svg"
-import logo from "../../assets/logo.svg"
+import logoAdmin from "../../assets/logo-admin.svg";
+import logo from "../../assets/logo.svg";
 
 import { useAuth } from "../../hooks/auth";
 
-export function Header() {
-  const [numeroPedidos, setNumeroPedidos] = useState(0);
+export function Header({ numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
-  const [cartIsOpen, setCartIsOpen] = useState(false)
-  const { user } = useAuth()
+
+  const { user } = useAuth();
   const isAdmin = user.isAdmin;
 
 
   return (
     <Container>
       <Box>
-        <List size={32} color="#fff" onClick={() => setMenuIsOpen(true)} style={{ cursor: 'pointer' }} />
-        
+        <List 
+          size={32} 
+          color="#fff" 
+          onClick={() => setMenuIsOpen(true)} 
+          style={{ cursor: 'pointer' }} 
+        />
 
         <SideMenu 
           isAdmin={isAdmin}
@@ -30,8 +33,7 @@ export function Header() {
         />
 
         <Identidade>
-          {
-          user.isAdmin ? (
+          {user.isAdmin ? (
             <img src={logoAdmin} alt="Logo Admin" />
           ) : (
             <img src={logo} alt="Logo" style={{ width: 150 }}/>  
@@ -40,16 +42,25 @@ export function Header() {
 
         {
           !user.isAdmin && (
-          <Orders
-          cartIsOpen={cartIsOpen} 
-          onClick={() => setCartIsOpen(true)}
-          >
-            <Receipt color="#fff" size={24} />
-            {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
-          </Orders>
-          )}
-          {cartIsOpen && <Cart cartIsOpen={cartIsOpen} onCloseCart={() => setCartIsOpen(false)} />}
+            <Orders
+              cartIsOpen={cartIsOpen} 
+              onClick={() => setCartIsOpen(true)}
+            >
+              <Receipt color="#fff" size={24} />
+              {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
+            </Orders>
+          )
+        }
 
+        {
+        cartIsOpen && (
+          <Cart 
+          cartItems={cartItems} 
+          cartIsOpen={cartIsOpen} 
+          onCloseCart={() => setCartIsOpen(false)} 
+          />
+          )
+        }
       </Box>
     </Container>
   );
