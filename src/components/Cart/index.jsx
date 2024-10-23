@@ -45,11 +45,16 @@ export function Cart({ cartIsOpen, onCloseCart, cartItems }) {
                 <img 
                   src={imageMapping[cart.title] || cart.image} // Usa a imagem do mapeamento ou a imagem padrão
                   alt={`Imagem: ${cart.title}`} 
-                  style={{ width: '100px', height: '100px' }}/>
+                  style={{ width: '70x', height: '70px' }}/>
               
               <div className="info">
                 <h3>{cart.title}</h3>
+                <button 
+                type="button"
+                onClick={() => handleRemoveFromFavorites(cart.id)} 
+                >
                 <p>Remover dos Favoritos</p>
+                </button>
               </div>
             </section>
            );

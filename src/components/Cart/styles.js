@@ -28,10 +28,6 @@ export const Container = styled.div`
     margin: 20px 0;
     align-items: center;
 
-    img {
-      width: 50px;
-      height: 50px;
-    }
     h3{
       font-size: 18px;
       font-weight: 500;
@@ -44,7 +40,13 @@ export const Container = styled.div`
     .info {
       margin-left: 10px;
       align-items: flex-start;
+
+      button {
+        border: none;
+        background: transparent;
+      }
     }
+    
   }
  }
 
