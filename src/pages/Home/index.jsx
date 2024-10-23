@@ -2,6 +2,7 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Food } from "../../components/Food";
 import { Section } from "../../components/Section";
+import { Cart } from "../../components/Cart";
 
 import { api } from "../../services/api";
 import { Container, Content, Banner } from "./styles";
@@ -39,8 +40,17 @@ export function Home() {
   function handleAddToCart(item, quantity) {
     const newCartItems = [...cartItems, { ...item, quantity }];
     setCartItems(newCartItems);
-    setNumeroPedidos(newCartItems.length); // Atualiza o número de pedidos
     }
+
+  function handleRemoveFromCart(id) {
+    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id);
+    setCartItems(updatedCartItems);
+  }
+  
+  // Atualiza o número de pedidos sempre que o carrinho mudar
+  useEffect(() => {
+    setNumeroPedidos(cartItems.length);  // Define o número de pedidos com base no tamanho do carrinho
+  }, [cartItems]);
 
   useEffect(() => {
     const options = {
@@ -104,6 +114,18 @@ export function Home() {
       cartItems={cartItems}
       setCartIsOpen={setCartIsOpen}
       />
+
+    {
+      cartIsOpen && (
+        <Cart 
+          cartIsOpen={cartIsOpen} 
+          onCloseCart={() => setCartIsOpen(false)}
+          cartItems={cartItems}
+          setCartItems={setCartItems} 
+          handleRemoveFromCart={handleRemoveFromCart}
+        />
+      )}
+
       <main>
         <div>
           <Banner>

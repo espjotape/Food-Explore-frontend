@@ -31,7 +31,13 @@ const imageMapping = {
   'Suco de Maracuja' : sucoDeMaracuja,
 };
 
-export function Cart({ cartIsOpen, onCloseCart, cartItems }) {
+export function Cart({ cartIsOpen, onCloseCart, cartItems, setCartItems }) {
+  
+  function handleRemoveFromFavorites(id) {
+    const updatedCartItems = cartItems.filter(cart => cart.id !== id);
+    setCartItems(updatedCartItems); 
+  }
+  
   return (
     <Container cartIsOpen={cartIsOpen}>
       <Header />
