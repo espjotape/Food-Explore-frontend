@@ -5,7 +5,7 @@ export const Container = styled.div`
  align-items: center;
  justify-content: center;
  flex-direction: column;
- margin-top: 130px;
+ margin-top: 60px;
 `
 export const Form = styled.form`
  > button {
