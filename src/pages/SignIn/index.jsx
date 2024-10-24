@@ -18,7 +18,7 @@ export function SignIn(){
  
  function handleSignIn(){
    signIn({ email, password})
-   navigate("/home")
+   //navigate("/home")
  }
 
  return(
