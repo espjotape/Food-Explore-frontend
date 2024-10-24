@@ -16,6 +16,7 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
         <Search />
         <Menu>
           {isAdmin && <MenuItem>Novo Prato</MenuItem>}
+          <MenuItem>Meus Favoritos</MenuItem>
           <MenuItem>Sair</MenuItem>
         </Menu>
       </section>

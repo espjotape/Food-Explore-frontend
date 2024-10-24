@@ -32,10 +32,16 @@ export function Home() {
   const [cartItems, setCartItems] = useState([]);
   const [numeroPedidos, setNumeroPedidos] = useState(0);
   const [cartIsOpen, setCartIsOpen] = useState(false);
+  const [favoriteDishes, setFavoriteDishes] = useState([]);
 
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
+
+  function handleAddToFavorites(dish) {
+    setFavoriteDishes([...favoriteDishes, dish]);
+  }
+
 
   function handleAddToCart(item, quantity) {
     const newCartItems = [...cartItems, { ...item, quantity }];
@@ -123,6 +129,7 @@ export function Home() {
           cartItems={cartItems}
           setCartItems={setCartItems} 
           handleRemoveFromCart={handleRemoveFromCart}
+          handleFavoriteDish={handleAddToFavorites}
         />
       )}
 
@@ -157,6 +164,7 @@ export function Home() {
                   data={dish} 
                   handleDetails={handleDetails}
                   handleAddToCart={handleAddToCart}
+                  handleFavoriteDish={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
@@ -184,6 +192,7 @@ export function Home() {
                   data={dish} 
                   handleDetails={handleDetails}
                   handleAddToCart={handleAddToCart}
+                  handleFavoriteDish={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
@@ -210,6 +219,7 @@ export function Home() {
                   isCustomer={isCustomer} 
                   data={dish} 
                   handleDetails={handleDetails}
+                  handleFavoriteDish={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
