@@ -32,17 +32,10 @@ export function Home() {
   const [cartItems, setCartItems] = useState([]);
   const [numeroPedidos, setNumeroPedidos] = useState(0);
   const [cartIsOpen, setCartIsOpen] = useState(false);
-  const [favoriteDishes, setFavoriteDishes] = useState([]);
 
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
-
-  function handleAddToFavorites(dish) {
-    console.log("aaa")
-  setFavoriteDishes([...favoriteDishes, dish]);
-}
-
 
   function handleAddToCart(item, quantity) {
     const newCartItems = [...cartItems, { ...item, quantity }];
@@ -53,6 +46,28 @@ export function Home() {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id);
     setCartItems(updatedCartItems);
   }
+
+  async function handleAddToFavorites(dish) {
+    try {
+      const user_id = user ? user.id : null; // Acesse o user corretamente aqui
+  
+      if (!user_id) {
+        alert("Você precisa estar logado para adicionar favoritos.");
+        return;
+      }
+  
+      const response = await api.post('/favorites', {
+        user_id, 
+        dish_id: dish.id
+      });
+  
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Erro ao adicionar aos favoritos:", error);
+      alert("Erro ao adicionar aos favoritos.");
+    }
+  }
+  
   
   // Atualiza o número de pedidos sempre que o carrinho mudar
   useEffect(() => {
@@ -158,13 +173,13 @@ export function Home() {
               {
               dishes.meals.map((dish) => (
                 <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
-                  <Food 
-                  isAdmin={isAdmin} 
-                  isCustomer={isCustomer} 
-                  data={dish} 
-                  handleDetails={handleDetails}
-                  handleAddToCart={handleAddToCart}
-                  handleAddToFavorites={handleAddToFavorites}
+                 <Food 
+                    isAdmin={isAdmin} 
+                    isCustomer={isCustomer} 
+                    data={dish} 
+                    handleDetails={handleDetails}
+                    handleAddToCart={handleAddToCart}
+                    handleAddToFavorites={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
