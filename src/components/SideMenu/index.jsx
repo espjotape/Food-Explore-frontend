@@ -5,10 +5,16 @@ import { Container, CloseButton, MenuItem, Menu } from "./styles";
 import { X } from "@phosphor-icons/react";
 
 import { useNavigate } from 'react-router-dom'
-
+import { useAuth } from "../../hooks/auth"
 
 export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
+const { signOut, user } = useAuth()
 const navigate = useNavigate()
+
+function handleSignOut(){
+  navigate("/")
+  signOut()
+}
 
 const handleGoToFavorites = () => {
   navigate('/favorites'); 
@@ -24,7 +30,7 @@ const handleGoToFavorites = () => {
         <Menu>
           {isAdmin && <MenuItem>Novo Prato</MenuItem>}
           <MenuItem onClick={handleGoToFavorites}>Meus Favoritos</MenuItem>
-          <MenuItem>Sair</MenuItem>
+          <MenuItem onClick={handleSignOut}>Sair</MenuItem>
         </Menu>
       </section>
       <Footer />
