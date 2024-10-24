@@ -5,8 +5,16 @@ import { Container, CloseButton, MenuItem, Menu } from "./styles";
 import { X } from "@phosphor-icons/react";
 
 import { useAuth } from "../../hooks/auth"
+import { useNavigate } from 'react-router-dom'
 
 export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
+const navigate = useNavigate()
+
+const handleFavorites = () => {
+  onCloseMenu(); // Fecha o menu lateral
+  navigate('/favorites'); // Navega para a página de favoritos
+};
+  
   return (
     <Container isOpen={menuIsOpen}>
       <header>
@@ -16,7 +24,7 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
         <Search />
         <Menu>
           {isAdmin && <MenuItem>Novo Prato</MenuItem>}
-          <MenuItem>Meus Favoritos</MenuItem>
+          <MenuItem onClick={handleFavorites}>Meus Favoritos</MenuItem>
           <MenuItem>Sair</MenuItem>
         </Menu>
       </section>

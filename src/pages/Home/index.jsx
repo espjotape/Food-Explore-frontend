@@ -39,8 +39,9 @@ export function Home() {
   }
 
   function handleAddToFavorites(dish) {
-    setFavoriteDishes([...favoriteDishes, dish]);
-  }
+    console.log("aaa")
+  setFavoriteDishes([...favoriteDishes, dish]);
+}
 
 
   function handleAddToCart(item, quantity) {
@@ -129,7 +130,6 @@ export function Home() {
           cartItems={cartItems}
           setCartItems={setCartItems} 
           handleRemoveFromCart={handleRemoveFromCart}
-          handleFavoriteDish={handleAddToFavorites}
         />
       )}
 
@@ -164,7 +164,7 @@ export function Home() {
                   data={dish} 
                   handleDetails={handleDetails}
                   handleAddToCart={handleAddToCart}
-                  handleFavoriteDish={handleAddToFavorites}
+                  handleAddToFavorites={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
@@ -192,7 +192,7 @@ export function Home() {
                   data={dish} 
                   handleDetails={handleDetails}
                   handleAddToCart={handleAddToCart}
-                  handleFavoriteDish={handleAddToFavorites}
+                  handleAddToFavorites={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}
@@ -219,7 +219,7 @@ export function Home() {
                   isCustomer={isCustomer} 
                   data={dish} 
                   handleDetails={handleDetails}
-                  handleFavoriteDish={handleAddToFavorites}
+                  handleAddToFavorites={handleAddToFavorites}
                   />
                </SwiperSlide>
                ))}

@@ -5,7 +5,7 @@ import { api } from "../../services/api"
 
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles"
 
-export function Food ({ data, isCustomer, handleAddToCart ,handleDetails ,isAdmin, handleFavoriteDish , ...rest}) {
+export function Food ({ data, isCustomer, handleAddToCart ,handleDetails ,isAdmin, handleAddToFavorites , ...rest}) {
  const [quantity, setQuantity] = useState(1);
 
   const increaseQuantity = () => {
@@ -18,10 +18,11 @@ export function Food ({ data, isCustomer, handleAddToCart ,handleDetails ,isAdmi
     }
   };
 
-  async function handleFavorite() {
-    handleFavoriteDish(data);
-    console.log(`Vc adicionou o prato: ${data.title}`)
-  }
+async function handleFavorite() {
+  handleAddToFavorites(data);
+  console.log("Vc adicionou ao fav")
+}
+
 
   async function handleInclude() {
     handleAddToCart(data, quantity);
