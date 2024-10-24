@@ -3,6 +3,8 @@ import logo from "../../assets/logo.svg"
 import { Input } from "../../components/Input"
 import { Section } from "../../components/Section"
 
+import { Link } from "react-router-dom";
+
 export function SignIn(){
  return(
   <Container>
@@ -26,7 +28,9 @@ export function SignIn(){
 
     <button type="submit">Entrar</button>
     
-    <p>Criar Conta</p>
+    <Link to="/register">
+     Criar Conta
+    </Link>
    </Form>
   </Container>
  )

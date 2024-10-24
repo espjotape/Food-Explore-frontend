@@ -22,10 +22,12 @@ export const Form = styled.form`
  
   color: ${({theme}) => theme.COLORS.WHITE_100}
  }
- > p {
+ > a {
   display: flex;
   justify-content: center;
   font-size: 14px;
+  font-weight: 300;
+  color: ${({theme}) => theme.COLORS.WHITE_100};
  }
 
 `
