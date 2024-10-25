@@ -56,14 +56,24 @@ export function Home() {
       alert("Usuário não está autenticado.");
       return;
     }
-
+  
     try {
-      const response = await api.post('/favorites', { user_id: 1, dish_id: dish.id });
+      const token = localStorage.getItem("@foodexplorer:token"); 
+      const response = await api.post(
+        '/favorites',
+        { dish_id: dish.id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       alert(response.data.message);
     } catch (error) {
-      console.log(error);
+      console.error("Erro ao adicionar aos favoritos:", error);
     }
   }
+  
   
   // Atualiza o número de pedidos sempre que o carrinho mudar
   useEffect(() => {
