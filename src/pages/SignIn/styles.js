@@ -8,6 +8,7 @@ export const Container = styled.div`
  margin-top: 130px;
 `
 export const Form = styled.form`
+ width: 260px;
  > button {
   width: 100%;
   height: 48px;

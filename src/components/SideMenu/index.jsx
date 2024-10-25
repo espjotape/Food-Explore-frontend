@@ -7,7 +7,7 @@ import { X } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from "../../hooks/auth"
 
-export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin, isCustomer }) {
+export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
 const { signOut, user } = useAuth()
 const navigate = useNavigate()
 
@@ -29,7 +29,7 @@ const handleGoToFavorites = () => {
         <Search />
         <Menu>
           {isAdmin && <MenuItem>Novo Prato</MenuItem>}
-          {isCustomer && <MenuItem onClick={handleGoToFavorites}>Meus Favoritos</MenuItem>}
+          {!isAdmin && <MenuItem onClick={handleGoToFavorites}>Meus Favoritos</MenuItem>}
           <MenuItem onClick={handleSignOut}>Sair</MenuItem>
         </Menu>
       </section>
