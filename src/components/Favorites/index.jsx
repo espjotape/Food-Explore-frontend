@@ -19,6 +19,17 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
     navigate("/");
   }
 
+  async function handleRemoveFromFavorites(dishId) {
+    try {
+      await api.delete(`/favorites/${dishId}`);
+      const updatedFavoriteDishes = favoriteDishes.filter(dish => dish.id !== dishId);
+      setFavoriteDishes(updatedFavoriteDishes);
+    } catch (error) {
+      console.error("Erro ao remover do favoritos:", error);
+    }
+  }
+  
+
 
   useEffect(() => {
     async function fetchFavorites() {
