@@ -25,7 +25,7 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
       const updatedFavoriteDishes = favoriteDishes.filter(dish => dish.id !== dishId);
       setFavoriteDishes(updatedFavoriteDishes);
     } catch (error) {
-      console.error("Erro ao remover do favoritos:", error);
+     // console.error("Erro ao remover do favoritos:", error);
     }
   }
   

@@ -52,11 +52,6 @@ export function Home() {
   }
 
   async function handleAddToFavorites(dish) {
-    if (!user) {
-      alert("Usuário não está autenticado.");
-      return;
-    }
-  
     try {
       const token = localStorage.getItem("@foodexplorer:token"); 
       const response = await api.post(
@@ -70,9 +65,16 @@ export function Home() {
       );
       alert(response.data.message);
     } catch (error) {
-      console.error("Erro ao adicionar aos favoritos:", error);
+      // Verifica se a mensagem de erro é sobre prato já adicionado
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.error); // Exibe a mensagem do backend
+      } else {
+        // Para outros erros, você pode registrar no console apenas se for importante
+        console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
+      }
     }
   }
+  
   
   
   // Atualiza o número de pedidos sempre que o carrinho mudar
