@@ -1,72 +1,68 @@
-import { createContext, useContext, useEffect } from "react";
-import { useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
-import { api } from "../services/api"
-
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  /*const [user, setUser] = useState({
-    isAdmin: false, // Defina se o usuário é admin ou não
-  });*/
+  const [data, setData] = useState({});
 
-  const [ data, setData ] = useState({})
-
-  async function signIn({ email, password}){
+  async function signIn({ email, password }) {
     try {
-      const response = await api.post("/sessions", { email, password })
-      const { user, token } = response.data
+      const response = await api.post("/sessions", { email, password });
+      const { user, token, role } = response.data;
+      //console.log('User role:', role)
 
-      localStorage.setItem("@foodexploerer:user", JSON.stringify(user));
-      localStorage.setItem("@foodexploerer:token", token);
-      
-      api.defaults.headers.authorization = `Bearer ${token}`
-      setData({ user, token })
-
+      //console.log('Response data:', response.data)
+      localStorage.setItem("@foodexplorer:user", JSON.stringify(user));
+      localStorage.setItem("@foodexplorer:token", token);
+      api.defaults.headers.authorization = `Bearer ${token}`;
+      setData({ user, token, role: user.role });
     } catch (error) {
-      if(error.response){
-        alert(error.response.data.message)
-      }else{
-        alert("Não foi possivel entrar.")
-        console.log(error)
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível entrar.");
+        console.log(error);
       }
     }
   }
 
-  function signOut(){
-    localStorage.removeItem("@rocketnotes:token")
-    localStorage.removeItem("@rocketnotes:user")
-
-    setData({})
+  function signOut() {
+    localStorage.removeItem("@foodexplorer:token");
+    localStorage.removeItem("@foodexplorer:user");
+    setData({});
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("@foodexploerer:token")
-    const user = localStorage.getItem("@foodexploerer:user")
+    const token = localStorage.getItem("@foodexplorer:token");
+    const user = localStorage.getItem("@foodexplorer:user");
+  
+    if (token && user) {
+      const parsedUser = JSON.parse(user);
+      console.log('Parsed User:', parsedUser)
 
-    if(token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      setData({
-        token,
-        user: JSON.parse(user),
-    });
+      setData({ token, user: parsedUser, role: parsedUser.role });
     }
-  }, [])
+  }, []);
+  
 
-  return(
+  return (
     <AuthContext.Provider value={{ 
       signIn, 
-      signOut,
-      user: data.user
+      signOut, 
+      user: data.user, 
+      role: data.user?.role 
       }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
-function useAuth(){
- const context = useContext(AuthContext)
- return context
+function useAuth() {
+  const context = useContext(AuthContext);
+  return context;
 }
 
-export { AuthProvider, useAuth }
+export { AuthProvider, useAuth };
+

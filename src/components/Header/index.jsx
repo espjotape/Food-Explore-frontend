@@ -9,12 +9,10 @@ import logo from "../../assets/logo.svg";
 
 import { useAuth } from "../../hooks/auth";
 
-export function Header({ numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
+export function Header({ isAdmin, isCustomer ,numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
 
   const { user } = useAuth();
-  const isAdmin = user.isAdmin;
-
 
   return (
     <Container>
@@ -33,7 +31,7 @@ export function Header({ numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
         />
 
         <Identidade>
-          {user.isAdmin ? (
+          {isAdmin ? (
             <img src={logoAdmin} alt="Logo Admin" />
           ) : (
             <img src={logo} alt="Logo" style={{ width: 150 }}/>  
@@ -41,7 +39,7 @@ export function Header({ numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
         </Identidade>
 
         {
-          !user.isAdmin && (
+          !isAdmin && (
             <Orders
               cartIsOpen={cartIsOpen} 
               onClick={() => setCartIsOpen(true)}

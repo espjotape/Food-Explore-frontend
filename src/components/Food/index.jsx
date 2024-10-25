@@ -3,8 +3,11 @@ import { HeartStraight, PencilSimple } from "@phosphor-icons/react";
 import { api } from "../../services/api";
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Food({ data, isCustomer, handleAddToCart, handleDetails, handleAddToFavorites, isAdmin, ...rest }) {
+export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart, handleAddToFavorites, ...rest}) {
   const [quantity, setQuantity] = useState(1);
+
+  //console.log("isAdmin:", isAdmin);  // Deve ser true ou false conforme o cargo
+  //console.log("isCustomer:", isCustomer);
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
