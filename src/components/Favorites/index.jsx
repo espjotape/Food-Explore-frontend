@@ -3,7 +3,15 @@ import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { CaretLeft } from "@phosphor-icons/react";
 
+import { useNavigate } from "react-router-dom";
+
 export function Favorites({ favoriteDishes = [], cartIsOpen, onCloseCart, setFavoriteDishes }) {
+  const navigate = useNavigate()
+  
+  function handleGoHome() {
+    navigate("/")
+  }
+  
   console.log('favoriteDishes:', favoriteDishes);
  
   function handleRemoveFromFavorites(id) {
@@ -15,7 +23,7 @@ export function Favorites({ favoriteDishes = [], cartIsOpen, onCloseCart, setFav
    <Container cartIsOpen={cartIsOpen}>
      <Header />
      <section>
-       <CloseButton onClick={onCloseCart}><CaretLeft size={16} /> Meus Pratos Favoritos</CloseButton>
+       <CloseButton onClick={handleGoHome}><CaretLeft size={16} /> Meus Pratos Favoritos</CloseButton>
        <div>
        {
         
