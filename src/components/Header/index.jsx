@@ -7,12 +7,8 @@ import { useState } from "react";
 import logoAdmin from "../../assets/logo-admin.svg";
 import logo from "../../assets/logo.svg";
 
-import { useAuth } from "../../hooks/auth";
-
-export function Header({ isAdmin, isCustomer ,numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
+export function Header({ isAdmin ,numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
-
-  const { user } = useAuth();
 
   return (
     <Container>
@@ -40,9 +36,7 @@ export function Header({ isAdmin, isCustomer ,numeroPedidos, cartIsOpen, setCart
 
         {
           !isAdmin && (
-            <Orders
-              cartIsOpen={cartIsOpen} 
-              onClick={() => setCartIsOpen(true)}
+            <Orders onClick={() => setCartIsOpen(true)}
             >
               <Receipt color="#fff" size={24} />
               {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
@@ -54,7 +48,6 @@ export function Header({ isAdmin, isCustomer ,numeroPedidos, cartIsOpen, setCart
         cartIsOpen && (
           <Cart 
           cartItems={cartItems} 
-          cartIsOpen={cartIsOpen} 
           onCloseCart={() => setCartIsOpen(false)} 
           />
           )
