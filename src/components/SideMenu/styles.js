@@ -1,23 +1,23 @@
 import styled from "styled-components";
 
-// Controla a visibilidade do SideMenu com base no estado `isOpen`
 export const Container = styled.div`
   position: fixed;
   display: grid;
-  grid-template-rows: 114px  1fr 77px;
-  grid-template-areas: 
-    "header"
-    "content"
-    "footer";
+  grid-template-rows: 114px 1fr 77px;
+  grid-template-areas: "header" "content" "footer";
   top: 0;
-  left: ${({ isOpen }) => (isOpen ? '0' : '-100%')}; // Aplica a prop isOpen para o deslocamento do menu
+  left: ${({ isOpen }) => (isOpen ? '0' : '-100%')};
   width: 100%;
   height: 100vh;
   background-color: ${({ theme }) => theme.COLORS.DARK_400};
   color: white;
   z-index: 100;
-  transition: left 0.3s ease-in-out; // Transição suave ao abrir e fechar o menu
-
+  transition: left 0.3s ease-in-out;
+  
+  ${({ isOpen }) => isOpen && `
+    /* Estilos adicionais para quando o menu estiver aberto */
+  `}
+  
   header {
     grid-area: header;
     display: flex;
@@ -26,7 +26,7 @@ export const Container = styled.div`
     padding: 0 20px;
     background-color: ${({ theme }) => theme.COLORS.DARK_700};
   }
-
+  
   > section {
     grid-area: content;
     width: 90%;
@@ -35,6 +35,8 @@ export const Container = styled.div`
     flex-direction: column;
   }
 `;
+
+
 
 export const CloseButton = styled.button`
   background: none;
