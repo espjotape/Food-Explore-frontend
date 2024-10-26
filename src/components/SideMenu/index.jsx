@@ -35,4 +35,3 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
     </Container>
   );
 }
-

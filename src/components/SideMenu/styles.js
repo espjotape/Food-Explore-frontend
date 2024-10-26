@@ -6,18 +6,14 @@ export const Container = styled.div`
   grid-template-rows: 114px 1fr 77px;
   grid-template-areas: "header" "content" "footer";
   top: 0;
-  left: ${({ isOpen }) => (isOpen ? '0' : '-100%')};
+  left: ${({ open }) => (open ? '0' : '-100%')};
   width: 100%;
   height: 100vh;
   background-color: ${({ theme }) => theme.COLORS.DARK_400};
   color: white;
   z-index: 100;
   transition: left 0.3s ease-in-out;
-  
-  ${({ isOpen }) => isOpen && `
-    /* Estilos adicionais para quando o menu estiver aberto */
-  `}
-  
+
   header {
     grid-area: header;
     display: flex;
@@ -26,7 +22,7 @@ export const Container = styled.div`
     padding: 0 20px;
     background-color: ${({ theme }) => theme.COLORS.DARK_700};
   }
-  
+
   > section {
     grid-area: content;
     width: 90%;
@@ -34,8 +30,11 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
   }
-`;
 
+  &.open {
+    left: 0;
+  }
+`;
 
 
 export const CloseButton = styled.button`
