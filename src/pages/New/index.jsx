@@ -2,12 +2,15 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Section } from "../../components/Section"
 
-import { Container } from "./styles"
+import { useAuth } from "../../hooks/auth"
+
+import { Container, Content, Img, Form } from "./styles.js"
 
 import { CaretLeft, UploadSimple  } from "@phosphor-icons/react"; 
 
 
 export function New(){
+const { user } = useAuth()
  const isAdmin = user?.role === 'admin';
  const isCustomer = user?.role === 'customer';
 
@@ -21,7 +24,7 @@ export function New(){
      </button>
      <h1>Novo prato</h1>
 
-     <div>
+     <Form>
       <Section title="Imagem do prato">
        <Img>
         <label htmlFor="img">
@@ -30,7 +33,7 @@ export function New(){
         </label>
        </Img>
       </Section>
-     </div>
+     </Form>
     </Content>
     <Footer />
   </Container>

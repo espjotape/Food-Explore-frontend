@@ -18,6 +18,10 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
     navigate('/favorites');
   };
 
+  const handleGoToNewDish = () => {
+    navigate('/new');
+  };
+
   return (
     <Container className={menuIsOpen ? 'open' : ''}>
       <header>
@@ -26,7 +30,7 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
       <section>
         <Search />
         <Menu>
-          {isAdmin && <MenuItem>Novo Prato</MenuItem>}
+          {isAdmin && <MenuItem onClick={handleGoToNewDish}>Novo Prato</MenuItem>}
           {!isAdmin && <MenuItem onClick={handleGoToFavorites}>Meus Favoritos</MenuItem>}
           <MenuItem onClick={handleSignOut}>Sair</MenuItem>
         </Menu>
