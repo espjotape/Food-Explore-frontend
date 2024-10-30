@@ -23,6 +23,7 @@ const { user } = useAuth()
  const [newTag, setNewTag] = useState("");
  const [loading, setLoading] = useState(false)
  const [category, setCategory] = useState("");
+ const [description, setDescription] = useState("");
 
  function handleAddTag() {
   setTags((prevState) => [...prevState, newTag]);
@@ -111,6 +112,7 @@ function handleRemoveTag(deleted) {
       <Section title="Descrição">
         <Textarea 
           placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+          onChange={(e) => setDescription(e.target.value)}
         />
       </Section>
 
