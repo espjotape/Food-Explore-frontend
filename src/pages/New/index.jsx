@@ -22,6 +22,7 @@ const { user } = useAuth()
  const [price, setPrice] = useState("");
  const [newTag, setNewTag] = useState("");
  const [loading, setLoading] = useState(false)
+ const [category, setCategory] = useState("");
 
  function handleAddTag() {
   setTags((prevState) => [...prevState, newTag]);
@@ -64,7 +65,7 @@ function handleRemoveTag(deleted) {
       <Section title="Categoria">
         <div className="category">
           <label htmlFor="category">
-            <select name="category" id="category">
+            <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)}>
               <option value="">Selecionar</option>
               <option value="">Refeição</option>
               <option value="">Sobremesa</option>
