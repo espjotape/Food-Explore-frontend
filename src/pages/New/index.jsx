@@ -39,7 +39,7 @@ function handleRemoveTag(deleted) {
 function handleImageChange(event) {
   const file = event.target.files[0]
   setImage(file)
-  fileName(file.name)
+  setFileName(file.name)
 }
 
  return(
@@ -57,9 +57,9 @@ function handleImageChange(event) {
        <Img>
         <label htmlFor="img">
          <UploadSimple size="24px"/>
-         <span>Selecione uma imagem</span>
+         <span>{ fileName|| "Selecione uma imagem"}</span>
 
-         <input id="uploadImg" type="file" onChange={handleImageChange}/>
+         <input id="img" type="file" onChange={handleImageChange}/>
         </label>
        </Img>
       </Section>
