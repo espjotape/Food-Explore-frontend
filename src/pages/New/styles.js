@@ -67,9 +67,6 @@ export const Form = styled.form`
     color: ${({theme}) => theme.COLORS.WHITE_500};
   }
 
-  input { 
-    background-color: transparent;
-  }
 
   > div {
     display: flex;
@@ -118,6 +115,28 @@ export const Form = styled.form`
       font-weight: 400;
       font-size: 14px;
     }
+  }
+
+  .tags {
+    width: 100%;
+    background-color: ${({theme}) => theme.COLORS.DARK_800};
+    border-radius: 6px;
+    padding: 8px ;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    
+    input { 
+      background-color: transparent;
+    }
+
+  }
+
+  .inputTag {
+    border: none;
+    background-color: transparent;
+    color: ${({theme}) => theme.COLORS.WHITE_100}
   }
 `
 

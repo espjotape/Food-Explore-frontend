@@ -1,9 +1,12 @@
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Section } from "../../components/Section"
-import { Input } from "../../components/Input/index.jsx";
+import { Textarea } from "../../components/Textarea";
+import { FoodItem } from "../../components/FoodItem/index.jsx";
+import { Button } from "../../components/Button"
 
 import { useAuth } from "../../hooks/auth"
+import { useState } from "react";
 
 import { Container, Content, Img, Form } from "./styles.js"
 
@@ -59,7 +62,38 @@ const { user } = useAuth()
         </div>
       </Section>
 
-    
+      <Section title="Ingredientes">
+        <div className="tags">
+        {
+        tags.map((tag, index) => (
+          <FoodItem
+          key={String(index)}
+          />
+        ))}
+        <FoodItem
+          isNew
+          placeholder="Adicionar"
+        />
+        </div> 
+      </Section>
+
+      <Section title="Preço">
+        <div className="name">
+          <input className="inputTag"
+          placeholder="R$ 00,00"
+          type="number" />
+        </div>
+      </Section>
+
+      <Section title="Descrição">
+        <Textarea 
+          placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+        />
+      </Section>
+
+      <Button
+        title="Salvar alterações"
+        />
      </Form>
     </Content>
     <Footer />
