@@ -4,10 +4,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
 
-  background-color: ${({ theme, isNew }) =>
-    isNew ? "transparent" : theme.COLORS.WHITE_600};
-  outline: ${({ theme, isNew }) =>
-    isNew ? `1px dashed ${theme.COLORS.WHITE_600}` : "none"};
+  background-color: ${({ theme, $isnew }) =>
+    $isnew ? "transparent" : theme.COLORS.WHITE_600};
+  outline: ${({ theme, $isnew }) =>
+    $isnew ? `1px dashed ${theme.COLORS.WHITE_600}` : "none"};
   
   border-radius: 4px;
   padding-right: 16px;
@@ -19,8 +19,8 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     
-    color: ${({ theme, isNew }) =>
-    isNew ? theme.COLORS.WHITE_600 : theme.COLORS.WHITE_100};
+    color: ${({ theme, $isnew }) =>
+    $isnew ? theme.COLORS.WHITE_600 : theme.COLORS.WHITE_100};
   }
   
   > input {

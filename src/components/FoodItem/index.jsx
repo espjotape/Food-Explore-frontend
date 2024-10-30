@@ -3,7 +3,7 @@ import { Container } from "./styles";
 
 export function FoodItem({ isNew, value, onClick, ...rest }) {
   return (
-    <Container isNew={isNew}>
+    <Container $isnew={isNew}>
       <input type="text" value={value} readOnly={!isNew} {...rest} />
 
       <button
