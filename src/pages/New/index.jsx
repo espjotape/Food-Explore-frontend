@@ -19,6 +19,8 @@ const { user } = useAuth()
  const isCustomer = user?.role === 'customer';
 
  const [tags, setTags] = useState([]);
+ const [image, setImage] = useState(null);
+ const [fileName, setFileName] = useState("");
  const [price, setPrice] = useState("");
  const [newTag, setNewTag] = useState("");
  const [loading, setLoading] = useState(false)
@@ -32,6 +34,12 @@ const { user } = useAuth()
 
 function handleRemoveTag(deleted) {
   setTags((prevState) => prevState.filter((tag) => tag !== deleted));
+}
+
+function handleImageChange(event) {
+  const file = event.target.files[0]
+  setImage(file)
+  fileName(file.name)
 }
 
  return(
@@ -51,7 +59,7 @@ function handleRemoveTag(deleted) {
          <UploadSimple size="24px"/>
          <span>Selecione uma imagem</span>
 
-         <input id="uploadImg" type="file"/>
+         <input id="uploadImg" type="file" onChange={handleImageChange}/>
         </label>
        </Img>
       </Section>
