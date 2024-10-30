@@ -18,6 +18,20 @@ const { user } = useAuth()
  const isAdmin = user?.role === 'admin';
  const isCustomer = user?.role === 'customer';
 
+ const [tags, setTags] = useState([]);
+ const [newTag, setNewTag] = useState("");
+ const [loading, setLoading] = useState(false)
+
+ function handleAddTag() {
+  setTags((prevState) => [...prevState, newTag]);
+  setNewTag("");
+}
+
+
+function handleRemoveTag(deleted) {
+  setTags((prevState) => prevState.filter((tag) => tag !== deleted));
+}
+
  return(
   <Container>
     <Header isAdmin={isAdmin} />
@@ -68,11 +82,16 @@ const { user } = useAuth()
         tags.map((tag, index) => (
           <FoodItem
           key={String(index)}
+          value={tag}
+          onClick={() => handleRemoveTag(tag)}
           />
         ))}
         <FoodItem
           isNew
           placeholder="Adicionar"
+          value={newTag}
+          onChange={(e) => setNewTag(e.target.value)}
+          onClick={handleAddTag}
         />
         </div> 
       </Section>
