@@ -76,9 +76,9 @@ function handleImageChange(event) {
           <label htmlFor="category">
             <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)}>
               <option value="">Selecionar</option>
-              <option value="">Refeição</option>
-              <option value="">Sobremesa</option>
-              <option value="">Bebida</option>
+              <option value="meal">Refeição</option>
+              <option value="mainDishes">Sobremesa</option>
+              <option value="drinks">Bebida</option>
           </select>
 
           <CaretDown size="24px"/>
