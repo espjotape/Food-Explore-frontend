@@ -19,6 +19,7 @@ const { user } = useAuth()
  const isCustomer = user?.role === 'customer';
 
  const [tags, setTags] = useState([]);
+ const [price, setPrice] = useState("");
  const [newTag, setNewTag] = useState("");
  const [loading, setLoading] = useState(false)
 
@@ -26,7 +27,6 @@ const { user } = useAuth()
   setTags((prevState) => [...prevState, newTag]);
   setNewTag("");
 }
-
 
 function handleRemoveTag(deleted) {
   setTags((prevState) => prevState.filter((tag) => tag !== deleted));
@@ -100,7 +100,10 @@ function handleRemoveTag(deleted) {
         <div className="name">
           <input className="inputTag"
           placeholder="R$ 00,00"
-          type="number" />
+          type="number" 
+          value={price}
+          onChange={e => setPrice(e.target.value)}
+          />
         </div>
       </Section>
 
