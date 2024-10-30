@@ -9,11 +9,11 @@ import { Edit } from '../pages/Edit';
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path='/edit'element={<Edit />}/>
-      <Route path="/new" element={<New />}/>
       <Route path="/" element={<Home />} />
-      <Route path="/details/:id" element={<Details  />} />
+      <Route path="/new" element={<New />}/>
+      <Route path='/edit/:id'element={<Edit />}/>
       <Route path="/favorites" element={<Favorites/>} />
+      <Route path="/details/:id" element={<Details  />} />
       <Route path='*' element={<Navigate to="/" />} />
     </Routes>
   );

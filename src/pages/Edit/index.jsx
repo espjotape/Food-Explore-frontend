@@ -9,17 +9,19 @@ import { Container, Form, Content, Img } from "./styles.js";
 import { api } from "../../services/api.js";
 
 import { useAuth } from "../../hooks/auth"
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { CaretLeft, UploadSimple, CaretDown } from "@phosphor-icons/react"; 
 
 export function Edit(){
+ const { id } = useParams()
  const { user } = useAuth()
  const isAdmin = user?.role === 'admin';
  const isCustomer = user?.role === 'customer';
 
  const navigate = useNavigate()
 
+ const [dish, setDish] = useState(null);
  const [title, setTitle] = useState("");
  const [tags, setTags] = useState([]);
  const [image, setImage] = useState(null);
@@ -28,7 +30,26 @@ export function Edit(){
  const [newTag, setNewTag] = useState("");
  const [loading, setLoading] = useState(false)
  const [category, setCategory] = useState("");
- const [description, setDescription] = useState("");
+ const [description, setDescription] = useState(""); 
+
+ useEffect(() => {
+  async function fetchDish() {
+   try {
+     const response = await api.get(`/dishes/${id}`);
+     const dish = response.data;
+     setTitle(dish.title);
+     setTags(dish.ingredients.map(ingredient => ingredient.name)); // Ajuste conforme a estrutura do objeto
+     setPrice(dish.price);
+     setCategory(dish.category);
+     setDescription(dish.description);
+   } catch (error) {
+     console.error('Erro ao buscar o prato:', error);
+     alert('Erro ao carregar os dados do prato.');
+   }
+ }
+ 
+  fetchDish();
+}, [id]);
 
  function handleAddTag() {
   setTags((prevState) => [...prevState, newTag]);
@@ -39,6 +60,9 @@ export function Edit(){
    setTags((prevState) => prevState.filter((tag) => tag !== deleted));
  }
 
+ function handleBack(){
+  navigate(-1)
+ }
 
  function handleImageChange(event) {
   const file = event.target.files[0];
@@ -50,68 +74,52 @@ export function Edit(){
   }
  }
 
- async function handleSubmit() {
-  // Validação dos campos
-  if (!title) {
-    alert("Por favor, digite o nome do prato.");
-    return
+ function validator() {
+  if (!title || !price || tags.length === 0 || !category || !description) {
+    alert("Por favor, preencha todos os campos obrigatórios.")
+    return false
   }
-  if (!image) {
-    alert("Por favor, selecione uma imagem.");
-    return;
-  }
-  if (!fileName) {
-    alert("Por favor, adicione um nome para o prato.");
-    return;
-  }
-  if (tags.length === 0) {
-    alert("Por favor, adicione pelo menos um ingrediente.");
-    return;
-  }
-  if (!price) {
-    alert("Por favor, insira um preço.");
-    return;
-  }
-  if (!category) {
-    alert("Por favor, selecione uma categoria.");
-    return;
-  }
-  if (!description) {
-    alert("Por favor, insira uma descrição.");
-    return;
-  }
-  
-  // Lógica para enviar os dados para a API
-  const formData = new FormData();
-  formData.append("title", title);
-  formData.append("image", image);
-  formData.append("ingredients", JSON.stringify(tags));
-  formData.append("price", price);
-  formData.append("category", category);
-  formData.append("description", description);
-  
-  setLoading(true)
-  try {
-    await api.post("/dishes", formData);
-    alert("Prato cadastrado com sucesso!");
-    navigate(-1);
-  } catch (error) {
-    if (error.response) {
-      alert(error.response.data.message);
-    } else {
-      alert("Não foi possível cadastrar o prato.");
+  return true
+}
+
+async function handleSubmit() {
+  const passedValidation = validator();
+
+  if (passedValidation) {
+    try {
+      await api.put(`/dishes/${id}`, { title, description, category, ingredients: tags, price });
+      alert("Prato editado com sucesso!");
+      navigate("/"); 
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível atualizar o prato");
+        console.log(error);
+      }
     }
-  } finally {
-    setLoading(false);
   }
 }
 
+async function handleDelete() {
+ try {
+  await api.delete(`/dishes/${id}`)
+  alert("Prato excluido com sucesso!")
+  navigate('/', { state: { updated: true } });
+ }catch(error){
+  if(error.response){
+   alert(error.response.data.message)
+  }else{
+   alert("Não foi possivel excluir o prato.")
+  }
+ }
+}
 
  return(
   <Container>
     <Header isAdmin={isAdmin} />
     <Content>
-     <button type="button">
+     <button type="button" onClick={handleBack}>
       <CaretLeft color="#FFF" />
       <p>voltar</p>
      </button>
@@ -142,7 +150,7 @@ export function Edit(){
       <Section title="Categoria">
         <div className="category">
           <label htmlFor="category">
-            <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)}>
+            <select name="category" id="category" value={category || ""} onChange={e => setCategory(e.target.value)}>
               <option value="">Selecionar</option>
               <option value="meal">Refeição</option>
               <option value="mainDishes">Sobremesa</option>
@@ -188,6 +196,7 @@ export function Edit(){
       <Section title="Descrição">
         <Textarea 
           placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+          value={description} 
           onChange={(e) => setDescription(e.target.value)}
         />
       </Section>
@@ -196,7 +205,7 @@ export function Edit(){
         <Button
            className="del"
            title="Excluir prato"
-           onClick={handleSubmit}
+           onClick={handleDelete}
            loading={loading}
            />
          <Button
@@ -205,7 +214,6 @@ export function Edit(){
            onClick={handleSubmit}
            loading={loading}
            />
-           
         </div>
      </Form>
     </Content>

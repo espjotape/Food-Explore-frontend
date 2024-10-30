@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { HeartStraight, PencilSimple } from "@phosphor-icons/react";
+
 import { api } from "../../services/api";
+
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart, handleAddToFavorites, ...rest}) {
+export function Food({isAdmin, isCustomer, data, handleDetails ,handleAddToCart, handleAddToFavorites, ...rest}) {
   const [quantity, setQuantity] = useState(1);
-
-  //console.log("isAdmin:", isAdmin);  // Deve ser true ou false conforme o cargo
-  //console.log("isCustomer:", isCustomer);
+  const navigate = useNavigate()
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -24,11 +26,16 @@ export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart,
     handleAddToCart(data, quantity);
   }
 
+  function handleEdit() {
+  console.log('Editando prato com ID:', data.id);
+  navigate(`/edit/${data.id}`);
+  }
+
   return (
     <Container {...rest}>
       {isAdmin ? (
-        <PencilSimple />
-      ) : (
+        <PencilSimple onClick={handleEdit}/> 
+         ) : (
         <HeartStraight onClick={() => handleAddToFavorites(data)} />
       )}
 
