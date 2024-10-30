@@ -5,8 +5,11 @@ import { Textarea } from "../../components/Textarea";
 import { FoodItem } from "../../components/FoodItem/index.jsx";
 import { Button } from "../../components/Button"
 
+import { api } from "../../services/api.js";
+
 import { useAuth } from "../../hooks/auth"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Container, Content, Img, Form } from "./styles.js"
 
@@ -18,6 +21,9 @@ const { user } = useAuth()
  const isAdmin = user?.role === 'admin';
  const isCustomer = user?.role === 'customer';
 
+ const navigate = useNavigate()
+
+ const [title, setTitle] = useState("");
  const [tags, setTags] = useState([]);
  const [image, setImage] = useState(null);
  const [fileName, setFileName] = useState("");
@@ -37,10 +43,72 @@ function handleRemoveTag(deleted) {
 }
 
 function handleImageChange(event) {
-  const file = event.target.files[0]
-  setImage(file)
-  setFileName(file.name)
+  const file = event.target.files[0];
+  if (file) {
+    setImage(file);
+    setFileName(file.name);
+  } else {
+    alert("Nenhum arquivo selecionado.");
+  }
 }
+
+async function handleSubmit() {
+  // Validação dos campos
+  if (!title) {
+    alert("Por favor, digite o nome do prato.");
+    return
+  }
+  if (!image) {
+    alert("Por favor, selecione uma imagem.");
+    return;
+  }
+  if (!fileName) {
+    alert("Por favor, adicione um nome para o prato.");
+    return;
+  }
+  if (tags.length === 0) {
+    alert("Por favor, adicione pelo menos um ingrediente.");
+    return;
+  }
+  if (!price) {
+    alert("Por favor, insira um preço.");
+    return;
+  }
+  if (!category) {
+    alert("Por favor, selecione uma categoria.");
+    return;
+  }
+  if (!description) {
+    alert("Por favor, insira uma descrição.");
+    return;
+  }
+  
+  // Lógica para enviar os dados para a API
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("image", image);
+  formData.append("ingredients", JSON.stringify(tags));
+  formData.append("price", price);
+  formData.append("category", category);
+  formData.append("description", description);
+  
+  setLoading(true)
+  try {
+    await api.post("/dishes", formData);
+    alert("Prato cadastrado com sucesso!");
+    navigate(-1);
+  } catch (error) {
+    if (error.response) {
+      alert(error.response.data.message);
+    } else {
+      alert("Não foi possível cadastrar o prato.");
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
+
 
  return(
   <Container>
@@ -68,7 +136,10 @@ function handleImageChange(event) {
         <input 
         className="name"
         placeholder="Ex: Salada Ceasar"
-        type="text" />
+        type="text" 
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        />
       </Section>
 
       <Section title="Categoria">
@@ -126,6 +197,8 @@ function handleImageChange(event) {
 
       <Button
         title="Salvar alterações"
+        onClick={handleSubmit}
+        loading={loading}
         />
      </Form>
     </Content>
