@@ -1,14 +1,21 @@
-import { Container, Box, Identidade, Notification, Orders } from "./styles";
-import { List, Receipt } from "@phosphor-icons/react";
-import { SideMenu } from "../SideMenu"; 
-import { Cart } from "../Cart";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { List, Receipt } from "@phosphor-icons/react";
 
 import logoAdmin from "../../assets/logo-admin.svg";
 import logo from "../../assets/logo.svg";
 
+import { SideMenu } from "../SideMenu"; 
+import { Container, Box, Identidade, Notification, Orders } from "./styles";
+
 export function Header({ isAdmin ,numeroPedidos, cartIsOpen, setCartIsOpen, cartItems}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
+  const navigate = useNavigate()
+
+  const handleOrdersClick = () => {
+    navigate("/orders"); 
+  };
 
   return (
     <Container>
@@ -36,7 +43,7 @@ export function Header({ isAdmin ,numeroPedidos, cartIsOpen, setCartIsOpen, cart
 
         {
           !isAdmin && (
-            <Orders onClick={() => setCartIsOpen(true)}
+            <Orders onClick={handleOrdersClick}
             >
               <Receipt color="#fff" size={24} />
               {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}

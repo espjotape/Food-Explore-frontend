@@ -1,50 +1,42 @@
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
-import { Food } from "../../components/Food";
-import { Section } from "../../components/Section";
-import { Cart } from "../../components/Cart";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth";
 
 import { api } from "../../services/api";
 import { Container, Content, Banner } from "./styles";
 
 import bannerMb from "../../assets/banner-mobile.png";
 
-import { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/auth";
-
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
+import { Food } from "../../components/Food";
+import { Section } from "../../components/Section";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import 'swiper/css/autoplay';
 
 export function Home() {
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
   const isCustomer = user?.role === 'customer';
 
-  //console.log('isAdmin:', isAdmin); // Para depurar
-  //console.log('isCustomer:', isCustomer); // Para depurar
-
   const [dishes, setDishes] = useState({ meals: [], mainDishes: [], drinks: [] });
   
-  const swipperMeals = useRef(null);
-  const swipperMainDishes = useRef(null);
-  const swipperDrinks = useRef(null);
-
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState([]);
+  const [cartIsOpen, setCartIsOpen] = useState(false)
   const [numeroPedidos, setNumeroPedidos] = useState(0);
-  const [cartIsOpen, setCartIsOpen] = useState(false);
 
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
 
-  function handleAddToCart(item, quantity) {
-    const newCartItems = [...cartItems, { ...item, quantity }];
+  function handleAddToCart(item) {
+    const newCartItems = [...cartItems, { ...item, quantity: 1 }]; // Por exemplo, adicionar um de cada vez
     setCartItems(newCartItems);
-    }
+}
 
   function handleRemoveFromCart(id) {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id);
@@ -65,51 +57,17 @@ export function Home() {
       );
       alert(response.data.message);
     } catch (error) {
-      // Verifica se a mensagem de erro é sobre prato já adicionado
       if (error.response && error.response.status === 400) {
-        alert(error.response.data.error); // Exibe a mensagem do backend
+        alert(error.response.data.error);
       } else {
-        // Para outros erros, você pode registrar no console apenas se for importante
         console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
       }
     }
   }
   
-  
-  
-  // Atualiza o número de pedidos sempre que o carrinho mudar
   useEffect(() => {
-    setNumeroPedidos(cartItems.length);  // Define o número de pedidos com base no tamanho do carrinho
+    setNumeroPedidos(cartItems.length);
   }, [cartItems]);
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5,
-    };
-  
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          // Usando optional chaining para acessar 'swiper' e 'autoplay'
-          entry.target?.swiper?.autoplay?.start();
-        } else {
-          entry.target?.swiper?.autoplay?.stop();
-        }
-      }
-    }, options);
-    
-    // Observa os elementos apenas se eles existirem
-    swipperMeals.current && observer.observe(swipperMeals.current);
-    swipperMainDishes.current && observer.observe(swipperMainDishes.current);
-    swipperDrinks.current && observer.observe(swipperDrinks.current);
-  
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-  
 
   useEffect(() => {
     async function fetchDishes() {
@@ -121,7 +79,6 @@ export function Home() {
         const drinks = response.data.filter((dish) => dish.category === "drinks");
         
         setDishes({ meals, mainDishes, drinks });
-       // console.log(response.data);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.error("Nenhum prato encontrado.");
@@ -134,27 +91,15 @@ export function Home() {
     fetchDishes();
   }, []);
 
-
   return (
     <Container>
       <Header 
-      isAdmin={isAdmin} 
-      numeroPedidos={numeroPedidos}
-      cartIsOpen={cartIsOpen}
-      cartItems={cartItems}
-      setCartIsOpen={setCartIsOpen}
+        isAdmin={isAdmin} 
+        numeroPedidos={numeroPedidos}
+        cartIsOpen={cartIsOpen}
+        cartItems={cartItems}
+        setCartIsOpen={setCartIsOpen}
       />
-
-    {
-      cartIsOpen && (
-        <Cart 
-          cartIsOpen={cartIsOpen} 
-          onCloseCart={() => setCartIsOpen(false)}
-          cartItems={cartItems}
-          setCartItems={setCartItems} 
-          handleRemoveFromCart={handleRemoveFromCart}
-        />
-      )}
 
       <main>
         <div>
@@ -170,84 +115,75 @@ export function Home() {
         <Content>
           <Section title="Refeições" isAdmin={isAdmin}>
             <div className="swiper-background">
-              {(
-                <Swiper 
-                ref={swipperMeals} 
+              <Swiper 
                 slidesPerView="auto" 
                 spaceBetween={0} 
                 grabCursor={true} 
-                loop={true}
+                loop={dishes.meals.length > 2}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
-              {
-              dishes.meals.map((dish) => (
-                <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
-                  <Food 
-                  isAdmin={isAdmin} 
-                  isCustomer={isCustomer} 
-                  data={dish} 
-                  handleDetails={handleDetails}
-                  handleAddToCart={handleAddToCart}
-                  handleAddToFavorites={handleAddToFavorites}
-                />
-               </SwiperSlide>
-               ))}
-             </Swiper>  
-              )}
+                {dishes.meals.map((dish) => (
+                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                    <Food 
+                      isAdmin={isAdmin} 
+                      isCustomer={isCustomer} 
+                      data={dish} 
+                      handleDetails={handleDetails}
+                      handleAddToCart={handleAddToCart}
+                      handleAddToFavorites={handleAddToFavorites}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>  
             </div>
           </Section>
 
           <Section title="Sobremesas" isAdmin={isAdmin}>
             <div className="swiper-background">
-              {(
-                <Swiper 
-                ref={swipperMainDishes} 
+              <Swiper 
                 slidesPerView="auto" 
                 spaceBetween={0} 
                 grabCursor={true} 
-                loop={true}
+                loop={dishes.meals.length > 2}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
-              {
-              dishes.mainDishes.map((dish) => (
-                <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
-                  <Food 
-                  isAdmin={isAdmin} 
-                  isCustomer={isCustomer} 
-                  data={dish} 
-                  handleDetails={handleDetails}
-                  handleAddToCart={handleAddToCart}
-                  handleAddToFavorites={handleAddToFavorites}
-                  />
-               </SwiperSlide>
-               ))}
-             </Swiper>  
-              )}
+                {dishes.mainDishes.map((dish) => (
+                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                    <Food 
+                      isAdmin={isAdmin} 
+                      isCustomer={isCustomer} 
+                      data={dish} 
+                      handleDetails={handleDetails}
+                      handleAddToCart={handleAddToCart}
+                      handleAddToFavorites={handleAddToFavorites}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>  
             </div>
           </Section>
 
           <Section title="Drinks" isAdmin={isAdmin}>
             <div className="swiper-background">
-              {(
-                <Swiper 
-                ref={swipperDrinks} 
+              <Swiper 
                 slidesPerView="auto" 
                 spaceBetween={0} 
                 grabCursor={true} 
-                loop={true}
+                loop={dishes.meals.length > 2}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
-              {
-              dishes.drinks.map((dish) => (
-                <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
-                  <Food 
-                  isAdmin={isAdmin} 
-                  isCustomer={isCustomer} 
-                  data={dish} 
-                  handleDetails={handleDetails}
-                  handleAddToFavorites={handleAddToFavorites}
-                  />
-               </SwiperSlide>
-               ))}
-             </Swiper>  
-              )}
+                {dishes.drinks.map((dish) => (
+                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                    <Food 
+                      isAdmin={isAdmin} 
+                      isCustomer={isCustomer} 
+                      data={dish} 
+                      handleDetails={handleDetails}
+                      handleAddToFavorites={handleAddToFavorites}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>  
             </div>
           </Section>
         </Content>

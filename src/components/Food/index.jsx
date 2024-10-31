@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { HeartStraight, PencilSimple } from "@phosphor-icons/react";
-
 import { api } from "../../services/api";
-
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Food({isAdmin, isCustomer, data, handleDetails ,handleAddToCart, handleAddToFavorites, ...rest}) {
+export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToCart, handleAddToFavorites, ...rest }) {
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -22,20 +19,36 @@ export function Food({isAdmin, isCustomer, data, handleDetails ,handleAddToCart,
   };
 
   async function handleInclude() {
-    console.log(`Opa adicionou o item ${data.name}`);
-    handleAddToCart(data, quantity);
+    try {
+      // Cria um objeto com as informações do prato e a quantidade
+      const itemToAdd = {
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        image: data.image,
+        quantity: quantity, // Adiciona a quantidade
+      };
+
+      // Adiciona o prato ao carrinho
+      handleAddToCart(itemToAdd); // Supondo que handleAddToCart atualiza o estado do carrinho
+
+      console.log(`Opa adicionou o item ${data.title} ao carrinho com quantidade ${quantity}`);
+    } catch (error) {
+      console.error("Erro ao adicionar item ao carrinho:", error);
+      alert("Houve um erro ao adicionar o item ao carrinho. Tente novamente.");
+    }
   }
 
   function handleEdit() {
-  console.log('Editando prato com ID:', data.id);
-  navigate(`/edit/${data.id}`);
+    console.log('Editando prato com ID:', data.id);
+    navigate(`/edit/${data.id}`);
   }
 
   return (
     <Container {...rest}>
       {isAdmin ? (
-        <PencilSimple onClick={handleEdit}/> 
-         ) : (
+        <PencilSimple onClick={handleEdit} />
+      ) : (
         <HeartStraight onClick={() => handleAddToFavorites(data)} />
       )}
 
