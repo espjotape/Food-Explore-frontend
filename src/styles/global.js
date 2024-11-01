@@ -6,7 +6,10 @@ export default createGlobalStyle`
     margin: 0;
     box-sizing: border-box;
   }
+  :root {
+    font-size: 62.5%;
 
+  }
   body {
     --webkit-font-smothing: antialised;
     background-color: ${({ theme }) => theme.COLORS.DARK_400};
@@ -15,7 +18,7 @@ export default createGlobalStyle`
 
   body, input, button, textarea {
   font-family: "Poppins", sans-serif;
-  font-size: 16px;
+  font-size: 1.6rem;
   outline: none;
   }
   a {
