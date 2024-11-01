@@ -41,13 +41,15 @@ export function Orders({ cartIsOpen }) {
   const calculateTotal = (orders) => {
     const totalValue = orders.reduce((acc, order) => {
       const orderTotal = order.items.reduce((itemAcc, item) => {
-        return itemAcc + (Number(item.quantity) * Number(order.totalPrice));
+        // Utilize item.price se o preço estiver disponível nos dados de item
+        return itemAcc + (Number(item.price) * Number(item.quantity));
       }, 0);
       return acc + orderTotal;
     }, 0);
+  
     setTotal(totalValue);
   };
-
+  
   const handleRemoveOrder = async (orderId) => {
     try {
       await api.delete(`/orders/${orderId}`);
