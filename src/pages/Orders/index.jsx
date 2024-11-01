@@ -1,54 +1,68 @@
 import { Container, CloseButton } from "./styles";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-
 import { CaretLeft } from "@phosphor-icons/react";
-
-import { api } from "../../services/api"; 
-
+import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) { 
+const BASE_URL = 'http://localhost:3333/files/';
+
+export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
   const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
 
   function handleBack() {
-    navigate("/");
+    navigate(-1);
   }
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const response = await api.get("/orders");
+        console.log("Dados pedidos:", response.data);
+        const ordersWithFullUrls = response.data.map((order) => ({
+          ...order,
+          image: `${BASE_URL}${order.image}`,
+        }));
+        setOrders(ordersWithFullUrls);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos:", error);
+      }
+    }
+    fetchOrders();
+  }, []);
+  
 
   return (
     <Container>
       <Header cartIsOpen={cartIsOpen} />
       <section>
-        <CloseButton onClick={handleBack}><CaretLeft size={16} /> Meus Pedidos</CloseButton>
+        <CloseButton onClick={handleBack}>
+          <CaretLeft size={16} />
+          Meus Pedidos
+        </CloseButton>
         <div>
-          {Array.isArray(cartItems) && cartItems.length > 0 ? (
-            cartItems.map((cart, index) => (
-              <section className="cart" key={`${cart.id}-${index}`}>
+          {orders.length > 0 ? (
+            orders.map((order) => (
+              <section className="cart" key={order.id}>
                 <img 
-                  src={cart.image} 
-                  alt={`Imagem: ${cart.title}`} 
-                  style={{ width: '70px', height: '70px' }}
+                  src={order.image} 
+                  alt={order.items.length > 0 ? `Imagem de ${order.items[0].title}` : "Imagem desconhecida"} 
+                  style={{ width: '70px', height: '70px' }} 
                 />
                 <div className="info">
-                  <h3>{cart.title}</h3>
-                  <p>Preço: R$ {cart.price ? Number(cart.price).toFixed(2) : '0.00'}</p>
-                  <button 
-                    type="button"
-                    onClick={() => handleRemoveFromCart(cart.id)} 
-                  >
-                    <p>Remover do Carrinho</p>
+                  <h3>{order.items.length > 0 ? order.items[0].title : "Item desconhecido"}</h3>
+                  <button type="button">
+                    <p>Remover dos Favoritos</p>
                   </button>
                 </div>
               </section>
             ))
           ) : (
-            <p>Seu carrinho está vazio.</p>
+            <p>Nenhum pedido encontrado.</p>
           )}
         </div>
-    
-        <h3>Total do Carrinho: R$ </h3>
-        <button type="button" onClick={() => alert('Finalizando pedido...')}>Finalizar Pedido</button>
       </section>
       <Footer />
     </Container>

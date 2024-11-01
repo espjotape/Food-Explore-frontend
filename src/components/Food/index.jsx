@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { HeartStraight, PencilSimple } from "@phosphor-icons/react";
+
 import { api } from "../../services/api";
+
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToCart, handleAddToFavorites, ...rest }) {
+export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart ,handleAddToFavorites, cartItems, setCartItems , ...rest}) {
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -18,37 +21,56 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToCart
     }
   };
 
-  async function handleInclude() {
+  async function handleAddDishToCart(data, quantity) {
     try {
-      // Cria um objeto com as informações do prato e a quantidade
-      const itemToAdd = {
-        id: data.id,
-        title: data.title,
-        price: data.price,
-        image: data.image,
-        quantity: quantity, // Adiciona a quantidade
-      };
-
-      // Adiciona o prato ao carrinho
-      handleAddToCart(itemToAdd); // Supondo que handleAddToCart atualiza o estado do carrinho
-
-      console.log(`Opa adicionou o item ${data.title} ao carrinho com quantidade ${quantity}`);
+      const { id, title, price, image } = data;
+      const priceFormatted = quantity * Number(price.replace(',', '.'));
+      const order = { id, title, price: priceFormatted, image, quantity };
+  
+      const orderExists = cartItems.some((userOrder) => userOrder.title === order.title);
+      
+      if (orderExists) {
+        return alert("Esse item já está no carrinho");
+      }
+  
+      const token = localStorage.getItem("@foodexplorer:token");
+  
+      // Calcular o totalPrice incluindo o novo item
+      const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) + priceFormatted;
+  
+      const response = await api.post("/orders", {
+        cart: [...cartItems, order], // Se o backend espera um 'items', troque 'cart' por 'items'
+        orderStatus: "em preparo",
+        totalPrice,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      // Atualizar o estado do carrinho apenas após a resposta do backend
+      setCartItems((prevItems) => [...prevItems, order]);
+      alert("Item adicionado ao carrinho");
     } catch (error) {
-      console.error("Erro ao adicionar item ao carrinho:", error);
-      alert("Houve um erro ao adicionar o item ao carrinho. Tente novamente.");
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível adicionar o item ao carrinho");
+      }
     }
   }
+  
 
   function handleEdit() {
-    console.log('Editando prato com ID:', data.id);
-    navigate(`/edit/${data.id}`);
+  console.log('Editando prato com ID:', data.id);
+  navigate(`/edit/${data.id}`);
   }
 
   return (
     <Container {...rest}>
       {isAdmin ? (
-        <PencilSimple onClick={handleEdit} />
-      ) : (
+        <PencilSimple onClick={handleEdit}/> 
+         ) : (
         <HeartStraight onClick={() => handleAddToFavorites(data)} />
       )}
 
@@ -70,7 +92,7 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToCart
             <span>{quantity < 10 ? `0${quantity}` : quantity}</span>
             <button type="button" onClick={increaseQuantity}>+</button>
           </QuantityControl>
-          <OrderButton onClick={handleInclude}>Incluir</OrderButton>
+          <OrderButton onClick={() => handleAddDishToCart(data, quantity)}>Incluir</OrderButton>
         </OrderSection>
       )}
     </Container>

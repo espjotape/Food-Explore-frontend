@@ -1,4 +1,4 @@
-import styled  from "styled-components"
+import styled from "styled-components";
 
 export const Container = styled.div`
  position: fixed;
@@ -21,7 +21,8 @@ export const Container = styled.div`
  section {
   grid-area: content;
   margin: 36px 0px 0 20px;
-
+  overflow: auto;
+  
   .cart {
     display: flex;
     width: 100%;
@@ -29,7 +30,7 @@ export const Container = styled.div`
     align-items: center;
 
     h3{
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 500;
     }
     p {
@@ -49,15 +50,16 @@ export const Container = styled.div`
     
   }
  }
-
 `
-
 
 export const CloseButton = styled.button`
   background: none;
   border: none;
   color: white;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
   
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;

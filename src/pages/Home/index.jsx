@@ -33,16 +33,6 @@ export function Home() {
     navigate(`/details/${id}`);
   }
 
-  function handleAddToCart(item) {
-    const newCartItems = [...cartItems, { ...item, quantity: 1 }]; // Por exemplo, adicionar um de cada vez
-    setCartItems(newCartItems);
-}
-
-  function handleRemoveFromCart(id) {
-    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id);
-    setCartItems(updatedCartItems);
-  }
-
   async function handleAddToFavorites(dish) {
     try {
       const token = localStorage.getItem("@foodexplorer:token"); 
@@ -63,6 +53,18 @@ export function Home() {
         console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
       }
     }
+  }
+
+  const handleAddToCart = (dish) => {
+    const itemIndex = cartItems.findIndex(item => item.id === dish.id)
+    if (itemIndex >= 0) {
+      const updatedItems = [...cartItems];
+      updatedItems[itemIndex].quantity += dish.quantity;
+      setCartItems(updatedItems);
+    } else {
+      setCartItems(prevItems => [...prevItems, { ...dish, quantity: dish.quantity}]);
+    }
+    
   }
   
   useEffect(() => {
@@ -129,8 +131,10 @@ export function Home() {
                       isCustomer={isCustomer} 
                       data={dish} 
                       handleDetails={handleDetails}
-                      handleAddToCart={handleAddToCart}
                       handleAddToFavorites={handleAddToFavorites}
+                      handleAddToCart={(dish) => handleAddToCart(dish)} 
+                      cartItems={cartItems} 
+                      setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
@@ -150,12 +154,14 @@ export function Home() {
                 {dishes.mainDishes.map((dish) => (
                   <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
                     <Food 
-                      isAdmin={isAdmin} 
-                      isCustomer={isCustomer} 
-                      data={dish} 
-                      handleDetails={handleDetails}
-                      handleAddToCart={handleAddToCart}
-                      handleAddToFavorites={handleAddToFavorites}
+                       isAdmin={isAdmin} 
+                       isCustomer={isCustomer} 
+                       data={dish} 
+                       handleDetails={handleDetails}
+                       handleAddToFavorites={handleAddToFavorites}
+                       handleAddToCart={(dish) => handleAddToCart(dish)} 
+                       cartItems={cartItems} 
+                       setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
@@ -175,11 +181,14 @@ export function Home() {
                 {dishes.drinks.map((dish) => (
                   <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
                     <Food 
-                      isAdmin={isAdmin} 
-                      isCustomer={isCustomer} 
-                      data={dish} 
-                      handleDetails={handleDetails}
-                      handleAddToFavorites={handleAddToFavorites}
+                       isAdmin={isAdmin} 
+                       isCustomer={isCustomer} 
+                       data={dish} 
+                       handleDetails={handleDetails}
+                       handleAddToFavorites={handleAddToFavorites}
+                       handleAddToCart={(dish) => handleAddToCart(dish)} 
+                       cartItems={cartItems} 
+                       setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
