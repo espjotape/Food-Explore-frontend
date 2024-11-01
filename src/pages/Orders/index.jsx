@@ -12,10 +12,10 @@ import { api } from "../../services/api";
 
 const BASE_URL = 'http://localhost:3333/files/';
 
-export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
+export function Orders({ cartIsOpen }) {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-  const [total, setTotal] = useState(0); // Adiciona um estado para o total
+  const [total, setTotal] = useState(0);
 
   function handleBack() {
     navigate(-1);
@@ -25,14 +25,12 @@ export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
     async function fetchOrders() {
       try {
         const response = await api.get("/orders");
-       
         const ordersWithFullUrls = response.data.map((order) => ({
           ...order,
           image: `${BASE_URL}${order.image}`,
         }));
-
         setOrders(ordersWithFullUrls);
-        calculateTotal(ordersWithFullUrls); // Chama a função para calcular o total
+        calculateTotal(ordersWithFullUrls);
       } catch (error) {
         console.error("Erro ao buscar pedidos:", error);
       }
@@ -40,7 +38,6 @@ export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
     fetchOrders();
   }, []);
 
-  // Função para calcular o total
   const calculateTotal = (orders) => {
     const totalValue = orders.reduce((acc, order) => {
       const orderTotal = order.items.reduce((itemAcc, item) => {
@@ -48,8 +45,18 @@ export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
       }, 0);
       return acc + orderTotal;
     }, 0);
-    
-    setTotal(totalValue); // Atualiza o estado com o total calculado
+    setTotal(totalValue);
+  };
+
+  const handleRemoveOrder = async (orderId) => {
+    try {
+      await api.delete(`/orders/${orderId}`);
+      const updatedOrders = orders.filter((order) => order.id !== orderId);
+      setOrders(updatedOrders);
+      calculateTotal(updatedOrders);
+    } catch (error) {
+      console.error("Erro ao remover pedido:", error);
+    }
   };
 
   return (
@@ -71,8 +78,8 @@ export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
                 />
                 <div className="info">
                   <h3>{order.items.length > 0 ? order.items[0].title : "Item desconhecido"}</h3>
-                  <button type="button">
-                    <p>Remover dos Favoritos</p>
+                  <button type="button" onClick={() => handleRemoveOrder(order.id)}>
+                    <p>Remover do Pedido</p>
                   </button>
                 </div>
               </section>
@@ -81,7 +88,7 @@ export function Orders({ cartIsOpen, cartItems = [], handleRemoveFromCart }) {
             <p>Nenhum pedido encontrado.</p>
           )}
         </div>
-        <p className="total">Total: R$<span>{total.toFixed(2)}</span></p> {/* Exibe o total */}
+        <p className="total">Total: R$<span>{total.toFixed(2)}</span></p>
       </section>
       <Footer />
     </Container>
