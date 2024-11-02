@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
 
 export const Container = styled.div`
  width: 100%;
@@ -9,6 +10,68 @@ export const Container = styled.div`
  "header"
  "content"
  "footer";
+ 
+ > .button {
+  grid-area: content;
+  position: absolute;
+  top: 13.0rem;
+  left: 3.9rem;
+  z-index: 1;
+
+  >button {
+   border: none;   
+   background: transparent;
+   gap: 1px;
+   font-size: 1.8rem; 
+   display: flex;
+   align-items: center;
+   
+  p {
+    color: ${({ theme }) => theme.COLORS.WHITE_100}
+  }
+  }
+}
+
+.btnEdit {
+  width: 100%;
+  margin-top: 40px;
+  padding: 10px 20px;
+
+  background-color: ${({theme}) => theme.COLORS.TOMATO_100};
+  color: ${({theme}) => theme.COLORS.WHITE_100};
+  border-radius: 5px;
+
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  .btnEdit {
+  width: 13.1rem;
+  font-size: 24px;
+  }
+
+  > .button {
+  grid-area: content;
+  position: absolute;
+  top: 14.0rem;
+  left: 14rem;
+
+  >button {
+   border: none;   
+   background: transparent;
+   gap: 1px;
+   font-size: 3rem; 
+   display: flex;
+   align-items: center;
+   
+  p {
+    color: ${({ theme }) => theme.COLORS.WHITE_100}
+  }
+  }
+ }
+}
 `
 
 export const Content = styled.div`
@@ -17,23 +80,11 @@ export const Content = styled.div`
  flex-direction: column;
  grid-area: content;
  padding: 15px 36px 30px;
+ position: relative;
 
- > button {
-   border: none;
-   background: none;
-   gap: 1px;
-   font-size: 16px; 
-   display: flex;
-   align-items: center;
-   
-  p {
-    color: ${({ theme }) => theme.COLORS.WHITE_100}
-  }
- }
-  
-
- > h1 {
-  font-size: 20px;
+ .info {
+  > h1 {
+  font-size: 2.0rem;
   font-weight: 500;
   margin-bottom: 8px; 
   margin-top: 8px;
@@ -46,12 +97,45 @@ export const Content = styled.div`
   font-weight:300;
   margin-bottom: 10px;
  }
+ }
+ 
+
+ @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  display: flex;
+  flex-direction: row;
+  padding: 55px 80px 0px;
+  align-items: center;
+  gap: 7.0rem;
+  
+  .info {
+    margin-top: -50px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      font-size: 4.6rem
+    }
+
+    p {
+      font-size: 2rem;
+      text-align: left
+
+    }
+  }
+ }
 `
 
 export const SaladImage = styled.img`
-  max-width: 180px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 26.4rem;
+  margin: 3.0rem auto 0;
   border-radius: 10px;
+ 
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    max-width: 39rem;
+    margin: 0 0 0 6rem;
+ }
 `;
 
 export const Ingredients = styled.div`
@@ -78,6 +162,10 @@ export const OrderSection = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 20px;
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    width: 25rem;
+  }
 `;
 
 export const QuantityControl = styled.div`

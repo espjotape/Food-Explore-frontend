@@ -10,7 +10,7 @@ import { CaretLeft } from "@phosphor-icons/react";
 
 import { Container, Content, Ingredients, IngredientButton, SaladImage, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Details() {
+export function Details({ isAdmin }) {
   const [data, setData] = useState(null); 
   const [quantity, setQuantity] = useState(1);
   const pricePerItem = 25.0;
@@ -51,32 +51,37 @@ export function Details() {
   return (
     <Container>
       <Header />
-      <Content>
+      <div className="button">
         <button type="button" onClick={handleBack}>
           <CaretLeft color="#FFF" />
           <p>voltar</p>
         </button>
+      </div>
+      <Content>
+        <SaladImage src={`${api.defaults.baseURL}/files/${data.image}`} alt={data.title} />
+        <div className="info">
+          <h1>{data.title}</h1>
+          <p>{data.description}</p>
 
-        <SaladImage src={`${api.defaults.baseURL}/files/${data.image}`} alt={data.title} /> {/* Aqui usamos data.image */}
+          <Ingredients>
+            {data.ingredients.map((ingredient) => (
+              <IngredientButton key={ingredient.id}>{ingredient.name}</IngredientButton>
+            ))}
+          </Ingredients>
 
-        <h1>{data.title}</h1>
-        <p>{data.description}</p>
-
-        <Ingredients>
-          {data.ingredients.map((ingredient) => (
-            <IngredientButton key={ingredient.id}>{ingredient.name}</IngredientButton>
-          ))}
-        </Ingredients>
-
-        <OrderSection>
-          <QuantityControl>
-            <button type="button" onClick={decreaseQuantity}>-</button>
-            <span>{quantity < 10 ? `0${quantity}` : quantity}</span> 
-            <button type="button" onClick={increaseQuantity}>+</button>
-          </QuantityControl>
-          <OrderButton>pedir · R$ {(pricePerItem * quantity).toFixed(2)}</OrderButton>
-        </OrderSection>
-
+          {!isAdmin ? (
+            <button className="btnEdit" type="button" onClick={() => navigate(`/edit/${id}`)}>Editar</button>
+          ) : (
+            <OrderSection>
+              <QuantityControl>
+                <button type="button" onClick={decreaseQuantity}>-</button>
+                <span>{quantity < 10 ? `0${quantity}` : quantity}</span> 
+                <button type="button" onClick={increaseQuantity}>+</button>
+              </QuantityControl>
+              <OrderButton>pedir · R$ {(pricePerItem * quantity).toFixed(2)}</OrderButton>
+            </OrderSection>
+          )}
+        </div>
       </Content>
       <Footer />
     </Container>
