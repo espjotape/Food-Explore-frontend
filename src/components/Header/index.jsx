@@ -19,7 +19,7 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
   const { signOut, user } = useAuth()
 
   const handleCartClick = () => {
-    navigate("/Cart"); 
+    navigate("/cart"); 
   };
 
   const handleGoToNewDish = () => {
