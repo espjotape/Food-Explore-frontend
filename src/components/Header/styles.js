@@ -75,7 +75,7 @@ export const ButtonsDesktop = styled.div`
     width: 100%;
     gap: 20px;
    
-    p {
+    #btn-fav {
       border: none;
       background-color: transparent;
       color: ${({theme}) => theme.COLORS.WHITE_100};

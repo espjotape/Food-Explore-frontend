@@ -22,6 +22,10 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
     navigate("/cart"); 
   };
 
+  const handleGoToFavorites = () => {
+    navigate('/favorites');
+  };
+
   const handleGoToNewDish = () => {
     navigate('/new');
   };
@@ -64,7 +68,12 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
 
        <ButtonsDesktop>
         <Search className="desktop"/>
-        {!isAdmin && <p>Meus Favoritos</p>}
+        {!isAdmin && (
+          <button id="btn-fav" type="button" onClick={handleGoToFavorites}>
+          Meus Favoritos
+        </button>
+        )}
+
         {isAdmin ? (
             <OrdersButton onClick={handleGoToNewDish}>
               Novo prato
