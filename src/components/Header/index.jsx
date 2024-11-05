@@ -18,8 +18,8 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
   const navigate = useNavigate();
   const { signOut, user } = useAuth()
 
-  const handleOrdersClick = () => {
-    navigate("/orders"); 
+  const handleCartClick = () => {
+    navigate("/Cart"); 
   };
 
   const handleGoToNewDish = () => {
@@ -70,7 +70,7 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
               Novo prato
             </OrdersButton>
           ) : (
-            <OrdersButton onClick={handleOrdersClick}>
+            <OrdersButton onClick={handleCartClick}>
               Meu pedido ({cartItems.length || 0})
             </OrdersButton>
           )
@@ -82,7 +82,7 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
        </ButtonsDesktop>
 
        {!isAdmin && (
-        <Orders className="mobile-icon" onClick={handleOrdersClick}>
+        <Orders className="mobile-icon" onClick={handleCartClick}>
           <Receipt color="#fff" size={24} />
           {numeroPedidos > 0 && <Notification>{numeroPedidos}</Notification>}
         </Orders>
