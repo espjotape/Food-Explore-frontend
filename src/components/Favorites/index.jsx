@@ -53,7 +53,8 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
       <Header />
       <section>
         <CloseButton onClick={handleGoHome}>
-          <CaretLeft size={16} /> Meus Pratos Favoritos
+          <CaretLeft className="icon"/>
+           Meus Pratos Favoritos
         </CloseButton>
         <div>
           {favoriteDishes && favoriteDishes.length > 0 ? (
@@ -76,7 +77,7 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
               </section>
             ))
           ) : (
-            <p>Nenhum prato nos favoritos.</p>
+            <p className="nothing">Nenhum prato nos favoritos.</p>
           )}
         </div>
       </section>

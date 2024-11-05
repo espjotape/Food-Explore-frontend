@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
 
 export const Container = styled.div`
  position: fixed;
@@ -50,6 +51,19 @@ export const Container = styled.div`
     
   }
  }
+
+ @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  section {
+    margin: 3.0rem 0 0 10rem;
+    overflow: hidden;
+  
+    .nothing{
+      margin-top: 1.0rem;
+      font-size: 1.8rem;
+      font-weight: 300;
+    }
+  }
+ }
 `
 
 export const CloseButton = styled.button`
@@ -62,4 +76,24 @@ export const CloseButton = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
+
+  .icon {
+    width: 1.6rem; 
+    height: 1.6rem;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Ajustado para suavizar a transição */
+  
+    &:hover {
+    transform: translateX(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    }
+  }
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  font-size: clamp(10px, 2rem, 4rem);
+
+    .icon {
+    width: 3rem; 
+    height: 3rem;
+    }
+  }
 `;
