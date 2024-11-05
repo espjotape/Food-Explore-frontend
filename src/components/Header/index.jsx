@@ -13,7 +13,7 @@ import { Search } from "../Search";
 import { SideMenu } from "../SideMenu"; 
 import { Container, Box, Identidade, Notification, Orders ,ButtonsDesktop ,OrdersButton   } from "./styles";
 
-export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cartItems = [] }) {
+export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartItems ,setCartIsOpen, cartItems = [] }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
   const navigate = useNavigate();
   const { signOut, user } = useAuth()
@@ -80,7 +80,7 @@ export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartIsOpen, cart
             </OrdersButton>
           ) : (
             <OrdersButton onClick={handleCartClick}>
-              Meu pedido ({cartItems.length || 0})
+             Meu pedido ({numeroPedidos})
             </OrdersButton>
           )
         }

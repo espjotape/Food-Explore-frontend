@@ -1,13 +1,14 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
 
 export const Container = styled.header`
   background-color: ${({ theme }) => theme.COLORS.DARK_700};
-  height: 114px;
+  height: 10.4rem;
   width: 100%;
   display: flex;
-  padding: 0 30px 0 30px;
+  padding: 0 3.0rem 0 3.0rem;
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
     padding: 0 85px 0 85px;
   }
 `;
@@ -23,7 +24,7 @@ export const Box = styled.div`
     background: transparent;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -37,28 +38,28 @@ export const Identidade = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: .4rem;
   width: 100%;
 
   .logo-mobile {
-    display: flex; /* Sempre exibe logo mobile */
-    margin: 0 auto; /* Centraliza a imagem */
+    display: flex; 
+    margin: 0 auto; 
   }
 
   .logo-desktop {
-    display: none; /* Oculta logo desktop por padrão */
+    display: none; 
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
     display: flex;
-    justify-content: center; /* Centraliza também na versão desktop */
+    justify-content: center;
     width: 20%;
     .logo-mobile {
-      display: none; /* Oculta logo mobile em telas grandes */
+      display: none; 
     }
 
     .logo-desktop {
-      display: flex; /* Exibe logo desktop em telas grandes */
+      display: flex; 
       
     }
   }
@@ -69,19 +70,19 @@ export const Identidade = styled.div`
 export const ButtonsDesktop = styled.div`
   display:none;
     
-  @media (min-width: 1024px) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 20px;
+    gap: 2.0rem;
    
     #btn-fav {
       border: none;
       background-color: transparent;
       color: ${({theme}) => theme.COLORS.WHITE_100};
 
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: .8rem 1.6rem;
+      border-radius: .8rem;
 
       cursor: pointer;
       white-space: nowrap;
@@ -91,7 +92,7 @@ export const ButtonsDesktop = styled.div`
       display: flex;
       align-items: center;
      
-      font-size: 30px;
+      font-size: 3.0rem;
       border: none;
       background: transparent;
       color: ${({theme}) => theme.COLORS.WHITE_100}
@@ -112,8 +113,8 @@ export const Notification = styled.span`
   background: red;
   color: white;
   border-radius: 50%;
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: .4rem .8rem;
+  font-size: 1.2rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -123,16 +124,16 @@ export const Notification = styled.span`
 export const OrdersButton = styled.button`
   display: none;
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
     display: inline-block;
     background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
     color: ${({ theme }) => theme.COLORS.WHITE_100};
-    padding: 12px 52px;
+    padding: 1.2rem 5.2rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Ajustado para suavizar a transição */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 
     &:hover {
       background-color: ${({ theme }) => theme.COLORS.TOMATO_200};
