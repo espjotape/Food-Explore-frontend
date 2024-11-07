@@ -1,14 +1,36 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
 
 export const Container = styled.div`
  width: 100%;
  height: 100vh;
+
  display: grid;
- grid-template-rows: 114px auto 47px;
+ grid-template-rows: 10.4rem auto 66px;
  grid-template-areas:
  "header"
  "content"
  "footer";
+
+ @media (min-width: 1024px) {
+  overflow-y: hidden;
+  width: 100%;
+ }
+
+ ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.COLORS.DARK_400};
+    margin: 10px 0; 
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.COLORS.CYAN};
+    border-radius: 5px;
+    border: 2px solid ${({ theme }) => theme.COLORS.DARK_400};
+  }
 `
 
 export const Content = styled.div`
@@ -16,7 +38,7 @@ export const Content = styled.div`
  flex-direction: column;
  grid-area: content;
  padding: 15px 23px 30px;
-
+ 
   h1 {
   margin-top: 16px;
   font-weight: 500;
@@ -37,14 +59,25 @@ export const Content = styled.div`
     color: ${({ theme }) => theme.COLORS.WHITE_100}
   }
  }
+
+ @media(min-width:${DEVICE_BREAKPOINTS.LG}) {
+  padding: 20px 90px 0px;
+  overflow-y: scroll;
+
+  
+ }
 `
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 12px;
-
   margin: 20px 0 53px;
+
+  .firstLine, .secondLine {
+    display: flex;
+    flex-direction: column;
+  }
 
   .name {
     width: 100%;
@@ -67,23 +100,20 @@ export const Form = styled.form`
     color: ${({theme}) => theme.COLORS.WHITE_500};
   }
 
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
+  > .firstLine {
     section {
       width: 100%;
     }
+  }
 
-    section input {
-      background-color: ${({ theme }) => theme.COLORS.DARK_600};
-      border-radius: 8px;
+  > .secondLine {
+    section:first-of-type {
+      width: 100%;
     }
   }
 
   .category {
+    
     > label {
       position: relative;
     }
@@ -109,7 +139,7 @@ export const Form = styled.form`
 
 
       border-radius: 8px;
-      background-color: ${({theme}) => theme.COLORS.DARK_900};
+      background-color: ${({theme}) => theme.COLORS.DARK_800};
       color: ${({theme}) => theme.COLORS.WHITE_100};
 
       font-weight: 400;
@@ -118,13 +148,13 @@ export const Form = styled.form`
   }
 
   .tags {
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 500rem;
     background-color: ${({theme}) => theme.COLORS.DARK_800};
     border-radius: 6px;
     padding: 8px ;
 
-    display: flex;
-    flex-wrap: wrap;
     gap: 16px;
     
     input { 
@@ -133,11 +163,81 @@ export const Form = styled.form`
 
   }
 
-  .inputTag {
+  .price {
+    padding: 12px 22px;
+
+    color: ${({theme}) => theme.COLORS.WHITE_100};
+    background-color: ${({theme}) => theme.COLORS.DARK_800};
+    border-radius: 8px;
+  }
+  
+  .inputPrice {
+    display: flex;
+    width: 100%;
     border: none;
     background-color: transparent;
     color: ${({theme}) => theme.COLORS.WHITE_100}
   }
+ 
+ .buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 13px;
+  align-items: center;
+
+  > button {
+    font-size: 11px;
+    padding: 1px 14px;
+  }
+
+  .del {
+   background-color: ${({theme}) => theme.COLORS.DARK_800}
+  }
+  .save {
+    &:disabled {
+      opacity: 1;
+      background-color: ${({ theme }) => theme.COLORS.LIGHT_RED};
+    }
+  }
+ }
+
+ @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  width: calc(100% - 1.4rem);
+  .firstLine, .secondLine {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+  }
+  .firstLine {
+    section:nth-child(1){
+      max-width: 25rem;
+    }
+    section:nth-child(3){
+      max-width: 30rem;
+    }
+  }
+
+  .price {
+    max-width: 30rem;
+    padding: 12px 22px;
+  }
+
+  .button {
+    display: flex;
+    width: 35%;
+    flex-direction: row;
+    gap: 13px;
+    margin-left: auto;
+
+    > .save {
+      font-size: 1.6rem;
+      &:disabled {
+        opacity: 1;
+        background-color: ${({ theme }) => theme.COLORS.TOMATO_400};
+      }
+    }
+  }
+}
 `
 
 export const Img = styled.div`
@@ -159,6 +259,9 @@ export const Img = styled.div`
     cursor: pointer;
 
     span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-size: 14px;
       line-height: 24px;
       max-width: calc(100vw - 16px);
@@ -169,6 +272,18 @@ export const Img = styled.div`
       position: absolute;
       right: 0;
       z-index: -1;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    > label {
+      span {
+        max-width: 19.3rem;
+      }
+      
+      input {
+        max-width: 22.9rem;
+      }
     }
   }
   `

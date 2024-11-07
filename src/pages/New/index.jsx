@@ -22,6 +22,7 @@ const { user } = useAuth()
  const isCustomer = user?.role === 'customer';
 
  const navigate = useNavigate()
+ 
 
  const [title, setTitle] = useState("");
  const [tags, setTags] = useState([]);
@@ -32,6 +33,12 @@ const { user } = useAuth()
  const [loading, setLoading] = useState(false)
  const [category, setCategory] = useState("");
  const [description, setDescription] = useState("");
+
+ const isDisabled = !image || !title || !price || tags.length === 0 || !category || !description;
+
+ function handleBack(){
+  navigate(-1)
+ }
 
  function handleAddTag() {
   setTags((prevState) => [...prevState, newTag]);
@@ -52,111 +59,95 @@ function handleImageChange(event) {
   }
 }
 
+
+function validator() {
+  if (isDisabled) {
+    alert("Por favor, preencha todos os campos obrigatórios.")
+    return false
+  }validator
+  return true
+}
+
 async function handleSubmit() {
-  // Validação dos campos
-  if (!title) {
-    alert("Por favor, digite o nome do prato.");
-    return
-  }
-  if (!image) {
-    alert("Por favor, selecione uma imagem.");
-    return;
-  }
-  if (!fileName) {
-    alert("Por favor, adicione um nome para o prato.");
-    return;
-  }
-  if (tags.length === 0) {
-    alert("Por favor, adicione pelo menos um ingrediente.");
-    return;
-  }
-  if (!price) {
-    alert("Por favor, insira um preço.");
-    return;
-  }
-  if (!category) {
-    alert("Por favor, selecione uma categoria.");
-    return;
-  }
-  if (!description) {
-    alert("Por favor, insira uma descrição.");
-    return;
-  }
-  
-  // Lógica para enviar os dados para a API
-  const formData = new FormData();
-  formData.append("title", title);
-  formData.append("image", image);
-  formData.append("ingredients", JSON.stringify(tags));
-  formData.append("price", price);
-  formData.append("category", category);
-  formData.append("description", description);
-  
-  setLoading(true)
-  try {
-    await api.post("/dishes", formData);
-    alert("Prato cadastrado com sucesso!");
-    navigate(-1);
-  } catch (error) {
-    if (error.response) {
-      alert(error.response.data.message);
-    } else {
-      alert("Não foi possível cadastrar o prato.");
+  const passedValidation = validator();
+
+  if(passedValidation){
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("image", image);
+    formData.append("ingredients", JSON.stringify(tags));
+    formData.append("price", price);
+    formData.append("category", category);
+    formData.append("description", description);
+    
+    setLoading(true)
+    try {
+      await api.post("/dishes", formData);
+      alert("Prato cadastrado com sucesso!");
+      navigate(-1);
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível cadastrar o prato.");
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
   }
 }
 
-
-
- return(
+return(
   <Container>
     <Header isAdmin={isAdmin} />
     <Content>
-     <button type="button">
+     <button type="button" onClick={handleBack}>
       <CaretLeft color="#FFF" />
       <p>voltar</p>
      </button>
-     <h1>Novo prato</h1>
-
+     <h1>Adicionar prato</h1>
+  
      <Form>
-      <Section title="Imagem do prato">
-       <Img>
-        <label htmlFor="img">
-         <UploadSimple size="24px"/>
-         <span>{ fileName|| "Selecione uma imagem"}</span>
+      <div className="firstLine">
+        <Section title="Imagem do prato">
+        <Img>
+          <label htmlFor="img">
+          <UploadSimple size="24px"/>
+          <span>{ fileName|| "Selecione uma imagem"}</span>
 
-         <input id="img" type="file" onChange={handleImageChange}/>
-        </label>
-       </Img>
-      </Section>
+          <input id="img" type="file" onChange={handleImageChange}/>
+          </label>
+        </Img>
+        </Section>
+        
 
-      <Section title="Nome">
-        <input 
-        className="name"
-        placeholder="Ex: Salada Ceasar"
-        type="text" 
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        />
-      </Section>
+        <Section title="Nome">
+          <input 
+          className="name"
+          placeholder="Ex: Salada Ceasar"
+          type="text" 
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          />
+        </Section>
 
-      <Section title="Categoria">
-        <div className="category">
-          <label htmlFor="category">
-            <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)}>
-              <option value="">Selecionar</option>
-              <option value="meal">Refeição</option>
-              <option value="mainDishes">Sobremesa</option>
-              <option value="drinks">Bebida</option>
-          </select>
+        <Section title="Categoria">
+          <div className="category">
+            <label htmlFor="category">
+              <select name="category" id="category" value={category || ""} onChange={e => setCategory(e.target.value)}>
+                <option value="">Selecionar</option>
+                <option value="meal">Refeição</option>
+                <option value="mainDishes">Sobremesa</option>
+                <option value="drinks">Bebida</option>
+            </select>
 
-          <CaretDown size="24px"/>
-        </label>
-        </div>
-      </Section>
+            <CaretDown size="24px"/>
+          </label>
+          </div>
+        </Section>
+      </div>
 
+      <div className="secondLine">
       <Section title="Ingredientes">
         <div className="tags">
         {
@@ -178,8 +169,8 @@ async function handleSubmit() {
       </Section>
 
       <Section title="Preço">
-        <div className="name">
-          <input className="inputTag"
+        <div className="price">
+          <input className="inputPrice"
           placeholder="R$ 00,00"
           type="number" 
           value={price}
@@ -187,19 +178,24 @@ async function handleSubmit() {
           />
         </div>
       </Section>
-
+      </div>
+     
       <Section title="Descrição">
         <Textarea 
           placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
+          value={description} 
           onChange={(e) => setDescription(e.target.value)}
         />
       </Section>
 
-      <Button
-        title="Salvar alterações"
-        onClick={handleSubmit}
-        loading={loading}
-        />
+      <div className="button">
+         <Button
+           className="save"
+           title="Salvar alterações"
+           onClick={handleSubmit}
+           disabled={isDisabled}
+           />
+      </div>
      </Form>
     </Content>
     <Footer />
