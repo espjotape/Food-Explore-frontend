@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints"
 
 export const Container = styled.footer`
   grid-area: footer;
@@ -6,35 +7,39 @@ export const Container = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: .8rem;
 
-  height: 77px;
+  height: 7.7rem;
   width: 100%;
-  padding: 10px 17px;
+  padding: 2.7rem 2.6rem;
 
   background-color: ${({ theme }) => theme.COLORS.DARK_600};
+  
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    padding: 2.3rem 12.2rem;  
+
+  }
 `;
 
 export const Brand = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
 
-  > h2 {
-   color: ${({theme}) => theme.COLORS.WHITE_700};
-   font-size: 13px;
+  > img {
+    width: 10.2rem;
   }
 
-  .logo {
-    filter: grayscale(100%);
-    width: 12px;
-    height: 12px;
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    > img {
+      width: 18.6rem;
+    }
   }
-  .logo:hover {
-  filter: none;
-}
 `;
 
 export const Royalties = styled.div`
-font-size: 10px;
+  font-size: .8rem;
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    font-size: 1.4rem;
+  }
 `;
