@@ -8,7 +8,7 @@ export const Container = styled.div`
     $isnew ? "transparent" : theme.COLORS.WHITE_600};
   outline: ${({ theme, $isnew }) =>
     $isnew ? `1px dashed ${theme.COLORS.WHITE_600}` : "none"};
-  
+
   border-radius: 4px;
   padding-right: 16px;
   
@@ -36,6 +36,13 @@ export const Container = styled.div`
 
     &::placeholder {
       color: ${({ theme }) => theme.COLORS.WHITE_600};
+    }
+  }
+  
+
+  @media (min-width: 1024px) {
+    input {
+      width: 120px;
     }
   }
 `;
