@@ -14,11 +14,9 @@ export function SignIn(){
  const [ password, setPassword ] = useState("")
 
  const { signIn } = useAuth()
- const navigate = useNavigate()
  
- function handleSignIn(){
-   signIn({ email, password})
-   //navigate("/home")
+ async function handleSignIn(){
+   await signIn({ email, password})
  }
 
  return(
@@ -43,7 +41,7 @@ export function SignIn(){
      />
     </Section>
 
-    <button type="submit" onClick={handleSignIn}>Entrar</button>
+    <button type="button" onClick={handleSignIn}>Entrar</button>
     
     <Link to="/register">
      Criar Conta
