@@ -124,44 +124,48 @@ async function handleDelete() {
       <p>voltar</p>
      </button>
      <h1>Editar prato</h1>
-
+  
      <Form>
-      <Section title="Imagem do prato">
-       <Img>
-        <label htmlFor="img">
-         <UploadSimple size="24px"/>
-         <span>{ fileName|| "Selecione uma imagem"}</span>
+      <div className="firstLine">
+        <Section title="Imagem do prato">
+        <Img>
+          <label htmlFor="img">
+          <UploadSimple size="24px"/>
+          <span>{ fileName|| "Selecione uma imagem"}</span>
 
-         <input id="img" type="file" onChange={handleImageChange}/>
-        </label>
-       </Img>
-      </Section>
+          <input id="img" type="file" onChange={handleImageChange}/>
+          </label>
+        </Img>
+        </Section>
+        
 
-      <Section title="Nome">
-        <input 
-        className="name"
-        placeholder="Ex: Salada Ceasar"
-        type="text" 
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        />
-      </Section>
+        <Section title="Nome">
+          <input 
+          className="name"
+          placeholder="Ex: Salada Ceasar"
+          type="text" 
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          />
+        </Section>
 
-      <Section title="Categoria">
-        <div className="category">
-          <label htmlFor="category">
-            <select name="category" id="category" value={category || ""} onChange={e => setCategory(e.target.value)}>
-              <option value="">Selecionar</option>
-              <option value="meal">Refeição</option>
-              <option value="mainDishes">Sobremesa</option>
-              <option value="drinks">Bebida</option>
-          </select>
+        <Section title="Categoria">
+          <div className="category">
+            <label htmlFor="category">
+              <select name="category" id="category" value={category || ""} onChange={e => setCategory(e.target.value)}>
+                <option value="">Selecionar</option>
+                <option value="meal">Refeição</option>
+                <option value="mainDishes">Sobremesa</option>
+                <option value="drinks">Bebida</option>
+            </select>
 
-          <CaretDown size="24px"/>
-        </label>
-        </div>
-      </Section>
+            <CaretDown size="24px"/>
+          </label>
+          </div>
+        </Section>
+      </div>
 
+      <div className="secondLine">
       <Section title="Ingredientes">
         <div className="tags">
         {
@@ -183,8 +187,8 @@ async function handleDelete() {
       </Section>
 
       <Section title="Preço">
-        <div className="name">
-          <input className="inputTag"
+        <div className="price">
+          <input className="inputPrice"
           placeholder="R$ 00,00"
           type="number" 
           value={price}
@@ -192,7 +196,8 @@ async function handleDelete() {
           />
         </div>
       </Section>
-
+      </div>
+     
       <Section title="Descrição">
         <Textarea 
           placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
@@ -201,7 +206,7 @@ async function handleDelete() {
         />
       </Section>
 
-        <div className="btn">
+      <div className="buttons">
         <Button
            className="del"
            title="Excluir prato"
@@ -214,8 +219,9 @@ async function handleDelete() {
            onClick={handleSubmit}
            loading={loading}
            />
-        </div>
+      </div>
      </Form>
+
     </Content>
     <Footer />
   </Container>
