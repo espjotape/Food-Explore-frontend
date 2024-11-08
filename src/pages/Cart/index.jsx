@@ -40,6 +40,7 @@ export function Cart({ cartIsOpen }) {
   }, []);
   
   const calculateTotal = (orders) => {
+
     const totalValue = orders.reduce((acc, order) => {
       const orderTotal = order.items.reduce((itemAcc, item) => {
         return itemAcc + (Number(item.price) * Number(item.quantity));
@@ -95,8 +96,11 @@ export function Cart({ cartIsOpen }) {
                   style={{ width: '70px', height: '70px' }} 
                 />
                 <div className="info">
-                  <h3>{order.quantity}x {order.title}</h3>
-                  <p className="price">R$ {Number(order.price).toFixed(2)}</p>
+                  <div className="firstLine">
+                    <h3>{order.quantity}x {order.title}</h3>
+                    <p className="price">R$ {Number(order.price).toFixed(2)}</p>
+                  </div>
+                 
                   <button type="button" onClick={() => handleRemoveOrder(order.id)}>
                     <p>Excluir</p>
                   </button>

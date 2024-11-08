@@ -4,7 +4,7 @@ import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
 export const Container = styled.div`
  display: grid;
 
- grid-template-rows: 114px  1fr 77px;
+ grid-template-rows: 10.4rem auto 7.7rem;
  grid-template-areas: 
    "header"
    "content"
@@ -22,6 +22,7 @@ export const Container = styled.div`
   grid-area: content;
   margin: 3.0rem 0 0 2.0rem;
   overflow: auto;
+  justify-content: space-between;
 
   .cart {
     display: flex;
@@ -47,7 +48,7 @@ export const Container = styled.div`
     .info {
       margin-left: 1.0rem;
       align-items: flex-start;
-
+      width: 100%;
       button {
         border: none;
         background: transparent;
@@ -56,7 +57,7 @@ export const Container = styled.div`
       .price {
       color: ${({theme}) => theme.COLORS.WHITE_500};
       font-size: 1.2rem;
-      margin-left: 1.0rem;
+
       display: none;
     }
 
@@ -82,6 +83,7 @@ export const Container = styled.div`
   section {
     margin: 3.0rem 0 0 10rem;
     overflow: hidden;
+    
 
     .dish-container {
         margin-bottom: 20px;
@@ -101,6 +103,11 @@ export const Container = styled.div`
         border-radius: 5px;
         border: 2px solid ${({ theme }) => theme.COLORS.DARK_400};
       }
+  }
+  .firstLine {
+    display: flex;
+    align-items: center;
+    gap: 1rem
   }
  }
 `
