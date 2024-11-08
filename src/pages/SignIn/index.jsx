@@ -19,34 +19,36 @@ export function SignIn(){
    await signIn({ email, password})
  }
 
- return(
+return (
   <Container>
-   <Brand>
-    <img src={logo} alt="Logo" /> 
-   </Brand>
-    
-   <Form>
-    <Section title="Email">
-     <Input 
-      placeholder="Exemplo: exemplo@exemplo.com"
-      type="text"
-      onChange={event => setEmail(event.target.value)}
-     />
-    </Section>
-    <Section title="Senha">
-     <Input 
-      placeholder="No mínimo 6 caracteres"
-      type="password"
-      onChange={event => setPassword(event.target.value)}
-     />
-    </Section>
+    <Brand>
+      <img src={logo} alt="Logo" />
+    </Brand>
+     <Form>
+        <h2>Faça Login</h2>
 
-    <button type="button" onClick={handleSignIn}>Entrar</button>
-    
-    <Link to="/register">
-     Criar Conta
-    </Link>
-   </Form>
+      <Section title="Email">
+          <Input 
+            placeholder="Exemplo: exemplo@exemplo.com"
+            type="text"
+            onChange={event => setEmail(event.target.value)}
+          />
+      </Section>
+      
+      <Section title="Senha">
+          <Input 
+            placeholder="No mínimo 6 caracteres"
+            type="password"
+            onChange={event => setPassword(event.target.value)}
+          />
+      </Section>
+
+      <button type="button" onClick={handleSignIn}>Entrar</button>
+      <Link to="/register">
+        Criar Conta
+      </Link>
+      </Form>
   </Container>
- )
+);
+
 }
