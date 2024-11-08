@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints"
 
 export const Container = styled.div`
-  max-width: 210px;
-  height: 292px;
-  padding: 24px;
+  max-width: 21.0rem;
+  height: 34.2rem;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,7 +37,48 @@ export const Container = styled.div`
     top: 16px;
     right: 16px;
   }
+ 
+  p {
+    display: none;
+  }
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    max-width:400px;
+    height: 46.2rem;
+
+
+    > svg {
+      right: 1.8rem;
+    }
+
+    > img {
+      max-width: 16.0rem;
+      height: 15.0rem;
+      margin-top: 20px;
+      object-fit: cover;
+    }
+
+    > p {
+      font-size: 1.4rem;
+      line-height: 160%;
+      text-align: center;
+      color: ${({ theme }) => theme.COLORS.WHITE_100};
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Limita a duas linhas */
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      margin-top: 8px;
+    }
+
+    > span {
+      font-size: 3.5rem;
+      line-height: 160%;
+    }
+  }
+
 `;
+
 
 export const Title = styled.div`
   margin-top: 10px;
@@ -44,6 +86,13 @@ export const Title = styled.div`
   h3 {
     font-size: 15px;
     font-weight: 400;
+  }
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    h3 {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
   }
 `;
 
@@ -53,6 +102,14 @@ export const OrderSection = styled.div`
   align-items: center;
   width: 100%;
   gap: 10px;
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+
+  }
 `;
 
 export const QuantityControl = styled.div`
@@ -90,4 +147,8 @@ export const OrderButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.COLORS.TOMATO_200};
   }
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    margin-bottom: 0;
+  }
+  
 `;

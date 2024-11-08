@@ -7,9 +7,9 @@ import { api } from "../../services/api";
 
 import { Container, Title, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart ,handleAddToFavorites, cartItems, setCartItems , ...rest}) {
+export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToFavorites, cartItems, setCartItems, ...rest }) {
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -21,61 +21,52 @@ export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart 
     }
   };
 
-  async function handleAddDishToCart(data, quantity) {
-    try {
-      const { id, title, price, image } = data;
-      const priceFormatted = quantity * Number(price.replace(',', '.'));
-      const order = { id, title, price: priceFormatted, image, quantity };
-  
-      const orderExists = cartItems.some((userOrder) => userOrder.title === order.title);
-      
-      if (orderExists) {
-        return alert("Esse item já está no carrinho");
-      }
-  
-      const token = localStorage.getItem("@foodexplorer:token");
-  
-      // Calcular o totalPrice incluindo o novo item
-      const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) + priceFormatted;
-  
-      const response = await api.post("/orders", {
-        cart: [...cartItems, order], // Se o backend espera um 'items', troque 'cart' por 'items'
-        orderStatus: "em preparo",
-        totalPrice,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      // Atualizar o estado do carrinho apenas após a resposta do backend
-      setCartItems((prevItems) => [...prevItems, order]);
-      alert("Item adicionado ao carrinho");
-    } catch (error) {
-      if (error.response) {
-        alert(error.response.data.message);
-      } else {
-        alert("Não foi possível adicionar o item ao carrinho");
-      }
-    }
-  }
-  
+  const handleEdit = () => {
+    console.log("Editando prato com ID:", data.id);
+    navigate(`/edit/${data.id}`);
+  };
 
-  function handleEdit() {
-  console.log('Editando prato com ID:', data.id);
-  navigate(`/edit/${data.id}`);
-  }
+  const handleAddToCart = async () => {
+    const token = localStorage.getItem("@foodexplorer:token");
+    const dishId = data.id;
+    const quantityValue = quantity;
+
+    try {
+      const response = await api.post(
+        "/orders",
+        {
+          cart: [{
+            title: data.title,
+            quantity: quantityValue,
+            price: data.price,
+            dish_id: dishId
+          }],
+          orderStatus: "pending",
+          totalPrice: data.price * quantityValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Pedido adicionado com sucesso:", response.data);
+    } catch (error) {
+      console.error("Erro ao adicionar ao carrinho:", error);
+    }
+  };
+
 
   return (
-    <Container {...rest}>
+    <Container data-iscustomer={isCustomer} {...rest}>
       {isAdmin ? (
-        <PencilSimple onClick={handleEdit}/> 
-         ) : (
+        <PencilSimple onClick={handleEdit} />
+      ) : (
         <HeartStraight onClick={() => handleAddToFavorites(data)} />
       )}
 
       <img
-        src={data.image ? `${api.defaults.baseURL}/files/${data.image}` : '/default-image.jpg'}
+        src={data.image ? `${api.defaults.baseURL}/files/${data.image}` : "/default-image.jpg"}
         alt="Img dish"
       />
 
@@ -83,16 +74,22 @@ export function Food({isAdmin, isCustomer, data, handleDetails, handleAddToCart 
         <h3>{data.title}</h3>
       </Title>
 
+      <p className="description">{data.description}</p>
+
       <span>R$ {data.price}</span>
 
       {!isAdmin && (
         <OrderSection>
           <QuantityControl>
-            <button type="button" onClick={decreaseQuantity}>-</button>
+            <button type="button" onClick={decreaseQuantity}>
+              -
+            </button>
             <span>{quantity < 10 ? `0${quantity}` : quantity}</span>
-            <button type="button" onClick={increaseQuantity}>+</button>
+            <button type="button" onClick={increaseQuantity}>
+              +
+            </button>
           </QuantityControl>
-          <OrderButton onClick={() => handleAddDishToCart(data, quantity)}>Incluir</OrderButton>
+          <OrderButton onClick={handleAddToCart}>Incluir</OrderButton>
         </OrderSection>
       )}
     </Container>
