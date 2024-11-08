@@ -20,11 +20,11 @@ export function Cart({ cartIsOpen }) {
   function handleBack() {
     navigate(-1);
   }
-
   useEffect(() => {
     async function fetchOrders() {
       try {
         const response = await api.get("/orders");
+        
         const ordersWithFullUrls = response.data.map((order) => ({
           ...order,
           image: `${BASE_URL}${order.image}`,
@@ -37,8 +37,9 @@ export function Cart({ cartIsOpen }) {
     }
     fetchOrders();
   }, []);
-
+  
   const calculateTotal = (orders) => {
+    console.log(orders)
     const totalValue = orders.reduce((acc, order) => {
       const orderTotal = order.items.reduce((itemAcc, item) => {
         return itemAcc + (Number(item.price) * Number(item.quantity));
@@ -55,6 +56,14 @@ export function Cart({ cartIsOpen }) {
       const updatedOrders = orders.filter((order) => order.id !== orderId);
       setOrders(updatedOrders);
       calculateTotal(updatedOrders);
+  
+      // Atualiza o localStorage
+      const updatedCartItems = cartItems.filter(item => item.id !== orderId);
+      setCartItems(updatedCartItems);
+      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+  
+      const newTotalItems = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
+      setNumeroPedidos(newTotalItems);
     } catch (error) {
       console.error("Erro ao remover pedido:", error);
     }
@@ -80,17 +89,13 @@ export function Cart({ cartIsOpen }) {
             orders.map((order) => (
               <section className="cart" key={order.id}>
                 <img 
-                  src={order.image} 
-                  alt={order.items.length > 0 ? `Imagem de ${order.items[0].title}` : "Imagem desconhecida"} 
+                  src={order.image}
+                  alt={`Imagem de ${order.title}`} 
                   style={{ width: '70px', height: '70px' }} 
                 />
                 <div className="info">
-                  {order.items.map((item) => (
-                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <h3>{item.quantity}x {item.title}</h3>
-                      <p className="price">R$ {Number(item.price).toFixed(2)}</p>
-                    </div>
-                  ))}
+                  <h3>{order.quantity}x {order.title}</h3>
+                  <p className="price">R$ {Number(order.price).toFixed(2)}</p>
                   <button type="button" onClick={() => handleRemoveOrder(order.id)}>
                     <p>Excluir</p>
                   </button>
@@ -98,9 +103,10 @@ export function Cart({ cartIsOpen }) {
               </section>
             ))
           ) : (
-            <p>Nenhum pedido encontrado.</p>
+            <p>Nenhum item no carrinho.</p>
           )}
         </div>
+
         </div>
         <p className="total">Total: R$<span>{total.toFixed(2)}</span></p>
       </section>
