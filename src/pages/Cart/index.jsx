@@ -20,6 +20,7 @@ export function Cart({ cartIsOpen }) {
   function handleBack() {
     navigate(-1);
   }
+
   useEffect(() => {
     async function fetchOrders() {
       try {
@@ -39,7 +40,6 @@ export function Cart({ cartIsOpen }) {
   }, []);
   
   const calculateTotal = (orders) => {
-    console.log(orders)
     const totalValue = orders.reduce((acc, order) => {
       const orderTotal = order.items.reduce((itemAcc, item) => {
         return itemAcc + (Number(item.price) * Number(item.quantity));
@@ -57,17 +57,18 @@ export function Cart({ cartIsOpen }) {
       setOrders(updatedOrders);
       calculateTotal(updatedOrders);
   
-      // Atualiza o localStorage
       const updatedCartItems = cartItems.filter(item => item.id !== orderId);
       setCartItems(updatedCartItems);
       localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   
       const newTotalItems = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
-      setNumeroPedidos(newTotalItems);
+     
+      setCartItems(updatedCartItems); 
     } catch (error) {
       console.error("Erro ao remover pedido:", error);
     }
   };
+  
 
   const numeroPedidos = orders.length; 
 
