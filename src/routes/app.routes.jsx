@@ -5,7 +5,7 @@ import { Home } from '../pages/Home';
 import { Details } from '../pages/Details';
 import { Favorites } from '../components/Favorites';
 import { Edit } from '../pages/Edit';
-import { Orders } from '../pages/Orders'
+import { Cart } from '../pages/Cart';
 
 export function AppRoutes() {
   return (
@@ -13,7 +13,7 @@ export function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/new" element={<New />}/>
       <Route path='/edit/:id'element={<Edit />}/>
-      <Route path="/orders" element={<Orders />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/favorites" element={<Favorites/>} />
       <Route path="/details/:id" element={<Details  />} />
       <Route path='*' element={<Navigate to="/" />} />
