@@ -36,41 +36,45 @@ export function SignUp(){
 
   }
 
- return(
-  <Container>
-   <Brand>
-    <img src={logo} alt="Logo" /> 
-   </Brand>
-    
-   <Form>
-   <Section title="Seu Nome">
-     <Input 
-      placeholder="Exemplo: Maria da Silva"
-      type="text"
-      onChange={event => setName(event.target.value)}
-     />
-    </Section>
+  return (
+    <Container>
+      <Brand>
+        <img src={logo} alt="Logo" />
+      </Brand>
+       <Form>
+        <h2>Criar conta</h2>
 
-    <Section title="Email">
-     <Input 
-      placeholder="Exemplo: exemplo@exemplo.com"
-      type="text"
-      onChange={event => setEmail(event.target.value)}
-     />
-    </Section>
-    <Section title="Senha">
-     <Input 
-      placeholder="No mínimo 6 caracteres"
-      type="password"
-      onChange={event => setPassword(event.target.value)}
-     />
-    </Section>
-    <button type="submit" onClick={handleSignUp}>Criar conta</button>
-    
-    <Link to="/">
-     Já tenho uma conta
-    </Link>
-   </Form>
-  </Container>
- )
+        <Section title="Seu nome">
+          <Input 
+            placeholder="Exemplo: Maria da Silva"
+            type="text"
+            onChange={event => setName(event.target.value)}
+          />
+        </Section>
+  
+        <Section title="Email">
+            <Input 
+              placeholder="Exemplo: exemplo@exemplo.com"
+              type="text"
+              onChange={event => setEmail(event.target.value)}
+            />
+        </Section>
+        
+        <Section title="Senha">
+          <Input 
+            placeholder="No mínimo 6 caracteres"
+            type="password"
+            onChange={event => setPassword(event.target.value)}
+          />
+        </Section>
+  
+        <button type="button" onClick={handleSignUp}>Criar conta</button>
+        <Link to="/">
+         Já tenho uma conta
+        </Link>
+        </Form>
+    </Container>
+  );
+  
+
 }
