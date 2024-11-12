@@ -28,7 +28,8 @@ export function Home() {
   const [cartItems, setCartItems] = useState([]);
   const [cartIsOpen, setCartIsOpen] = useState(false)
   const [numeroPedidos, setNumeroPedidos] = useState(0);
-
+  const [bannerSrc, setBannerSrc] = useState(bannerMb)
+  
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
@@ -55,21 +56,18 @@ export function Home() {
     }
   }
 
-  const handleAddToCart = (dish) => {
-    const itemIndex = cartItems.findIndex(item => item.id === dish.id)
-    if (itemIndex >= 0) {
-      const updatedItems = [...cartItems];
-      updatedItems[itemIndex].quantity += dish.quantity;
-      setCartItems(updatedItems);
-    } else {
-      setCartItems(prevItems => [...prevItems, { ...dish, quantity: dish.quantity}]);
-    }
-    
-  }
-  
   useEffect(() => {
-    setNumeroPedidos(cartItems.length);
-  }, [cartItems]);
+    // Função para buscar os itens do carrinho
+    const fetchCart = () => {
+        // Lógica para buscar o carrinho
+    };
+    fetchCart();
+  }, []);
+
+  useEffect(() => {
+    const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    setNumeroPedidos(totalItems); 
+  }, [cartItems]); 
 
   useEffect(() => {
     async function fetchDishes() {
@@ -102,11 +100,10 @@ export function Home() {
         cartItems={cartItems}
         setCartIsOpen={setCartIsOpen}
       />
-
       <main>
         <div>
           <Banner>
-            <img src={bannerMb} alt="Imagem banner" />
+            <img src={ bannerSrc} alt="Imagem banner" />
             <div>
               <h2>Sabores inigualáveis</h2>
               <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
@@ -117,7 +114,7 @@ export function Home() {
         <Content>
           <Section title="Refeições" isAdmin={isAdmin}>
             <div className="swiper-background">
-              <Swiper 
+              <Swiper
                 slidesPerView="auto" 
                 spaceBetween={0} 
                 grabCursor={true} 
@@ -125,25 +122,25 @@ export function Home() {
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
                 {dishes.meals.map((dish) => (
-                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                  <SwiperSlide key={String(dish.id)} className="dish-slide">
                     <Food 
                       isAdmin={isAdmin} 
                       isCustomer={isCustomer} 
                       data={dish} 
                       handleDetails={handleDetails}
                       handleAddToFavorites={handleAddToFavorites}
-                      handleAddToCart={(dish) => handleAddToCart(dish)} 
                       cartItems={cartItems} 
                       setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
-              </Swiper>  
+              </Swiper> 
+              <div className="gradient-overlay" />
             </div>
           </Section>
 
           <Section title="Sobremesas" isAdmin={isAdmin}>
-            <div className="swiper-background">
+            <div className="swiper-background" >
               <Swiper 
                 slidesPerView="auto" 
                 spaceBetween={0} 
@@ -152,20 +149,20 @@ export function Home() {
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
                 {dishes.mainDishes.map((dish) => (
-                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                  <SwiperSlide key={String(dish.id)} className="dish-slide">
                     <Food 
                        isAdmin={isAdmin} 
                        isCustomer={isCustomer} 
                        data={dish} 
                        handleDetails={handleDetails}
                        handleAddToFavorites={handleAddToFavorites}
-                       handleAddToCart={(dish) => handleAddToCart(dish)} 
                        cartItems={cartItems} 
                        setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
               </Swiper>  
+              <div className="gradient-overlay" />
             </div>
           </Section>
 
@@ -179,20 +176,20 @@ export function Home() {
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
               >
                 {dishes.drinks.map((dish) => (
-                  <SwiperSlide key={String(dish.id)} style={{ width: '225px' }}>
+                  <SwiperSlide key={String(dish.id)} className="dish-slide">
                     <Food 
                        isAdmin={isAdmin} 
                        isCustomer={isCustomer} 
                        data={dish} 
                        handleDetails={handleDetails}
                        handleAddToFavorites={handleAddToFavorites}
-                       handleAddToCart={(dish) => handleAddToCart(dish)} 
                        cartItems={cartItems} 
                        setCartItems={setCartItems} 
                     />
                   </SwiperSlide>
                 ))}
               </Swiper>  
+              <div className="gradient-overlay" />
             </div>
           </Section>
         </Content>

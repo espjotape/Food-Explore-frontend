@@ -1,9 +1,13 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../styles/deviceBreakpoints";
+
+import bannerMb from "../../assets/banner-mobile.png";
+import bannerDesktop from "../../assets/bannerDesktop.png";
 
 export const Container = styled.div`
   width: 100%;
   display: grid;
-  grid-template-rows: 114px auto 47px;
+  grid-template-rows: 10.4rem auto 4.7rem;
   grid-template-areas:
     "header"
     "content"
@@ -18,6 +22,19 @@ export const Container = styled.div`
       margin: 38px 0 25px 15px;
     }
   }
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    height: 9.6rem;
+  
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 112.2rem;
+    }
+  }
 `;
 
 export const Banner = styled.div`
@@ -27,21 +44,26 @@ export const Banner = styled.div`
 
   margin: 0 auto 30px;
   height: 120px;
-
-  background: linear-gradient( 180deg, 
-  ${({ theme }) => theme.COLORS.GRADIENT_1} 0%, 
-  ${({ theme }) => theme.COLORS.GRADIENT_2} 100%
-);
+  background: linear-gradient(
+    180deg,
+    ${({ theme }) => theme.COLORS.GRADIENT_1} 0%,
+    ${({ theme }) => theme.COLORS.GRADIENT_2} 100%
+  );
   border-radius: 3px;
   max-width: 90%;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
 
   img {
-    width: 191px;
+    width: 19.1rem;
     position: absolute;
     left: -30px;
     bottom: 0px;
+    content: url(${bannerMb});
+
+    @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+      content: url(${bannerDesktop});
+    }
   }
 
   div {
@@ -54,7 +76,7 @@ export const Banner = styled.div`
     right: 15px;
 
     h2 {
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: 500;
       color: ${({ theme }) => theme.COLORS.WHITE_100};
       margin-bottom: 3px;
@@ -65,29 +87,102 @@ export const Banner = styled.div`
       color: ${({ theme }) => theme.COLORS.WHITE_200};
     }
   }
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+    height: 26.0rem;
+    margin: 8.0rem auto 0;
+    max-width: 100%;
+    > div {
+      top: 65px;
+      right: 60px;
+      
+      h2 {
+        font-size: 4.5rem;
+      }
+      p {
+        font-size: 1.6rem;
+      }
+    }
+
+    > img {
+    width: 59.1rem;
+    left: -80px;
+    bottom: -13px;
+    }
+  }
 `;
 
 export const Content = styled.div`
-display: flex;
-flex-direction: column;
-gap: 24px;
-margin-top: 50px;
-
-.swiper-background {
-  width: 100%;
-  max-width: 1200px; /* Ajuste o valor conforme necessário */
-}
-
-swiper-container {
   display: flex;
-  flex-wrap: nowrap; /* Mantém os slides na mesma linha */
-  overflow-x: auto;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 50px;
+
+  .swiper-container {
+    display: flex;
+    overflow-x: auto; 
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none; 
+    }
+  }
+
+  .dish-slide {
+    max-width: 21.5rem; 
+    flex-shrink: 0; 
+    margin-right: 10px; 
+  }
+
+  @media (min-width: 1024px) {
+    align-items: center;
+    
+    .dish-slide {
+      max-width: 30.0rem; 
+      margin-right: 2.7rem; 
+
+    }
+
+    .swiper-container {
+      height: 8.0rem;
+    }
+
+    section > h2 {
+      font-size: 3.2rem;
+    }
+
+    .swiper-background {
+  position: relative;
 }
 
-swiper-slide {
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   width: 100%;
-  margin: 0 5px;
-  flex-shrink: 0; /* Evita que os slides sejam esticados */
-
+  pointer-events: none;
 }
-`
+
+.gradient-overlay::before,
+.gradient-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  z-index: 1;
+}
+
+.gradient-overlay::before {
+  left: 0;
+  background: linear-gradient(to left, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
+}
+
+.gradient-overlay::after {
+  right: 0;
+  background: linear-gradient(to right, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
+}
+
+  }
+`;
