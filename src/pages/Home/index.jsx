@@ -29,7 +29,7 @@ export function Home() {
   const [cartIsOpen, setCartIsOpen] = useState(false)
   const [numeroPedidos, setNumeroPedidos] = useState(0);
   const [bannerSrc, setBannerSrc] = useState(bannerMb)
-  
+
   function handleDetails(id) {
     navigate(`/details/${id}`);
   }
@@ -57,19 +57,19 @@ export function Home() {
   }
 
   useEffect(() => {
-    // Função para buscar os itens do carrinho
-    const fetchCart = () => {
-        // Lógica para buscar o carrinho
-    };
-    fetchCart();
+    async function fetchCartCount() {
+      try {
+        const response = await api.get("/orders");
+        setNumeroPedidos(response.data.length); // Define o número de pedidos
+      } catch (error) {
+        console.error("Erro ao buscar a quantidade de itens no carrinho:", error);
+      }
+    }
+  
+    fetchCartCount();
   }, []);
 
-  useEffect(() => {
-    const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-    setNumeroPedidos(totalItems); 
-  }, [cartItems]); 
-
-  useEffect(() => {
+useEffect(() => {
     async function fetchDishes() {
       try {
         const response = await api.get("/dishes");
