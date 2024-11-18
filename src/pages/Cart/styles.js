@@ -24,6 +24,18 @@ export const Container = styled.div`
   overflow: auto;
   justify-content: space-between;
 
+ .next {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  max-width: 21.6rem;
+  margin-bottom: 4.0rem;
+
+  button {
+  align-items: flex-end;
+  }
+}
+
   .cart {
     display: flex;
     width: 100%;
@@ -60,6 +72,7 @@ export const Container = styled.div`
 
       display: none;
     }
+    
 
     @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
       .price {
@@ -83,6 +96,10 @@ export const Container = styled.div`
   section {
     margin: 3.0rem 0 0 10rem;
     overflow: hidden;
+
+    .next {
+    display: none;
+    }
     
 
     .dish-container {

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Container, CloseButton } from "./styles";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
+import { Button } from "../../components/Button"
 
 import { CaretLeft } from "@phosphor-icons/react";
 
@@ -114,6 +115,8 @@ export function Cart({ cartIsOpen }) {
 
         </div>
         <p className="total">Total: R$<span>{total.toFixed(2)}</span></p>
+      
+        <Button className="next" title="Avançar"/>
       </section>
       <Footer />
     </Container>
