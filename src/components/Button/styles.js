@@ -6,6 +6,11 @@ export const Container = styled.button`
  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
  border-radius: 5px;
 
+ display: flex;
+ gap: 0.8rem;
+ align-items: center;
+ justify-content: center;
+
  width: 100%;
  height: 48px; 
  &:disabled{

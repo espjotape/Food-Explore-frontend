@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { Container, CloseButton } from "./styles";
+import { Container, CloseButton, Payment } from "./styles";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Button } from "../../components/Button"
 
-import { CaretLeft } from "@phosphor-icons/react";
+import { CaretLeft, Receipt } from "@phosphor-icons/react";
+import LogoPix from "../../assets/pix.svg"
+import LogoCredito from "../../assets/credito.svg"
+import QrCode from "../../assets/qrcode.svg"
 
 import { api } from "../../services/api";
 
@@ -17,6 +20,11 @@ export function Cart({ cartIsOpen }) {
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  
+  const [isCartVisible, setIsCartVisible] = useState(true);
+  const [pixActive, setPixActive] = useState(false);
+  const [creditActive, setCreditActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleBack() {
     navigate(-1);
@@ -70,8 +78,21 @@ export function Cart({ cartIsOpen }) {
       console.error("Erro ao remover pedido:", error);
     }
   };
-  
 
+
+  const handlePaymentMethodChange = (method) => {
+    if (method === 'pix') {
+      setPixActive(true);
+      setCreditActive(false); 
+      setIsCartVisible(false);  
+    } else if (method === 'credit') {
+      setPixActive(false);  
+      setCreditActive(true);
+      setIsCartVisible(false);  
+    }
+  };
+ 
+  
   const numeroPedidos = orders.length; 
 
   return (
@@ -118,6 +139,80 @@ export function Cart({ cartIsOpen }) {
       
         <Button className="next" title="Avançar"/>
       </section>
+
+      <Payment>
+        <div className="paymentHeader">
+          <h2>Pagamento</h2>
+
+          <nav className="btn" >
+            <button 
+            className={pixActive === true ? 'active' : ''} 
+            onClick={() => handlePaymentMethodChange('pix')}
+            >
+              <img src={LogoPix} alt="LogoPix" />
+              PIX
+            </button>
+
+            <button  
+            className={creditActive ? 'active' : ''} 
+            onClick={() => handlePaymentMethodChange('credit')}
+            >
+              <img src={LogoCredito} alt="LogoCartão" />
+              Crédito
+            </button>
+          </nav>
+        </div>
+
+        <div className="methodPayment">
+          {
+            isCartVisible &&
+            <div>
+              <p>Selecione uma forma de pagamento acima!</p>
+            </div>
+          }
+          {pixActive && (
+            <div className="qrcode">
+              <img src={QrCode} alt="QR Code do Pix" />
+            </div>
+          )}
+          {creditActive && (
+            <div className="credit">
+             <div className="input">
+              <p>Número do Cartão</p>
+              <input 
+                placeholder="0000 0000 0000 0000"
+                type="number"
+              />
+              </div>
+
+             <div className="dados">
+              <div className="valid">
+                <p>Validade</p>
+                <input 
+                  placeholder="04/25"
+                  type="number"
+                />
+                </div>
+
+                <div className="valid">
+                <p>CVC</p>
+                <input 
+                  placeholder="000"
+                  type="number"
+                />
+                </div>
+            </div>
+            <Button
+              title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
+              disabled={loading}
+              icon={Receipt}
+              style={ { height: 56 } }
+              className="finishPaymentButton"                                 
+            /> 
+            </div>
+          )}
+        </div>
+      </Payment>
       <Footer />
     </Container>
   );

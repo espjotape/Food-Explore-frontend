@@ -92,7 +92,7 @@ export const Container = styled.div`
  }
  }
 
- @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}){
   section {
     margin: 3.0rem 0 0 10rem;
     overflow: hidden;
@@ -127,6 +127,120 @@ export const Container = styled.div`
     gap: 1rem
   }
  }
+`
+
+export const Payment = styled.div`
+  display: none;
+
+  @media (min-width: ${DEVICE_BREAKPOINTS.LG}) {
+  display: block;
+  grid-area: content;
+
+  width: 100%;
+  width: clamp(50.0rem, 35vw, 50vw);
+  margin: 0 auto;
+  margin-right: 19rem;
+  padding: 3.4rem 4rem;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+  
+  >.methodPayment{
+    width: 100%;
+    
+    height: clamp(24rem, 42vh, 70vh);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid ${({ theme }) => theme.COLORS.WHITE_600};
+    padding: 5rem clamp(4rem, 5rem + 5.5vw, 6.1rem) 6.8rem;
+    
+    p {
+      font-weight: 400;
+      font-size: clamp(10px ,1.4rem, 1.8rem);
+    }
+
+    > .qrcode {
+      img {
+       width: 20.0rem;
+       height: 20.0rem;
+      }
+    }
+  
+    > .credit {
+      width: 34.8rem;
+
+      .input {
+       width: 100%;
+
+       input {
+        color: ${({theme}) => theme.COLORS.WHITE_100};
+        border-radius: .5rem;
+        border: 1px solid ${({theme}) => theme.COLORS.WHITE_100};
+        background: transparent;
+        width: 100%;
+        padding: 1.2rem 1.6rem;
+       }
+        input:placeholder{
+        color: ${({theme}) => theme.COLORS.WHITE_100};
+       }
+      
+       }
+      }
+       .dados {
+        width: 100%;
+        display: flex;
+        gap: 1.7rem;
+        margin: 1rem 0 2rem;
+
+        .valid {
+
+        > input {
+          width: 16.6rem;
+          color: ${({theme}) => theme.COLORS.WHITE_100};
+          border-radius: .5rem;
+          border: 1px solid ${({theme}) => theme.COLORS.WHITE_100};
+          background: transparent;
+          width: 100%;
+          padding: 1.2rem 1.6rem;
+        }
+        }
+      }
+    }
+
+  > .paymentHeader {
+    nav {
+      display: flex;
+      height: 7.1rem;
+      margin-top: 2.0rem;
+
+      button {
+        border: none;
+        background-color: transparent;
+
+        color: ${({theme}) => theme.COLORS.WHITE_100};
+        border: 1px solid ${({ theme }) => theme.COLORS.WHITE_600};
+
+        font-size: 1.6rem;
+        width: 100%;
+      }
+
+      button.active {
+        top: 2px;
+        left: 1px;
+        box-shadow: none;
+        background-color: ${({ theme }) => theme.COLORS.WHITE_600};
+      } 
+
+      button img {
+       margin-right: 1.4rem;
+       vertical-align: middle;
+      }
+  }}
 `
 
 export const CloseButton = styled.button`
