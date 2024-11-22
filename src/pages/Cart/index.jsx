@@ -91,6 +91,10 @@ export function Cart({ cartIsOpen }) {
       setIsCartVisible(false);  
     }
   };
+
+  const handlePayment = () => {
+    setLoading(true);
+  }
  
   
   const numeroPedidos = orders.length; 
@@ -173,6 +177,13 @@ export function Cart({ cartIsOpen }) {
           {pixActive && (
             <div className="qrcode">
               <img src={QrCode} alt="QR Code do Pix" />
+              <Button
+              title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
+              disabled={loading}
+              icon={Receipt}
+              className="finishPaymentButton"  
+              onClick={handlePayment}                               
+            /> 
             </div>
           )}
           {creditActive && (

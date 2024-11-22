@@ -162,18 +162,31 @@ export const Payment = styled.div`
     p {
       font-weight: 400;
       font-size: clamp(10px ,1.4rem, 1.8rem);
+      text-align: center;
     }
 
     > .qrcode {
+      text-align: center;
       img {
-       width: 20.0rem;
-       height: 20.0rem;
+       margin-top: 20px;
+       width: clamp(2rem, 4rem + 10vw, 21rem);
+       height: clamp(2rem, 4rem + 10vw, 21rem);
+
+       margin-bottom:1rem;
+      }
+      
+      > button {
+      font-size: 1.2rem;
+      
       }
     }
   
     > .credit {
       width: 34.8rem;
 
+      p {
+       text-align: left;
+      }
       .input {
        width: 100%;
 
