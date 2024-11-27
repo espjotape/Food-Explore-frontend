@@ -6,7 +6,7 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Button } from "../../components/Button"
 
-import { CaretLeft, Receipt } from "@phosphor-icons/react";
+import { CaretLeft, Receipt, Clock, CheckCircle } from "@phosphor-icons/react";
 import LogoPix from "../../assets/pix.svg"
 import LogoCredito from "../../assets/credito.svg"
 import QrCode from "../../assets/qrcode.svg"
@@ -21,10 +21,13 @@ export function Cart({ cartIsOpen }) {
   const [total, setTotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   
+  const [loading, setLoading] = useState(false);
   const [isCartVisible, setIsCartVisible] = useState(true);
   const [pixActive, setPixActive] = useState(false);
   const [creditActive, setCreditActive] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isClockVisible, setIsClockVisible] = useState(false)
+  const [isApproved, setIsApproved] = useState(false)
+
 
   function handleBack() {
     navigate(-1);
@@ -84,18 +87,88 @@ export function Cart({ cartIsOpen }) {
     if (method === 'pix') {
       setPixActive(true);
       setCreditActive(false); 
-      setIsCartVisible(false);  
+      setIsCartVisible(false);
+      setIsClockVisible(false);
+      setIsApproved(false);  
     } else if (method === 'credit') {
       setPixActive(false);  
       setCreditActive(true);
-      setIsCartVisible(false);  
+      setIsCartVisible(false);
+      setIsClockVisible(false);
+      setIsApproved(false);   
     }
   };
 
-  const handlePayment = () => {
+  const [disabledButton, setDisabledButton] = useState(false);
+
+  const disableButton = () => {
+    setDisabledButton(true);
+
+    setPixActive(false); 
+    setCreditActive(false);
+
+    setIsClockVisible(true);
+    setIsApproved(false);
+
+    setTimeout(() => {
+        setIsClockVisible(false);
+        setIsApproved(true);
+    }, 4000);
+  };
+  
+  const validatePaymentData = () => {
+    if (total <= 0) {
+      alert("O total do pedido está incorreto.");
+      return false;
+    }
+    if (!pixActive && !creditActive) {
+      alert("Selecione uma forma de pagamento.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleCreatedCart = (orders) => {
+    return {
+      orderStatus: '🔴 Pendente',
+      paymentMethod: pixActive ? 'pix' : 'creditCard',
+      totalPrice: Number(total),
+      cart: orders.map(item => ({
+        dish_id: item.dish_id,
+        quantity: item.quantity
+      }))
+    };
+  };
+  
+  const handlePayment = async (orders) => {
+    if (!validatePaymentData()) return;
+  
+    const newCart = handleCreatedCart(orders);
+    console.log("Carrinho criado para envio:", JSON.stringify(newCart, null, 2)); // Verificar o que está sendo enviado
+    
     setLoading(true);
-  }
- 
+
+    try {
+      const response = await api.post("/orders", newCart)
+      
+      // Se a resposta for bem-sucedida
+      disableButton();
+      setTimeout(() => {
+        alert("Pedido cadastrado com sucesso!")
+        navigate(-1)
+      }, 7000)
+  
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível cadastrar o pedido.");
+      }
+    } finally {
+      setLoading(false); 
+    }
+  };
+  
   
   const numeroPedidos = orders.length; 
 
@@ -115,7 +188,7 @@ export function Cart({ cartIsOpen }) {
         <div className="dish-container">
           {orders.length > 0 ? (
             orders.map((order) => (
-              <section className="cart" key={order.id}>
+              <section className="cart" key={`${order.id}-${order.title}`}>
                 <img 
                   src={order.image}
                   alt={`Imagem de ${order.title}`} 
@@ -179,10 +252,10 @@ export function Cart({ cartIsOpen }) {
               <img src={QrCode} alt="QR Code do Pix" />
               <Button
               title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
-              disabled={loading}
+              disabled={loading || disabledButton}
               icon={Receipt}
               className="finishPaymentButton"  
-              onClick={handlePayment}                               
+              onClick={() => {handlePayment(orders)}}                   
             /> 
             </div>
           )}
@@ -215,13 +288,27 @@ export function Cart({ cartIsOpen }) {
             </div>
             <Button
               title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
-              disabled={loading}
+              disabled={loading || disabledButton}
               icon={Receipt}
               style={ { height: 56 } }
               className="finishPaymentButton"                                 
+              onClick={() => {handlePayment(orders)}}    
             /> 
             </div>
           )}
+          {isClockVisible &&
+          <div className="clock" id="clock">
+              <Clock size={80}/>
+              <p>Aguarde: Estamos processando o seu pagamento</p>
+          </div>
+          }
+          {isApproved && 
+            <div className="clock" id="clock">
+              <CheckCircle size={80}/>
+              <p>Pagamento aprovado!</p>
+            </div>
+          
+          }
         </div>
       </Payment>
       <Footer />

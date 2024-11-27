@@ -180,6 +180,11 @@ export const Payment = styled.div`
       
       }
     }
+
+    .clock,
+    .approved {
+      text-align: center;
+    }
   
     > .credit {
       width: 34.8rem;
