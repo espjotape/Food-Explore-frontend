@@ -24,7 +24,7 @@ export function Cart({ cartIsOpen }) {
   const [creditActive, setCreditActive] = useState(false);
   const [isCartVisible, setIsCartVisible] = useState(true)
   
-  const { loading, isQrCodeVisible ,disabledButton, isClockVisible, isApproved, handlePayment } = 
+  const { loading, isQrCodeVisible ,disabledButton, isClockVisible, isApproved, handlePayment, setNum ,num, cvc, setCvc, setDate, date, handleDateBlur, handleCardNumberChange } = 
     usePayment(total, pixActive, creditActive, orders);
 
   function handleBack() {
@@ -180,7 +180,9 @@ export function Cart({ cartIsOpen }) {
               <p>Número do Cartão</p>
               <input 
                 placeholder="0000 0000 0000 0000"
-                type="number"
+                type="text"
+                value={num}
+                onChange={handleCardNumberChange}
               />
               </div>
 
@@ -189,7 +191,10 @@ export function Cart({ cartIsOpen }) {
                 <p>Validade</p>
                 <input 
                   placeholder="04/25"
-                  type="number"
+                  type="text"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  onBlur={handleDateBlur}
                 />
                 </div>
 
@@ -198,6 +203,8 @@ export function Cart({ cartIsOpen }) {
                 <input 
                   placeholder="000"
                   type="number"
+                  value={cvc}
+                  onChange={(e) => setCvc(e.target.value)}
                 />
                 </div>
             </div>
