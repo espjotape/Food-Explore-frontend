@@ -24,7 +24,7 @@ export function Cart({ cartIsOpen }) {
   const [creditActive, setCreditActive] = useState(false);
   const [isCartVisible, setIsCartVisible] = useState(true)
   
-  const { loading, isQrCodeVisible ,disabledButton, isClockVisible, isApproved, handlePayment, setNum ,num, cvc, setCvc, setDate, date, handleDateBlur, handleCardNumberChange } = 
+  const { loading, isFormVisible ,isQrCodeVisible ,disabledButton, isClockVisible, isApproved, handlePayment, setNum ,num, cvc, setCvc, setDate, date, handleDateBlur, handleCardNumberChange } = 
     usePayment(total, pixActive, creditActive, orders);
 
   function handleBack() {
@@ -174,7 +174,7 @@ export function Cart({ cartIsOpen }) {
             /> 
             </div>
           )}
-          {creditActive && (
+          {isFormVisible && creditActive && (
             <div className="credit">
              <div className="input">
               <p>Número do Cartão</p>

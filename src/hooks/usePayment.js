@@ -11,6 +11,7 @@ export function usePayment(total) {
   const [isCartVisible, setIsCartVisible] = useState(true);
   const [pixActive, setPixActive] = useState(false); 
   const [isQrCodeVisible, setIsQrCodeVisible] = useState(true); 
+  const [isFormVisible, setIsFormVisible] = useState(true)
 
   const [num, setNum] = useState("");
   const [date, setDate] = useState(""); 
@@ -69,16 +70,24 @@ export function usePayment(total) {
   }
 
     if (!date || !/^\d{2}\/\d{2}$/.test(date)) {
-      alert("Data de validade inválida. Use o formato MM/AA.");
-      return false;
+      alert("Data de validade inválida. Certifique-se de usar o formato MM/AA.");
+      return false
     }
 
     const [month, year] = date.split("/").map(Number);
-    const currentYear = new Date().getFullYear() % 100; // Ano em formato AA
-    const currentMonth = new Date().getMonth() + 1;
+    // Verificar se o mês está entre 1 e 12
+    if (month < 1 || month > 12) {
+      alert("Mês inválido. Use um valor entre 01 e 12.");
+      return false;
+    }
+  
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear() % 100; // Últimos 2 dígitos do ano
+    const currentMonth = currentDate.getMonth() + 1;
 
-    if (month < 1 || month > 12 || year < currentYear || (year === currentYear && month < currentMonth)) {
-      alert("Data de validade está inválida ou o cartão está expirado.");
+    // Verificar se a data é no passado
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      alert("O cartão está expirado. Verifique a data de validade.");
       return false;
     }
 
@@ -104,11 +113,12 @@ export function usePayment(total) {
 
   const handlePayment = async (orders) => {
     setLoading(true);
-
+    
     if (!validatePayment(orders)) {
       setLoading(false);
       return;
     }
+    setIsFormVisible(false)
 
     const newCart = handleCreatedCart(orders);
 
@@ -139,6 +149,7 @@ export function usePayment(total) {
     isCartVisible,
     isApproved,
     isQrCodeVisible,
+    isFormVisible,
     handlePayment,
     handleDateBlur,
     handleCardNumberChange,
