@@ -59,7 +59,6 @@ export function Cart({ cartIsOpen }) {
 
   const handleRemoveOrder = (dish_id) => {
     try {
-      console.log(`opa vc clicou no pedido de id ${dish_id}`)
       const storedCart = JSON.parse(localStorage.getItem("@foodexplorer:cart") || [])
       
       // Filtra para remover o prato pelo ID

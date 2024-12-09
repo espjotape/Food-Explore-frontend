@@ -132,6 +132,7 @@ export function usePayment(total) {
       disableButton();
       setTimeout(() => {
         alert("Pedido realizado com sucesso!");
+        handleResetCart();
         navigate(-1); 
       }, 4000);
     } catch (error) {
@@ -141,6 +142,11 @@ export function usePayment(total) {
       setLoading(false);
     }
   };
+
+  
+  async function handleResetCart() {
+    localStorage.removeItem("@foodexplorer:cart");
+}
 
   return {
     loading,
