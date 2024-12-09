@@ -30,17 +30,29 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToFavo
     const token = localStorage.getItem("@foodexplorer:token");
     const dishId = data.id;
     const quantityValue = quantity;
-
+  
+    // Cria um novo item do carrinho
+    const newCartItem = {
+      title: data.title,
+      quantity: quantityValue,
+      price: data.price,
+      dish_id: dishId,
+    };
+  
+    // Verifica se o carrinho já existe no localStorage, caso contrário cria um array vazio
+    const storedCart = JSON.parse(localStorage.getItem("@foodexplorer:cart")) || [];
+  
+    // Adiciona o novo item ao carrinho
+    storedCart.push(newCartItem);
+  
+    // Salva o carrinho atualizado no localStorage
+    localStorage.setItem("@foodexplorer:cart", JSON.stringify(storedCart));
+  
     try {
       const response = await api.post(
         "/orders",
         {
-          cart: [{
-            title: data.title,
-            quantity: quantityValue,
-            price: data.price,
-            dish_id: dishId
-          }],
+          cart: [newCartItem],
           orderStatus: "pending",
           totalPrice: data.price * quantityValue,
         },
@@ -55,7 +67,7 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToFavo
       console.error("Erro ao adicionar ao carrinho:", error);
     }
   };
-
+  
 
   return (
     <Container data-iscustomer={isCustomer} {...rest}>
