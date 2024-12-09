@@ -57,20 +57,22 @@ export function Cart({ cartIsOpen }) {
     setTotal(total);
   };
 
-  const handleRemoveOrder = async (orderId) => {
+  const handleRemoveOrder = (dish_id) => {
     try {
-      await api.delete(`/orders/${orderId}`);
-      const updatedOrders = orders.filter((order) => order.id !== orderId);
-      setOrders(updatedOrders);
-      orderTotal(updatedOrders);
-  
-      const updatedCartItems = cartItems.filter(item => item.id !== orderId);
-      setCartItems(updatedCartItems);
-      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-  
-      const newTotalItems = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
-     
-      setCartItems(updatedCartItems); 
+      console.log(`opa vc clicou no pedido de id ${dish_id}`)
+      const storedCart = JSON.parse(localStorage.getItem("@foodexplorer:cart") || [])
+      
+      // Filtra para remover o prato pelo ID
+      const updatedCart = storedCart.filter((item) => item.dish_id !== dish_id);
+      
+      // Atualiza o localStorage e o estado
+      localStorage.setItem("@foodexplorer:cart", JSON.stringify(updatedCart));
+      setOrders(updatedCart);
+
+      // Atualiza o total do carrinho
+      const newTotal = updatedCart.reduce((acc, item) => acc + (Number(item.price) * Number(item.quantity)), 0);
+      setTotal(newTotal);
+
     } catch (error) {
       console.error("Erro ao remover pedido:", error);
     }
@@ -111,7 +113,7 @@ export function Cart({ cartIsOpen }) {
                     <p className="price">R$ {Number(order.price).toFixed(2)}</p>
                   </div>
                  
-                  <button type="button" onClick={() => handleRemoveOrder(order.id)}>
+                  <button type="button" onClick={() => handleRemoveOrder(order.dish_id)}>
                     <p>Excluir</p>
                   </button>
                 </div>
