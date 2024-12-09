@@ -32,33 +32,29 @@ export function Cart({ cartIsOpen }) {
   }
 
   useEffect(() => {
-    async function fetchOrders() {
-      try {
-        const response = await api.get("/orders");
-        
-        const ordersWithFullUrls = response.data.map((order) => ({
-          ...order,
-          image: `${BASE_URL}${order.image}`,
-        }));
-        setOrders(ordersWithFullUrls);
-        calculateTotal(ordersWithFullUrls);
-      } catch (error) {
-        console.error("Erro ao buscar pedidos:", error);
-      }
-    }
-    fetchOrders();
-  }, []);
+  const storedCart = JSON.parse(localStorage.getItem("@foodexplorer:cart")) || [];
   
-  const calculateTotal = (orders) => {
-
-    const totalValue = orders.reduce((acc, order) => {
-      const orderTotal = order.items.reduce((itemAcc, item) => {
-        return itemAcc + (Number(item.price) * Number(item.quantity));
-      }, 0);
-      return acc + orderTotal;
+  // Adiciona o caminho completo da imagem
+  const updatedCart = storedCart.map(item => ({
+    ...item,
+    image: item.image
+  }));
+  
+  localStorage.setItem("@foodexplorer:cart", JSON.stringify(updatedCart)); 
+  setOrders(updatedCart); // Atualiza o estado com os dados formatados
+  calculateTotal();
+}, []);
+  
+  
+  const calculateTotal = () => {
+    // Recupera os dados do localStorage
+    const storedCart = JSON.parse(localStorage.getItem("@foodexplorer:cart")) || [];
+  
+    // Calcula o total multiplicando preço pela quantidade de cada item
+    const total = storedCart.reduce((acc, item) => {
+      return acc + (Number(item.price) * Number(item.quantity));
     }, 0);
-  
-    setTotal(totalValue);
+    setTotal(total);
   };
 
   const handleRemoveOrder = async (orderId) => {
@@ -66,7 +62,7 @@ export function Cart({ cartIsOpen }) {
       await api.delete(`/orders/${orderId}`);
       const updatedOrders = orders.filter((order) => order.id !== orderId);
       setOrders(updatedOrders);
-      calculateTotal(updatedOrders);
+      orderTotal(updatedOrders);
   
       const updatedCartItems = cartItems.filter(item => item.id !== orderId);
       setCartItems(updatedCartItems);
@@ -105,7 +101,7 @@ export function Cart({ cartIsOpen }) {
             orders.map((order) => (
               <section className="cart" key={`${order.id}-${order.title}`}>
                 <img 
-                  src={order.image}
+                  src={`${BASE_URL}${order.image}`} 
                   alt={`Imagem de ${order.title}`} 
                   style={{ width: '70px', height: '70px' }} 
                 />

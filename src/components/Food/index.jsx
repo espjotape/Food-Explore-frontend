@@ -37,6 +37,7 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToFavo
       quantity: quantityValue,
       price: data.price,
       dish_id: dishId,
+      image: data.image
     };
   
     // Verifica se o carrinho já existe no localStorage, caso contrário cria um array vazio
