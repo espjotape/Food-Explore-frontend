@@ -36,7 +36,7 @@ export function usePayment(total) {
     paymentMethod: pixActive ? "pix" : "creditCard",
     totalPrice: Number(total),
     cart: orders.map((item) => ({
-      id: item.id,
+      dish_id: item.dish_id,
       title: item.title,
       quantity: item.quantity,
       price: item.price,
