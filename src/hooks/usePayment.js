@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
-export function usePayment(total) {
+export function usePayment(total, pixActive, creditActive) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
   const [isClockVisible, setIsClockVisible] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
   const [isCartVisible, setIsCartVisible] = useState(true);
-  const [pixActive, setPixActive] = useState(false); 
   const [isQrCodeVisible, setIsQrCodeVisible] = useState(true); 
   const [isFormVisible, setIsFormVisible] = useState(true)
 
@@ -23,12 +22,11 @@ export function usePayment(total) {
     setIsClockVisible(true);
     setIsQrCodeVisible(false);
     setIsApproved(false);
-    setPixActive(false);
 
     setTimeout(() => {
       setIsClockVisible(false);
       setIsApproved(true);
-    }, 3000);
+    }, 2000);
   };
 
   const handleCreatedCart = (orders) => ({
@@ -106,13 +104,24 @@ export function usePayment(total) {
       return false;
     }
 
-    if (pixActive) return true;
+    if (pixActive) {
+      return true;
+    }
+  
+    // Se o Crédito estiver ativo, valida os detalhes do cartão
+    if (creditActive) {
+      return validateCardDetails();
+    }
+  
+    alert("Nenhuma forma de pagamento selecionada.");
+    return false;
 
     return validateCardDetails();
   };
 
-  const handlePayment = async (orders) => {
+  const handlePayment = async (orders, paymentType) => {
     setLoading(true);
+    console.log(`vc clicou no pagamento do tipo ${paymentType} `)
     
     if (!validatePayment(orders)) {
       setLoading(false);
@@ -121,9 +130,8 @@ export function usePayment(total) {
     setIsFormVisible(false)
 
     const newCart = handleCreatedCart(orders);
-
     try {
-      await api.post("/orders", newCart, {
+      await api.post("/orders", {...newCart, paymentType }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("@foodexplorer:token")}`,
         },
@@ -153,6 +161,8 @@ export function usePayment(total) {
     disabledButton,
     isClockVisible,
     isCartVisible,
+    isQrCodeVisible: pixActive,
+    isFormVisible: creditActive,
     isApproved,
     isQrCodeVisible,
     isFormVisible,

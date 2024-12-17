@@ -135,7 +135,7 @@ export function Cart({ cartIsOpen }) {
 
           <nav className="btn" >
             <button 
-            className={pixActive === true ? 'active' : ''} 
+            className={pixActive ? 'active' : ''} 
             onClick={() => handlePaymentMethodChange('pix')}
             >
               <img src={LogoPix} alt="LogoPix" />
@@ -163,11 +163,12 @@ export function Cart({ cartIsOpen }) {
             <div className="qrcode">
               <img src={QrCode} alt="QR Code do Pix" />
               <Button
+              id="pixButton"
               title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
               disabled={loading || disabledButton}
               icon={Receipt}
               className="finishPaymentButton"  
-              onClick={() => {handlePayment(orders)}}                   
+              onClick={() => {handlePayment(orders, "pix")}}                   
             /> 
             </div>
           )}
@@ -206,12 +207,14 @@ export function Cart({ cartIsOpen }) {
                 </div>
             </div>
             <Button
+              id="creditButton"
               title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
               disabled={loading || disabledButton}
               icon={Receipt}
               style={ { height: 56 } }
               className="finishPaymentButton"                                 
-              onClick={() => {handlePayment(orders)}}    
+              onClick={() => {
+                handlePayment(orders,"credit")}}    
             /> 
             </div>
           )}
