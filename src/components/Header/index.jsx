@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { List, Receipt, SignOut  } from "@phosphor-icons/react";
@@ -8,16 +8,23 @@ import logoAdminDesktop from "../../assets/logo-desktop-admin.svg"
 import logo from "../../assets/logo.svg"
 
 import { useAuth } from "../../hooks/auth"
+import { useCart } from "../../hooks/cartContext"
 
 import { Search } from "../Search";
 import { SideMenu } from "../SideMenu"; 
 import { Container, Box, Identidade, Notification, Orders ,ButtonsDesktop ,OrdersButton   } from "./styles";
 
-export function Header({ isAdmin, numeroPedidos, cartIsOpen, setCartItems ,setCartIsOpen, cartItems = [] }) {
+export function Header({ isAdmin, cartIsOpen, setCartIsOpen}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false); 
+  const [numeroPedidos, setNumeroPedidos] = useState(0);
   const navigate = useNavigate();
-  const { signOut, user } = useAuth()
+  const { signOut } = useAuth()
+  const { cartItems } = useCart()
 
+  useEffect(() => {
+    setNumeroPedidos(cartItems.length)
+  }, [cartItems]);
+  
   const handleCartClick = () => {
     navigate("/cart"); 
   };
