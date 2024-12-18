@@ -69,7 +69,7 @@ export function Details({ isAdmin }) {
             ))}
           </Ingredients>
 
-          {!isAdmin ? (
+          {isAdmin ? (
             <button className="btnEdit" type="button" onClick={() => navigate(`/edit/${id}`)}>Editar</button>
           ) : (
             <OrderSection>
@@ -78,7 +78,7 @@ export function Details({ isAdmin }) {
                 <span>{quantity < 10 ? `0${quantity}` : quantity}</span> 
                 <button type="button" onClick={increaseQuantity}>+</button>
               </QuantityControl>
-              <OrderButton>pedir · R$ {(pricePerItem * quantity).toFixed(2)}</OrderButton>
+              <OrderButton>pedir · R$ {(data.price * quantity).toFixed(2)}</OrderButton>
             </OrderSection>
           )}
         </div>
