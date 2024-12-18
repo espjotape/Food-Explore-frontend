@@ -56,19 +56,6 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    async function fetchCartCount() {
-      try {
-        const response = await api.get("/orders");
-        setNumeroPedidos(response.data.length); // Define o número de pedidos
-      } catch (error) {
-        console.error("Erro ao buscar a quantidade de itens no carrinho:", error);
-      }
-    }
-  
-    fetchCartCount();
-  }, []);
-
 useEffect(() => {
     async function fetchDishes() {
       try {
@@ -95,7 +82,6 @@ useEffect(() => {
     <Container>
       <Header 
         isAdmin={isAdmin} 
-        numeroPedidos={numeroPedidos}
         cartIsOpen={cartIsOpen}
         cartItems={cartItems}
         setCartIsOpen={setCartIsOpen}
