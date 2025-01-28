@@ -32,7 +32,7 @@ export function usePayment(total, pixActive, creditActive) {
   const handleCreatedCart = (orders) => ({
     orderStatus: "🔴 Pendente",
     paymentMethod: pixActive ? "pix" : "creditCard",
-    totalPrice: Number(total),
+    totalPrice: Number(total.toFixed(2)),
     cart: orders.map((item) => ({
       dish_id: item.dish_id,
       title: item.title,
@@ -121,15 +121,23 @@ export function usePayment(total, pixActive, creditActive) {
 
   const handlePayment = async (orders, paymentType) => {
     setLoading(true);
-    console.log(`vc clicou no pagamento do tipo ${paymentType} `)
+
+    const token = localStorage.getItem("@foodexplorer:token");
+
+    if (!token) {
+      alert("Você precisa estar logado para fazer um pedido.");
+      return;
+    }
     
     if (!validatePayment(orders)) {
       setLoading(false);
       return;
     }
     setIsFormVisible(false)
-
+    
     const newCart = handleCreatedCart(orders);
+    console.log(localStorage.getItem("@foodexplorer:token"))
+    console.log(newCart)
     try {
       await api.post("/orders", {...newCart, paymentType }, {
         headers: {
@@ -151,10 +159,9 @@ export function usePayment(total, pixActive, creditActive) {
     }
   };
 
-  
   async function handleResetCart() {
     localStorage.removeItem("@foodexplorer:cart");
-}
+  }
 
   return {
     loading,
