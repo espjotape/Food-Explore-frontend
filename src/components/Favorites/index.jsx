@@ -60,8 +60,6 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
     <Container cartIsOpen={cartIsOpen}>
       <Header 
       cartIsOpen={cartIsOpen} 
-      numeroPedidos={numeroPedidos} 
-      cartItems={cartItems}
       />
       <section>
         <CloseButton onClick={handleGoHome}>
@@ -93,8 +91,10 @@ export function Favorites({ cartIsOpen, onCloseCart }) {
                   <h3>{dish.title}</h3>
                   <button 
                     type="button"
-                    onClick={() => handleRemoveFromFavorites(dish.id)} 
-                  >
+                    onClick={(e) =>  {
+                      e.stopPropagation() 
+                      handleRemoveFromFavorites(dish.id)} 
+                    }>
                     <p>Remover dos Favoritos</p>
                   </button>
                 </div>
