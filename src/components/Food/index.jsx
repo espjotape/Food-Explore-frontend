@@ -68,7 +68,6 @@ export function Food({ isAdmin, isCustomer, data, handleDetails, handleAddToFavo
       console.error("Erro ao adicionar ao carrinho:", error);
     }
   };
-  
 
   return (
     <Container data-iscustomer={isCustomer} {...rest}>

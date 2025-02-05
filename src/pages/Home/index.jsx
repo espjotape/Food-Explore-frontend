@@ -22,7 +22,7 @@ export function Home() {
   const isCustomer = user?.role === 'customer';
 
   const [dishes, setDishes] = useState({ meals: [], mainDishes: [], drinks: [] });
-  
+  const [favorites, setFavorites] = useState([])
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState([]);
@@ -56,27 +56,27 @@ export function Home() {
     }
   }
 
-useEffect(() => {
-    async function fetchDishes() {
-      try {
-        const response = await api.get("/dishes");
-       
-        const meals = response.data.filter((dish) => dish.category === "meal");
-        const mainDishes = response.data.filter((dish) => dish.category === "mainDishes");
-        const drinks = response.data.filter((dish) => dish.category === "drinks");
+  useEffect(() => {
+      async function fetchDishes() {
+        try {
+          const response = await api.get("/dishes");
         
-        setDishes({ meals, mainDishes, drinks });
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          console.error("Nenhum prato encontrado.");
-          setDishes({ meals: [] });
-        } else {
-          console.error("Erro ao buscar os pratos:", error);
+          const meals = response.data.filter((dish) => dish.category === "meal");
+          const mainDishes = response.data.filter((dish) => dish.category === "mainDishes");
+          const drinks = response.data.filter((dish) => dish.category === "drinks");
+          
+          setDishes({ meals, mainDishes, drinks });
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            console.error("Nenhum prato encontrado.");
+            setDishes({ meals: [] });
+          } else {
+            console.error("Erro ao buscar os pratos:", error);
+          }
         }
       }
-    }
-    fetchDishes();
-  }, []);
+      fetchDishes();
+    }, []);
 
   return (
     <Container>
