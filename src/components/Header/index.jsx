@@ -12,7 +12,7 @@ import { Search } from "../Search";
 import { SideMenu } from "../SideMenu";
 import { Container, Box, Identidade, Notification, Orders, ButtonsDesktop, OrdersButton } from "./styles";
 
-export function Header({ isAdmin, cartIsOpen, setCartIsOpen }) {
+export function Header({ isAdmin, search }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [numeroPedidos, setNumeroPedidos] = useState(0);
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ export function Header({ isAdmin, cartIsOpen, setCartIsOpen }) {
         </Identidade>
 
         <ButtonsDesktop>
-          <Search className="desktop" />
+          <Search className="desktop" search={search}/>
           {!isAdmin && (
             <button id="btn-fav" type="button" onClick={handleGoToFavorites}>
               Meus Favoritos
