@@ -54,6 +54,32 @@ export function Home() {
     );
   }
 
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
+
+  async function handleAddToFavorites(dish) {
+    try {
+      const token = localStorage.getItem("@foodexplorer:token"); 
+      const response = await api.post(
+        '/favorites',
+        { dish_id: dish.id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.error);
+      } else {
+        console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
+      }
+    }
+  }
+
   return (
     <Container>
       <Header isAdmin={isAdmin} search={setSearchTerm} /> {/* Passa a função para o Header */}
@@ -72,7 +98,13 @@ export function Home() {
               <Swiper slidesPerView="auto" spaceBetween={0} grabCursor={true} loop>
                 {filterDishes(dishes.meals).map((dish) => (
                   <SwiperSlide key={dish.id} className="dish-slide">
-                    <Food isAdmin={isAdmin} isCustomer={isCustomer} data={dish} />
+                    <Food 
+                    isAdmin={isAdmin} 
+                    isCustomer={isCustomer} 
+                    data={dish} 
+                    handleDetails={handleDetails}
+                    handleAddToFavorites={handleAddToFavorites}
+                    />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -84,7 +116,13 @@ export function Home() {
               <Swiper slidesPerView="auto" spaceBetween={0} grabCursor={true} loop>
                 {filterDishes(dishes.mainDishes).map((dish) => (
                   <SwiperSlide key={dish.id} className="dish-slide">
-                    <Food isAdmin={isAdmin} isCustomer={isCustomer} data={dish} />
+                    <Food 
+                    isAdmin={isAdmin} 
+                    isCustomer={isCustomer} 
+                    data={dish} 
+                    handleDetails={handleDetails}
+                    handleAddToFavorites={handleAddToFavorites}
+                    />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -96,7 +134,13 @@ export function Home() {
               <Swiper slidesPerView="auto" spaceBetween={0} grabCursor={true} loop>
                 {filterDishes(dishes.drinks).map((dish) => (
                   <SwiperSlide key={dish.id} className="dish-slide">
-                    <Food isAdmin={isAdmin} isCustomer={isCustomer} data={dish} />
+                    <Food 
+                    isAdmin={isAdmin} 
+                    isCustomer={isCustomer} 
+                    data={dish} 
+                    handleDetails={handleDetails}
+                    handleAddToFavorites={handleAddToFavorites}
+                    />
                   </SwiperSlide>
                 ))}
               </Swiper>
