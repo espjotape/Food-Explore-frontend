@@ -105,9 +105,9 @@ export const Banner = styled.div`
     }
 
     > img {
-    width: 59.1rem;
+    width: 49rem;
     left: -80px;
-    bottom: -13px;
+    bottom: -10px;
     }
   }
 `;
