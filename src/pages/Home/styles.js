@@ -144,6 +144,36 @@ export const Content = styled.div`
   @media (min-width: 1024px) {
     align-items: center;
 
+    .custom-prev-meals, .custom-next-meals,
+    .custom-prev-desserts, .custom-next-desserts,
+    .custom-prev-drinks, .custom-next-drinks {
+      display: flex;
+    }
+
+    .custom-prev-meals, .custom-next-meals,
+    .custom-prev-desserts, .custom-next-desserts,
+    .custom-prev-drinks, .custom-next-drinks {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .custom-prev-meals, .custom-prev-desserts,
+    .custom-prev-drinks {
+      left: 10px;
+    }
+
+    .custom-next-meals, .custom-next-desserts,
+    .custom-next-drinks {
+      right: 10px;
+    }
+      
     .dish-slide {
       max-width: 30.0rem; 
       margin-right: 2.7rem; 
@@ -190,35 +220,5 @@ export const Content = styled.div`
       background: linear-gradient(to right, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
     }
   }
-
-  .custom-prev-meals, .custom-next-meals,
-    .custom-prev-desserts, .custom-next-desserts,
-    .custom-prev-drinks, .custom-next-drinks {
-      display: flex;
-    }
-
-    .custom-prev-meals, .custom-next-meals,
-    .custom-prev-desserts, .custom-next-desserts,
-    .custom-prev-drinks, .custom-next-drinks {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .custom-prev-meals, .custom-prev-desserts,
-    .custom-prev-drinks {
-      left: 10px;
-    }
-
-    .custom-next-meals, .custom-next-desserts,
-    .custom-next-drinks {
-      right: 10px;
-    }
 
 `;
