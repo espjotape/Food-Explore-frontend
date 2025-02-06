@@ -135,9 +135,15 @@ export const Content = styled.div`
     margin-right: 10px; 
   }
 
+  .custom-prev-meals, .custom-next-meals,
+  .custom-prev-desserts, .custom-next-desserts,
+  .custom-prev-drinks, .custom-next-drinks{
+    display: none;
+  }
+  
   @media (min-width: 1024px) {
     align-items: center;
-    
+
     .dish-slide {
       max-width: 30.0rem; 
       margin-right: 2.7rem; 
@@ -153,36 +159,66 @@ export const Content = styled.div`
     }
 
     .swiper-background {
-  position: relative;
-}
+      position: relative;
+    }
 
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  pointer-events: none;
-}
+    .gradient-overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      pointer-events: none;
+    }
 
-.gradient-overlay::before,
-.gradient-overlay::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 10%;
-  z-index: 1;
-}
+    .gradient-overlay::before,
+    .gradient-overlay::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 10%;
+      z-index: 1;
+    }
 
-.gradient-overlay::before {
-  left: 0;
-  background: linear-gradient(to left, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
-}
+    .gradient-overlay::before {
+      left: 0;
+      background: linear-gradient(to left, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
+    }
 
-.gradient-overlay::after {
-  right: 0;
-  background: linear-gradient(to right, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
-}
-
+    .gradient-overlay::after {
+      right: 0;
+      background: linear-gradient(to right, rgba(0, 10, 15, 0.04), rgba(0, 10, 15, 1));
+    }
   }
+
+  .custom-prev-meals, .custom-next-meals,
+    .custom-prev-desserts, .custom-next-desserts,
+    .custom-prev-drinks, .custom-next-drinks {
+      display: flex;
+    }
+
+    .custom-prev-meals, .custom-next-meals,
+    .custom-prev-desserts, .custom-next-desserts,
+    .custom-prev-drinks, .custom-next-drinks {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .custom-prev-meals, .custom-prev-desserts,
+    .custom-prev-drinks {
+      left: 10px;
+    }
+
+    .custom-next-meals, .custom-next-desserts,
+    .custom-next-drinks {
+      right: 10px;
+    }
+
 `;
