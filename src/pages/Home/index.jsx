@@ -28,8 +28,32 @@ export function Home() {
 
   const navigate = useNavigate();
 
-  const handleAddToFavorites = () => navigate("/favorites");
-  const handleDetails = (id) => navigate(`/dish/${id}`);
+  async function handleAddToFavorites(dish) {
+    try {
+      const token = localStorage.getItem("@foodexplorer:token"); 
+      const response = await api.post(
+        '/favorites',
+        { dish_id: dish.id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert(error.response.data.error);
+      } else {
+        console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
+        setDishes({ meals, mainDishes, drinks });
+      }
+    }
+  }
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
 
   useEffect(() => {
     async function fetchDishes() {
