@@ -5,7 +5,7 @@ import { X } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from "../../hooks/auth"
 
-export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
+export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin, search }) {
   const { signOut, user } = useAuth()
   const navigate = useNavigate()
 
@@ -21,14 +21,14 @@ export function SideMenu({ menuIsOpen, onCloseMenu, isAdmin }) {
   const handleGoToNewDish = () => {
     navigate('/new');
   };
-
+  
   return (
     <Container className={menuIsOpen ? 'open' : ''}>
       <header>
         <CloseButton onClick={onCloseMenu}><X size={18} /> Menu</CloseButton>
       </header>
       <section>
-        <Search />
+        <Search search={search} isDisabled={false}/>
         <Menu>
           {isAdmin && <MenuItem onClick={handleGoToNewDish}>Novo Prato</MenuItem>}
           {!isAdmin && <MenuItem onClick={handleGoToFavorites}>Meus Favoritos</MenuItem>}

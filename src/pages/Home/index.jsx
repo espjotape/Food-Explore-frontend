@@ -16,6 +16,7 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Food } from "../../components/Food";
 import { Section } from "../../components/Section";
+import { SideMenu } from "../../components/SideMenu";
 
 export function Home() {
   const { user } = useAuth();
@@ -26,6 +27,9 @@ export function Home() {
   const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar a busca
 
   const navigate = useNavigate();
+
+  const handleAddToFavorites = () => navigate("/favorites");
+  const handleDetails = (id) => navigate(`/dish/${id}`);
 
   useEffect(() => {
     async function fetchDishes() {
@@ -53,36 +57,11 @@ export function Home() {
       })
     );
   }
-
-  function handleDetails(id) {
-    navigate(`/details/${id}`);
-  }
-
-  async function handleAddToFavorites(dish) {
-    try {
-      const token = localStorage.getItem("@foodexplorer:token"); 
-      const response = await api.post(
-        '/favorites',
-        { dish_id: dish.id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      alert(response.data.message);
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        alert(error.response.data.error);
-      } else {
-        console.warn("Um erro ocorreu ao tentar adicionar aos favoritos.");
-      }
-    }
-  }
-
+ 
   return (
     <Container>
-      <Header isAdmin={isAdmin} search={setSearchTerm} /> {/* Passa a função para o Header */}
+      <Header isAdmin={isAdmin} search={setSearchTerm} />
+      <SideMenu isAdmin={isAdmin} search={setSearchTerm} />
       <main>
         <Banner>
           <img src={bannerMb} alt="Imagem banner" />
@@ -152,4 +131,3 @@ export function Home() {
     </Container>
   );
 }
-

@@ -48,6 +48,7 @@ export function Header({ isAdmin, search }) {
         <SideMenu
           isAdmin={isAdmin}
           menuIsOpen={menuIsOpen}
+          search={search}
           onCloseMenu={() => setMenuIsOpen(false)}
         />
 
