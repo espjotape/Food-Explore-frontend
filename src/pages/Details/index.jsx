@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"; 
 
+import { useAuth } from "../../hooks/auth"
 import { api } from "../../services/api";
 
 import { Header } from "../../components/Header";
@@ -10,10 +11,11 @@ import { CaretLeft } from "@phosphor-icons/react";
 
 import { Container, Content, Ingredients, IngredientButton, SaladImage, OrderSection, QuantityControl, OrderButton } from "./styles";
 
-export function Details({ isAdmin }) {
+export function Details() {
   const [data, setData] = useState(null); 
   const [quantity, setQuantity] = useState(1);
-  const pricePerItem = 25.0;
+  const { user } = useAuth()
+  const isAdmin = user?.role === 'admin';
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -50,7 +52,7 @@ export function Details({ isAdmin }) {
 
   return (
     <Container>
-      <Header />
+      <Header isAdmin={isAdmin}/>
       <div className="button">
         <button type="button" onClick={handleBack}>
           <CaretLeft color="#FFF" />
